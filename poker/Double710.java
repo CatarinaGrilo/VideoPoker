@@ -5,7 +5,7 @@ package VideoPoker.poker;
 /**
  * Class that implements the Double Bonus 7/10 variant with the
  * use of interface GameType.
- * @author Ana Catarina Grilo, Maragrida Fernandes, Mónica Gomez
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
  *
  */
 public class Double710 implements GameType{
