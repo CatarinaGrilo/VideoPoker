@@ -7,19 +7,26 @@ import java.util.Scanner;
 
 public class Deck {
     //Attributes
-    int card_iter; //card vector iterator
     ArrayList<Card> cards;
+    ArrayList<Card> discarded;
 
     //Constructors
 
     //Constructor #1: from file
     public Deck(String filename) {
+
+        cards = new ArrayList<Card>();
+        discarded = new ArrayList<Card>();
         try {
             File myFile = new File(filename);
             Scanner myReader = new Scanner(myFile);
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
-              System.out.println(data);     //Change so that it stores cards in array
+              
+              String[] tmp = data.split(" ");    //Split space
+
+              for(String s: tmp)
+                cards.add(new Card(s.charAt(0), s.charAt(1)));
             }
             myReader.close();
           } catch (FileNotFoundException e) {
@@ -37,7 +44,14 @@ public class Deck {
 
     //deal card to player
     public Card dealCard() {
-        Card card = new Card('2', 'H');     //need to read from array and return that card
+        Card card = cards.get(0);
+
+        //remove from cards
+        cards.remove(0);
+
+        //add to discarded
+        discarded.add(card);
+
         return card;
     }
 

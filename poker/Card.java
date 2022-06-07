@@ -15,6 +15,6 @@ public class Card {
     @Override
     public String toString() {
         //Must use valueOf() because char doesnt compute toString() directly
-        return String.valueOf(suit) + String.valueOf(rank);
+        return String.valueOf(rank) + String.valueOf(suit);
     }
 }

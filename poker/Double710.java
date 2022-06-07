@@ -12,13 +12,13 @@ public class Double710 implements GameType{
 
 
     public String evaluation(Card[] cards){
-
+        return "";
     }
     public int valueOfHand(String whichhand, int bet){
-
+        return 0;
     }
     public int[] advice(Card[] cards){
-        
+        return null;
     }
 
     

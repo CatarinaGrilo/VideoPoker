@@ -8,7 +8,7 @@ public class Player {
 
     //Constructor
     public Player(int b, int m) {
-        hand = new Hand(new Card[5]);
+        hand = new Hand();
         bet = b;
         money = m;
     }

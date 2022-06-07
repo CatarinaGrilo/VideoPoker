@@ -1,6 +1,4 @@
-package poker;
-
-import java.util.ArrayList;
+package VideoPoker.poker;
 
 /**
  * Represents a generic game of Poker. The specifications for a given variant are specified
@@ -12,7 +10,6 @@ public class Game {
 
     GameType type;
 	Deck deck;
-	Card[] discarded;
 	int InitCredit;
 	int Bet;
 
@@ -22,10 +19,9 @@ public class Game {
 	 * @param variant Variant of Poker that fully specifies the details of its strategy and gains
 	 * @param cards List of cards to initialize the deck
 	 */
-	public Game(GameType variant, ArrayList<Card> cards, int credit) {
+	public Game(GameType variant, String filename, int credit) {
 		type = variant;
-		deck = new Deck(cards);
-		discarded = null;
+		deck = new Deck(filename);
 		InitCredit = credit;
 		Bet = 0;
 	}
@@ -37,33 +33,9 @@ public class Game {
 	public Game(GameType variant, int credit) {
 		type = variant;
 		deck = new Deck();
-		discarded = null;
 		InitCredit = credit;
 		Bet = 0;
 		
-	}
-
-	/**
-	 * Retrieves cards from deck
-	 * @param n Number of cards to retrieve
-	 * @return Card[] Cards retrieved
-	 */
-	public Card[] retrieveCards(int n) {
-		Card[] cardsToRetrieve = new Card[n];
-		
-		for(int i = 0; i < n; i++)
-			cardsToRetrieve[i] = deck.removeCard();
-		
-		return cardsToRetrieve;
-	}
-	
-	/**
-	 * Puts the received cards in deck
-	 * @param cards Cards that are to be put in deck
-	 */
-	public void receiveCards(Card[] cards) {
-		for(int i = 0; i < cards.length; i++)
-			deck.addCard(cards[i]);
 	}
 
 	/**
@@ -71,40 +43,7 @@ public class Game {
 	 * @param amount is the bet
 	 * @return boolean true in success or false otherwise
 	 */
-	public boolean bet(int amount) {
-		if(amount < 1 || amount > 5 || amount > player.getCredit()) {
-			System.out.println("b: illegal amount");
-			return false;
-		}else
-			Bet = amount;
-		
-		return true;
-	}
-
-	/**
-	 * Shows the player's actual credit
-	 * @return int Player's actual credit
-	 */
-	public int credit() {
-		System.out.println("player's credit is " + player.getCredit());
-		
-		return player.getCredit();
-	}
-
-	/**
-     * Begins game, by receiving bet and returning five cards
-	 * @param credits Amount of credits that were bet
-	 * @return Card[] Cards retrieved by the game 
-	 */
-	public Card[] deal() {
-		
-		Card[] cards = new Card[5];
-		
-		for(int i = 0; i < 5; i++)
-			cards[i] = deck.removeCard();
-		
-		return cards;
-	}
+	
 
 	/**
 	 * Holds the cards at the specified positions, discards those that are not to hold, retrieves
