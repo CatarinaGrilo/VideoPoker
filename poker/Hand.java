@@ -1,13 +1,15 @@
-package VideoPoker.poker;
+package poker;
 
 public class Hand {
     //Attributes
-    Card[] cards;
+    Card[] cards = new Card[5];
 
     //Constructor
     public Hand() {
-        for (int i = 0; i < 5; i++)
+        
+        for (int i = 0; i < 5; i++){
             cards[i] = new Card('-', '-');
+        }
     }
 
     //Methods

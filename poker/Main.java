@@ -1,4 +1,4 @@
-package VideoPoker.poker;
+package poker;
 
 public class Main {
 
@@ -12,6 +12,11 @@ public class Main {
         System.out.println(card.toString());
 
         System.out.println(deck.toString());
+
+        Debug game = new Debug(new Double710(), 1, "VideoPoker/Input/cmd-file.txt", "VideoPoker/Input/card-file.txt");
+
+        System.out.println(game.commands.toString());
+
 	}
 
 }

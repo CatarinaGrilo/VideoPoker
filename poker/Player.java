@@ -1,18 +1,24 @@
-package VideoPoker.poker;
+package poker;
 
 public class Player {
     //Attributes
     Hand hand;
-    int bet;
     int money;
 
     //Constructor
-    public Player(int b, int m) {
+    public Player(int m) {
         hand = new Hand();
-        bet = b;
         money = m;
     }
 
     //Methods
+
+    public int credit(){ //To give the crdit of the player at the moment, its needed for the game
+        return money;
+    }
+
+    public void bet(int betted){
+        money-=betted;
+    }
     
 }

@@ -1,4 +1,4 @@
-package VideoPoker.poker;
+package poker;
 
 
 

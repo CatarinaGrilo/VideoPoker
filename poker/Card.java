@@ -1,4 +1,4 @@
-package VideoPoker.poker;
+package poker;
 
 public class Card {
     //Attributes
@@ -15,6 +15,6 @@ public class Card {
     @Override
     public String toString() {
         //Must use valueOf() because char doesnt compute toString() directly
-        return String.valueOf(rank) + String.valueOf(suit);
+        return String.valueOf(rank) + String.valueOf(suit) + " ";
     }
 }

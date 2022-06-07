@@ -1,4 +1,4 @@
-package VideoPoker.poker;
+package poker;
 
 /**
  * Represents a generic variant of Poker. The specifications for which variant should be specified
