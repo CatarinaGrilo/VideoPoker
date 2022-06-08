@@ -99,8 +99,9 @@ public class Debug extends Game{
 
     public void hold(int[] positions){
         if(positions!=null){
-            for(int i:positions){
-                player.hand.cards[i]=('-','-'); //A hand está feita de uma forma que não percebo como tirar a carta HELP??
+            for(int i:positions){   //Isto está ao contrário tho! Temos de eliminar as que não estão no positions! Porque as do positions são para manter
+                player.hand.cards[i].rank = '-';
+                player.hand.cards[i].suit = '-';
             }
 
         }
