@@ -27,7 +27,6 @@ public class Hand {
         for(Card c : cards) {
             str_builder += c.toString() + " ";
         }
-        str_builder += "\n";
 
         return str_builder;
     }

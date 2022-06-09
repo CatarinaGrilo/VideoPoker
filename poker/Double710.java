@@ -11,24 +11,6 @@ import java.util.HashMap;
 public class Double710 implements GameType{
 
     protected Strategy strategy = new Strategy();
-    private static HashMap<String, Integer[]> createPayoff(){
-        HashMap<String, Integer[]> payoff = new HashMap<String, Integer[]>();
-
-        payoff.put("Royal Flush", new Integer[]{250,500,750,1000,4000});
-        payoff.put("Straight Flush", new Integer[]{50,100,150,200,250});
-        payoff.put("Four Aces", new Integer[]{160,320,480,640,800});
-        payoff.put("Four 2-4", new Integer[]{80,160,240,320,400});
-        payoff.put("Four 5-K", new Integer[]{50,100,150,200,250});
-        payoff.put("Full House", new Integer[]{10,20,30,40,50});
-        payoff.put("Flush", new Integer[]{7,14,21,28,35});
-        payoff.put("Straight", new Integer[]{5,10,15,20,25});
-        payoff.put("Three of a Kind", new Integer[]{3,6,9,12,15});
-        payoff.put("Two Pair", new Integer[]{1,2,3,4,5});
-        payoff.put("Jacks or Better", new Integer[]{1,2,3,4,5});
-        payoff.put("None", new Integer[]{0,0,0,0,0});
-
-        return payoff;
-    }
     private static final HashMap<String, Integer[]> payoff = createPayoff();
 
     public Double710(){
@@ -51,6 +33,28 @@ public class Double710 implements GameType{
     public int[] advice(Card[] cards){
         return null;
     }
+    /**
+	 * Creates payoff board
+     * 
+     * @return HashMap payoff that contains the payoff of this variant
+	 */
+    private static HashMap<String, Integer[]> createPayoff(){
+        HashMap<String, Integer[]> payoff = new HashMap<String, Integer[]>();
 
+        payoff.put("Royal Flush", new Integer[]{250,500,750,1000,4000});
+        payoff.put("Straight Flush", new Integer[]{50,100,150,200,250});
+        payoff.put("Four Aces", new Integer[]{160,320,480,640,800});
+        payoff.put("Four 2-4", new Integer[]{80,160,240,320,400});
+        payoff.put("Four 5-K", new Integer[]{50,100,150,200,250});
+        payoff.put("Full House", new Integer[]{10,20,30,40,50});
+        payoff.put("Flush", new Integer[]{7,14,21,28,35});
+        payoff.put("Straight", new Integer[]{5,10,15,20,25});
+        payoff.put("Three of a Kind", new Integer[]{3,6,9,12,15});
+        payoff.put("Two Pair", new Integer[]{1,2,3,4,5});
+        payoff.put("Jacks or Better", new Integer[]{1,2,3,4,5});
+        payoff.put("None", new Integer[]{0,0,0,0,0});
+
+        return payoff;
+    }
     
 }

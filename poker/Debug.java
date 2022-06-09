@@ -49,12 +49,12 @@ public class Debug extends Game {
    */
   public boolean bet(int betted) { // For when the command b is given with the a
     if (betted < 1 || betted > 5 || betted > player.credit()) { // The class player is the one that has the credit!
-      System.out.println("b: illegal betted");
+      System.out.println("b: illegal betted" + "\n");
       return false;
-    } 
+    }
     player.bet(betted); // Calls a method from the class player to subtratct the bet from the credit!
     this.bet = betted;
-    System.out.println("player is betting " + this.bet);
+    System.out.println("player is betting " + this.bet + "\n");
     return true;
   }
 
@@ -66,11 +66,11 @@ public class Debug extends Game {
    */
   public boolean bet() { // For when the command b is given alone without
     if (this.bet > player.credit()) { // The class player is the one that has the credit!
-      System.out.println("b: illegal betted");
+      System.out.println("b: illegal betted" + "\n");
       return false;
-    } 
+    }
     player.bet(this.bet); // Calls a method from the class player to subtratct the bet from the credit!
-    System.out.println("player is betting " + this.bet);
+    System.out.println("player is betting " + this.bet + "\n");
     return true;
   }
 
@@ -78,7 +78,7 @@ public class Debug extends Game {
    * Shows the player's credit
    */
   public void credit() {
-    System.out.println("player's credit is " + player.credit());
+    System.out.println("player's credit is " + player.credit() + "\n");
   }
 
   /**
@@ -94,8 +94,7 @@ public class Debug extends Game {
       player.hand.cards[i].rank = cards[i].rank;
       player.hand.cards[i].suit = cards[i].suit;
     }
-    String hand = cards.toString();
-    System.out.println("player's hand " + hand);
+    System.out.println(player.hand.toString() + "\n");
   }
 
   /**
@@ -114,11 +113,10 @@ public class Debug extends Game {
       Card[] cards = new Card[5 - positions.length];
 
       // Finds which cards shoul be discarded
-      discard: for (int j = 1; j < 6; j++) {
+      discard: for (int j = 0; j < 5; j++) {
         for (int k = 0; k < positions.length; k++)
           if (positions[k] == j)
             continue discard;
-
         ToDiscard[i] = j;
         i++;
       }
@@ -128,36 +126,31 @@ public class Debug extends Game {
         player.hand.cards[n].suit = '-';
       }
       // Replaces the cards discarded
-      for (int m = 0; m < positions.length; m++) {
+      for (int m = 0; m < (5 - positions.length); m++) {
         cards[m] = deck.dealCard();
         pos = player.hand.getFirstEmpty();
         player.hand.cards[pos].rank = cards[m].rank;
         player.hand.cards[pos].suit = cards[m].suit;
       }
     }
-    player.hand.toString();
-
-    // Falta ver que hand é atraves da funçao Double710.evaluation
+    System.out.println(player.hand.toString());
     String name = type.nameOfHand(player.hand.cards);
-    // verificar se a hand tem payoff ou não com a função Double710.valueOfHand
     int payoff = type.valueOfHand(name, bet);
-
     player.prize(payoff);
-
-    if(payoff == 0)
-			System.out.println("player loses and his credit is " + player.credit());
-		else
-			System.out.println("player wins with a " + name + " and his credit is " + player.credit());
+    if (payoff == 0)
+      System.out.println("player loses and his credit is " + player.credit() + '\n');
+    else
+      System.out.println("player wins with a " + name + " and his credit is " + player.credit() + "\n");
   }
 
   public void advice() {
 
-    //necessito da parte da estrategia para fazer esta função!!
+    // necessito da parte da estrategia para fazer esta função!!
 
   }
 
   public void stats() {
-
+    
   }
 
 }
