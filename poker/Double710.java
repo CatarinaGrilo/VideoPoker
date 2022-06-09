@@ -10,8 +10,7 @@ import java.util.HashMap;
  */
 public class Double710 implements GameType{
 
-    private static final HashMap<String, Integer[]> payoff = createPayoff();
-
+    protected Strategy strategy = new Strategy();
     private static HashMap<String, Integer[]> createPayoff(){
         HashMap<String, Integer[]> payoff = new HashMap<String, Integer[]>();
 
@@ -19,7 +18,7 @@ public class Double710 implements GameType{
         payoff.put("Straight Flush", new Integer[]{50,100,150,200,250});
         payoff.put("Four Aces", new Integer[]{160,320,480,640,800});
         payoff.put("Four 2-4", new Integer[]{80,160,240,320,400});
-        payoff.put("Four 5-k", new Integer[]{50,100,150,200,250});
+        payoff.put("Four 5-K", new Integer[]{50,100,150,200,250});
         payoff.put("Full House", new Integer[]{10,20,30,40,50});
         payoff.put("Flush", new Integer[]{7,14,21,28,35});
         payoff.put("Straight", new Integer[]{5,10,15,20,25});
@@ -30,8 +29,13 @@ public class Double710 implements GameType{
 
         return payoff;
     }
-    public String evaluation(Card[] cards){
-        return "";
+    private static final HashMap<String, Integer[]> payoff = createPayoff();
+
+    public Double710(){
+        
+    }
+    public String nameOfHand(Card[] cards){
+        return strategy.nameOfHand(cards);
     }
 
     /**

@@ -13,7 +13,7 @@ public class Main {
 
         System.out.println(deck.toString());
 
-        Debug game = new Debug(new Double710(), 1, "VideoPoker/Input/cmd-file.txt", "VideoPoker/Input/card-file.txt");
+        Debug game = new Debug(1, "VideoPoker/Input/cmd-file.txt", "VideoPoker/Input/card-file.txt");
 
         System.out.println(game.commands.toString());
 

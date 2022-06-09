@@ -17,8 +17,8 @@ public class Debug extends Game {
   protected ArrayList<String> commands = new ArrayList<String>();
   protected Deck deck;
 
-  public Debug(GameType variant, int money, String commandsFile, String cardsFile) {
-    super(variant, money);
+  public Debug(int money, String commandsFile, String cardsFile) {
+    super(money);
     this.bet = 5; // The default value!
     this.deck = new Deck(cardsFile);
 
@@ -51,9 +51,9 @@ public class Debug extends Game {
     if (betted < 1 || betted > 5 || betted > player.credit()) { // The class player is the one that has the credit!
       System.out.println("b: illegal betted");
       return false;
-    } else
-      player.bet(betted); // Calls a method from the class player to subtratct the bet from the credit!
-
+    } 
+    player.bet(betted); // Calls a method from the class player to subtratct the bet from the credit!
+    this.bet = betted;
     System.out.println("player is betting " + this.bet);
     return true;
   }
@@ -68,9 +68,8 @@ public class Debug extends Game {
     if (this.bet > player.credit()) { // The class player is the one that has the credit!
       System.out.println("b: illegal betted");
       return false;
-    } else
-      player.bet(this.bet); // Calls a method from the class player to subtratct the bet from the credit!
-
+    } 
+    player.bet(this.bet); // Calls a method from the class player to subtratct the bet from the credit!
     System.out.println("player is betting " + this.bet);
     return true;
   }
@@ -102,8 +101,7 @@ public class Debug extends Game {
   /**
    * Holds the cards at the specified positions, discards the others.
    * Gets cards from the deck to replace the discarded ones, evaluates the final
-   * hand and gives
-   * the player the payoff.
+   * hand and gives the player the payoff.
    * 
    * @param positions Positions of the cards that are to maintain
    */
@@ -140,11 +138,21 @@ public class Debug extends Game {
     player.hand.toString();
 
     // Falta ver que hand é atraves da funçao Double710.evaluation
+    String name = type.nameOfHand(player.hand.cards);
     // verificar se a hand tem payoff ou não com a função Double710.valueOfHand
+    int payoff = type.valueOfHand(name, bet);
 
+    player.prize(payoff);
+
+    if(payoff == 0)
+			System.out.println("player loses and his credit is " + player.credit());
+		else
+			System.out.println("player wins with a " + name + " and his credit is " + player.credit());
   }
 
   public void advice() {
+
+    //necessito da parte da estrategia para fazer esta função!!
 
   }
 

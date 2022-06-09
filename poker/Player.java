@@ -20,5 +20,9 @@ public class Player {
     public void bet(int betted){
         money-=betted;
     }
+
+    public void prize(int payoff){
+        money+=payoff;
+    }
     
 }

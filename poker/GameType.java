@@ -9,7 +9,7 @@ package poker;
  */
 public interface GameType{
 
-    public String evaluation(Card[] cards);
+    public String nameOfHand(Card[] cards);
     public int valueOfHand(String whichhand, int bet);
     public int[] advice(Card[] cards);
 

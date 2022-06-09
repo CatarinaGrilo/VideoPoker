@@ -10,13 +10,12 @@ public abstract class Game {
 
     protected GameType type;
 	protected Player player;
-
-    
+	
 	/**
-	 * @param variant Variant of Poker that fully specifies the details of its strategy and gains
+	 * @param money money of the player
 	 */
-	public Game(GameType variant, int money) {
-		type = variant;
+	public Game(int money) {
+		type = new Double710();
 		player = new Player(money);
 	}
 
@@ -31,5 +30,4 @@ public abstract class Game {
 	public abstract void advice();
 
 	public abstract void stats();
-
 }
