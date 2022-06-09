@@ -24,7 +24,7 @@ public abstract class Game {
 
 	public abstract void credit();
 
-	public abstract Card[] deal();
+	public abstract void deal();
 
 	public abstract void hold(int[] positions);
 
