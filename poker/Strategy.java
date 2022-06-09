@@ -37,7 +37,6 @@ public class Strategy {
         return hand;
     }
 
-
     public boolean allSameSuit(Card[] cards) {
         int j = 1;
         for (int i = 1; i < 5; i++) {
@@ -182,7 +181,21 @@ public class Strategy {
 
     public boolean isFullHouse(Card[] cards){
 
-        /* Falta completar esta*/
+        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+        int counter = 0;
+
+        for(int i = 0; i<rank.length; i++){
+            if(isXofakind(cards, 3, rank[i])){
+                rank[i] = '-';
+                counter ++;
+            }
+            else if(isXofakind(cards, 2, rank[i]))
+                counter ++;
+        }
+
+        if(counter == 2)
+            return true;
+
         return false;
     }
 
@@ -202,13 +215,67 @@ public class Strategy {
         return false;
     }
 
+    public boolean is3ofaKind(Card[] cards){
+
+        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+
+        for(int i = 0; i < rank.length; i++){
+            if(isXofakind(cards, 3,  rank[i]))
+                return true;
+        }
+
+        return false;
+
+    }
+
+    public boolean is2pair(Card[] cards){
+
+        char hand[] = {cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank};
+        int no_pairs = 0;
+       
+        for(int j = 0; j < 4; j++){
+            for(int i = 0; i < 5; i++){
+                if(i == j)
+                    continue;
+                if(hand[j] == hand[i]){
+                    hand[j] = '-';
+                    hand[i] = '-';
+                    no_pairs++;
+                }
+            }
+        }
+
+        if(no_pairs == 2)
+            return true;
+
+        return false;
+    }
+
+    public boolean isJacksorBetter(Card[] cards){
+
+        if(isXofakind(cards, 2, 'J'))
+            return true;
+
+        if(isXofakind(cards, 2, 'Q'))
+            return true;
+
+        if(isXofakind(cards, 2, 'K'))
+            return true;
+
+        if(isXofakind(cards, 2, 'A'))
+            return true;
+
+        return false;
+    }
 
 
-
+    /**
+	 * Gets the hand combination 
+	 * @param cards Hand of the player
+	 * @return String with the name of the hand combination 
+	 */
 
     public String nameOfHand(Card[] cards){
-
-        /* Royal Flush */
 
         if (isRoyalFlush(cards))
             return "Royal Flush";
@@ -226,16 +293,22 @@ public class Strategy {
             return "Four 5-K";
 
         if (isFullHouse(cards))
-            return "Full House"; //Ainda nao fiz esta
-        
+            return "Full House";     
+
         if (isFlush(cards))
             return "Full House";
 
         if (isStraight(cards))
             return "Straight";
 
-        // Falta Full House, 3 of a Kind, 2 pair, Jacks or better
+        if (is3ofaKind(cards))
+            return "Three of a Kind";    
 
+        if (is2pair(cards))         // Preciso de rever esta para ver se está bem
+            return "Two Pair";    
+
+        if(isJacksorBetter(cards))
+            return "Jacks or Better";
 
         return "None";
     }
