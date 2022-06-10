@@ -1,6 +1,9 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -54,6 +57,7 @@ public class Debug extends Game {
     }
     player.bet(betted); // Calls a method from the class player to subtratct the bet from the credit!
     this.bet = betted;
+    sumOfBets += betted;
     System.out.println("player is betting " + this.bet + "\n");
     return true;
   }
@@ -70,6 +74,7 @@ public class Debug extends Game {
       return false;
     }
     player.bet(this.bet); // Calls a method from the class player to subtratct the bet from the credit!
+    sumOfBets += this.bet;
     System.out.println("player is betting " + this.bet + "\n");
     return true;
   }
@@ -136,11 +141,17 @@ public class Debug extends Game {
     System.out.println(player.hand.toString());
     String name = type.nameOfHand(player.hand.cards);
     int payoff = type.valueOfHand(name, bet);
+    if (name.equals("Four Aces") || name.equals("Four 2-4") || name.equals("Four 5-K")) {
+      name = "Four of a Kind";
+    }
+    stats.put(name, stats.get(name) + 1);
     player.prize(payoff);
     if (payoff == 0)
       System.out.println("player loses and his credit is " + player.credit() + '\n');
-    else
+    else {
       System.out.println("player wins with a " + name + " and his credit is " + player.credit() + "\n");
+      sumOfGains += payoff;
+    }
   }
 
   public void advice() {
@@ -150,7 +161,23 @@ public class Debug extends Game {
   }
 
   public void stats() {
-    
+    String out = "Hand\t\t\tNb\n";
+    int total = 0;
+
+    out += "---------------------------\n";
+    Iterator<Entry<String, Integer>> it = stats.entrySet().iterator();
+    while (it.hasNext()) {
+      HashMap.Entry<String, Integer> entry = (HashMap.Entry<String, Integer>) it.next();
+      out += entry.getKey() + (entry.getKey().length() < 6 ? "\t\t\t" : "\t\t") + entry.getValue() + "\n";
+      total += entry.getValue();
+    }
+    out += "--------------------------\n";
+    out += "Total\t\t\t" + total + "\n";
+    out += "--------------------------\n";
+    out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)";
+
+    System.out.println(out);
+
   }
 
 }

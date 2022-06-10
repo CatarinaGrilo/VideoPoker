@@ -317,7 +317,7 @@ public class Strategy {
         if(isJacksorBetter(cards))  
             return "Jacks or Better";
 
-        return "None";
+        return "Other";
     }
 
 

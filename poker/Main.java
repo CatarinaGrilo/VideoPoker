@@ -17,8 +17,8 @@ public class Main {
 
                 System.out.println(game.commands.toString());
 
-                // Process of accessing the command in mode Debug, still not sure will stay in the main
-                // our if its better to create a function inside Debug.java
+                // Process of accessing the commands in mode Debug, still not sure if will stay in the main
+                // or if its better to create a function inside Debug.java
                 String aux;
                 int aux2;
                 int i = 0;
@@ -33,7 +33,7 @@ public class Main {
                                         if (Character.isDigit(aux.charAt(0))) {
                                                 game.commands.remove(0);
                                                 aux2 = Integer.parseInt(aux);
-                                                System.out.println("-cmd b"+aux2);
+                                                System.out.println("-cmd b" + aux2);
                                                 game.bet(aux2);
                                         } else {
                                                 System.out.println("-cmd b");
@@ -57,7 +57,7 @@ public class Main {
                                         game.commands.remove(0);
                                         aux3[j] = Integer.parseInt(aux) - 1; // -1 to stay position of array from 0 to 4
                                         j++;
-                                        str += aux +" ";
+                                        str += aux + " ";
                                 }
                                 System.out.println(str);
                                 game.hold(aux3);
@@ -66,9 +66,9 @@ public class Main {
                         } else if (aux.equals("a")) {
                                 System.out.println("-cmd a");
                                 System.out.println("advice not done yet\n");
-                        } else if (aux.equals("s")){
+                        } else if (aux.equals("s")) {
                                 System.out.println("-cmd s");
-                                System.out.println("stats not done yet\n");
+                                game.stats();
                         }
                 }
         }
