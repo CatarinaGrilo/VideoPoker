@@ -182,18 +182,22 @@ public class Strategy {
     public boolean isFullHouse(Card[] cards){
 
         char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
-        int counter = 0;
+        int counter_3 = 0, counter_2 = 0;
 
         for(int i = 0; i<rank.length; i++){
             if(isXofakind(cards, 3, rank[i])){
                 rank[i] = '-';
-                counter ++;
+                counter_3 ++;
             }
-            else if(isXofakind(cards, 2, rank[i]))
-                counter ++;
         }
 
-        if(counter == 2)
+        for(int i = 0; i<rank.length; i++){
+            if(isXofakind(cards, 2, rank[i])){
+                counter_2 ++;
+            }
+        }
+
+        if(counter_3 == 1 && counter_2 == 1)
             return true;
 
         return false;
@@ -231,16 +235,19 @@ public class Strategy {
     public boolean is2pair(Card[] cards){
 
         char hand[] = {cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank};
-        int no_pairs = 0;
-       
+        char seen[] = {'-', '_', '.', ':'};
+        int no_pairs = 0, k = 0;
+
+        
         for(int j = 0; j < 4; j++){
             for(int i = 0; i < 5; i++){
                 if(i == j)
                     continue;
                 if(hand[j] == hand[i]){
-                    hand[j] = '-';
-                    hand[i] = '-';
+                    hand[j] = seen[k];
+                    hand[i] = seen[k+1];
                     no_pairs++;
+                    k=k+2;
                 }
             }
         }
@@ -304,10 +311,10 @@ public class Strategy {
         if (is3ofaKind(cards))
             return "Three of a Kind";    
 
-        if (is2pair(cards))         // Preciso de rever esta para ver se está bem
+        if (is2pair(cards))         
             return "Two Pair";    
 
-        if(isJacksorBetter(cards))
+        if(isJacksorBetter(cards))  
             return "Jacks or Better";
 
         return "None";
