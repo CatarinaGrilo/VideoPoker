@@ -1,9 +1,6 @@
 package poker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,7 +49,7 @@ public class Debug extends Game {
    */
   public boolean bet(int betted) { // For when the command b is given with the a
     if (betted < 1 || betted > 5 || betted > player.credit()) { // The class player is the one that has the credit!
-      System.out.println("b: illegal betted" + "\n");
+      System.out.println("b: illegal betted\n");
       return false;
     }
     player.bet(betted); // Calls a method from the class player to subtratct the bet from the credit!
@@ -104,8 +101,7 @@ public class Debug extends Game {
 
   /**
    * Holds the cards at the specified positions, discards the others.
-   * Gets cards from the deck to replace the discarded ones, evaluates the final
-   * hand and gives the player the payoff.
+   * Gets cards from the deck to replace the discarded ones.
    * 
    * @param positions Positions of the cards that are to maintain
    */
@@ -113,9 +109,8 @@ public class Debug extends Game {
     if (positions != null) {
 
       int i = 0;
-      int pos = -1;
       int[] ToDiscard = new int[5 - positions.length];
-      Card[] cards = new Card[5 - positions.length];
+      Card card = new Card('-', '-');
 
       // Finds which cards shoul be discarded
       discard: for (int j = 0; j < 5; j++) {
@@ -125,21 +120,26 @@ public class Debug extends Game {
         ToDiscard[i] = j;
         i++;
       }
-      // Eliminates the discarded cards from the hand
+      // Eliminates and replaces the discarded cards from the hand
       for (int n : ToDiscard) {
-        player.hand.cards[n].rank = '-';
-        player.hand.cards[n].suit = '-';
+        card = deck.dealCard();
+        player.hand.cards[n].rank = card.rank;
+        player.hand.cards[n].suit = card.suit;
       }
-      // Replaces the cards discarded
-      for (int m = 0; m < (5 - positions.length); m++) {
-        cards[m] = deck.dealCard();
-        pos = player.hand.getFirstEmpty();
-        player.hand.cards[pos].rank = cards[m].rank;
-        player.hand.cards[pos].suit = cards[m].suit;
-      }
+
     }
     System.out.println(player.hand.toString());
     String name = type.nameOfHand(player.hand.cards);
+    pay(name);
+  }
+
+  /**
+   * Evaluates a given hand name and gives the player the payoff.
+   * 
+   * @param name Name of the hand
+   */
+  public void pay(String name) {
+
     int payoff = type.valueOfHand(name, bet);
     if (name.equals("Four Aces") || name.equals("Four 2-4") || name.equals("Four 5-K")) {
       name = "Four of a Kind";
@@ -157,26 +157,7 @@ public class Debug extends Game {
   public void advice() {
 
     // necessito da parte da estrategia para fazer esta função!!
-
-  }
-
-  public void stats() {
-    String out = "Hand\t\t\tNb\n";
-    int total = 0;
-
-    out += "---------------------------\n";
-    Iterator<Entry<String, Integer>> it = stats.entrySet().iterator();
-    while (it.hasNext()) {
-      HashMap.Entry<String, Integer> entry = (HashMap.Entry<String, Integer>) it.next();
-      out += entry.getKey() + (entry.getKey().length() < 6 ? "\t\t\t" : "\t\t") + entry.getValue() + "\n";
-      total += entry.getValue();
-    }
-    out += "--------------------------\n";
-    out += "Total\t\t\t" + total + "\n";
-    out += "--------------------------\n";
-    out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)";
-
-    System.out.println(out);
+    // Sorry! :( Já façoooo
 
   }
 

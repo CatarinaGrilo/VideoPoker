@@ -17,8 +17,7 @@ public class Main {
 
                 System.out.println(game.commands.toString());
 
-                // Process of accessing the commands in mode Debug, still not sure if will stay in the main
-                // or if its better to create a function inside Debug.java
+                // Process of accessing the commands in mode Debug
                 String aux;
                 int aux2;
                 int i = 0;
@@ -55,7 +54,7 @@ public class Main {
                                 while (j != i) {
                                         aux = game.commands.get(0);
                                         game.commands.remove(0);
-                                        aux3[j] = Integer.parseInt(aux) - 1; // -1 to stay position of array from 0 to 4
+                                        aux3[j] = Integer.parseInt(aux) - 1; // -1 to be position of array from 0 to 4
                                         j++;
                                         str += aux + " ";
                                 }

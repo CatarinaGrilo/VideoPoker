@@ -1,6 +1,8 @@
 package poker;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * Represents a generic game of Poker. Abstract class referring the various
@@ -36,9 +38,32 @@ public abstract class Game {
 
 	public abstract void hold(int[] positions);
 
+	public abstract void pay(String name);
+
 	public abstract void advice();
 
-	public abstract void stats();
+	/**
+	 * Prints the statistics of the game
+	 * 
+	 */
+	public void stats() {
+		String out = "Hand\t\t\tNb\n";
+		int total = 0;
+
+		out += "---------------------------\n";
+		Iterator<Entry<String, Integer>> it = stats.entrySet().iterator();
+		while (it.hasNext()) {
+			HashMap.Entry<String, Integer> entry = (HashMap.Entry<String, Integer>) it.next();
+			out += entry.getKey() + (entry.getKey().length() < 6 ? "\t\t\t" : "\t\t") + entry.getValue() + "\n";
+			total += entry.getValue();
+		}
+		out += "--------------------------\n";
+		out += "Total\t\t\t" + total + "\n";
+		out += "--------------------------\n";
+		out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)";
+
+		System.out.println(out);
+	}
 
 	/**
 	 * Creates stats board
