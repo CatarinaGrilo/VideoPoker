@@ -179,6 +179,19 @@ public class Strategy {
         return false;
     }
 
+    public boolean is4ofaKind(Card[] cards){
+
+        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+
+        for(int i = 0; i < rank.length; i++){
+            if(isXofakind(cards, 4,  rank[i]))
+                return true;
+        }
+
+        return false;
+
+    }
+
     public boolean isFullHouse(Card[] cards){
 
         char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
@@ -320,5 +333,170 @@ public class Strategy {
         return "Other";
     }
 
+
+
+    /* Functions for strategy  */
+
+    public int[] isXofaKind(Card[] cards, int X, char kind){
+
+        int counter = 0, pos[] = new int[X];
+
+        for(int i=0; i<5; i++){
+            if(cards[i].rank == kind){
+                pos[counter]=i;
+                counter++;
+            }
+        }
+
+        if(counter == X){
+            return pos;
+        }
+
+        return new int[0];
+    }
+
+    /************************************************************************************** */
+
+    private int[] is4toRoyalFlush(Card[] cards){
+
+        int i=0, counter=0, counter_T=0, counter_J=0, counter_Q=0, counter_K=0, counter_A=0;
+        int pos[] = {-1,-1,-1,-1,-1};
+
+
+        for (i = 0; i < 5; i++) {
+            if(cards[i].rank == 'T' && pos[0]==-1)
+                pos[0]=i; counter_T++;
+            if(cards[i].rank == 'J' && pos[1]==-1)
+                pos[1]=i; counter_J++;         
+            if(cards[i].rank == 'Q' && pos[2]==-1)
+                pos[2]=i; counter_Q++;     
+            if(cards[i].rank == 'K' && pos[3]==-1)
+                pos[3]=i; counter_K++;       
+            if(cards[i].rank == 'A' && pos[4]==-1)
+                pos[4]=i; counter_A++;        
+        }
+        counter = counter_T + counter_J + counter_Q + counter_K + counter_A;
+        if(counter == 4){
+            // Confusa: need help
+        }
+
+
+
+        return new int[0];
+    }
+
+    private int[] is3ofaKind_(Card[] cards){
+
+        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
+        int pos[] = new int[0];
+
+        for(int i = 0; i < rank.length; i++){
+            pos = isXofaKind(cards, 3,  rank[i]);
+            if(pos != new int[0])
+                return pos;
+        }
+
+        return new int[0];
+    }
+
+    private int[] isXYSuited(Card[] cards, char[] rank){
+
+
+
+        return new int[0];
+    }
+
+    private int[] isAce(Card[] cards){
+
+        int pos[] = new int [0];
+
+        pos = isXofaKind(cards, 1, 'A');
+        if(pos != new int[0])
+            return pos;
+
+        return new int[0];
+    }
+
+    private int[] isJQorK(Card[] cards){
+
+        char rank[] = {'K', 'Q', 'J'};
+        int pos[] = new int [0];
+
+        for(int i = 0; i < rank.length; i++){
+            pos = isXofaKind(cards, 1,  rank[i]);
+            if(pos != new int[0])
+                return pos;
+        }
+
+        return new int[0];
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public int[] advice(Card[] cards){
+
+        int pos[] = new int[0];
+
+        /* 1 - Straight flush, four of a kind, royal flush */
+        if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards))
+            return  new int[] {0,1,2,3,4}; 
+
+/* DUVIDAAAAAAAAA 2 - 4 to a Royal Flush */
+        //if (is4toRoyalFlush(cards) != new int[0])
+        
+        /* 3 - Three Aces */
+        pos = isXofaKind(cards, 3, 'A');
+        if( pos != new int[0] )
+            return pos;
+                
+        /* 4 - Straight flush, four of a kind, royal flush */
+        if (isStraight(cards) || isFlush(cards) || isFullHouse(cards))
+            return  new int[] {0,1,2,3,4}; 
+
+        /* 5 - Three of a kind (except aces) */
+        pos = is3ofaKind_(cards);
+        if( pos != new int[0] )
+            return pos;
+
+/* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
+
+
+
+
+        /* 29 - Ace */
+        pos = isAce(cards);
+        if( pos != new int[0] )
+            return pos;
+
+/* 30 - KT suited */
+        //pos = isXSuited(cards, new char[] {'K', 'T'} );
+        //if( pos != new int[0] )
+        //    return pos;
+
+        /* 31 - Jack, Queen or King */
+        pos = isJQorK(cards);
+        if( pos != new int[0] )
+            return pos;
+
+        /* 32 - 4 to an inside straight with no high cards */  //hold 4
+       
+       
+        /* 33 - 3 to a flush with no high cards */ //hold 3
+
+
+
+        /* 34 - Discard everything */
+        return new int[0];
+    }
 
 }
