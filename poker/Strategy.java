@@ -178,6 +178,20 @@ public class Strategy {
         
         return false;
     }
+    
+    public boolean is4ofaKind(Card[] cards){
+
+        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+
+        for(int i = 0; i < rank.length; i++){
+            if(isXofakind(cards, 4,  rank[i]))
+                return true;
+        }
+
+        return false;
+
+    }
+
 
     public boolean isFullHouse(Card[] cards){
 
@@ -320,5 +334,20 @@ public class Strategy {
         return "Other";
     }
 
+
+    public int[] advice(Card[] cards){
+
+        if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards)) 
+            return new int[] {0,1,2,3,4}; // 1
+
+
+        
+
+
+
+
+
+        return new int[0];
+    }
 
 }
