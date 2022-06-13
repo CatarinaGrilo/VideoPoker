@@ -1,37 +1,33 @@
 package poker;
 
 import java.util.Arrays;
+
 public class Strategy {
 
-    public Strategy(){
+    public Strategy() {
 
     }
 
-    public int[] orderedCards(Card[] cards, int aceValue){
+    public int[] orderedCards(Card[] cards, int aceValue) {
 
         int hand[] = new int[5];
 
-        for(int i=0; i<5; i++){
-            if( (int) cards[i].rank < 10){
+        for (int i = 0; i < 5; i++) {
+            if ((int) cards[i].rank < 10) {
                 hand[i] = (int) cards[i].rank;
-            }
-            else if(cards[i].rank == 'T'){
+            } else if (cards[i].rank == 'T') {
                 hand[i] = 10;
-            }
-            else if(cards[i].rank == 'J'){
+            } else if (cards[i].rank == 'J') {
                 hand[i] = 11;
-            }
-            else if(cards[i].rank == 'Q'){
+            } else if (cards[i].rank == 'Q') {
                 hand[i] = 12;
-            }
-            else if(cards[i].rank == 'K'){
+            } else if (cards[i].rank == 'K') {
                 hand[i] = 13;
-            }
-            else if(cards[i].rank == 'A'){
+            } else if (cards[i].rank == 'A') {
                 hand[i] = aceValue;
             }
         }
-        
+
         Arrays.sort(hand);
 
         return hand;
@@ -50,16 +46,16 @@ public class Strategy {
         return false;
     }
 
-    public boolean checkifConsecutive(Card[] cards){
-        
+    public boolean checkifConsecutive(Card[] cards) {
+
         int counter = 1;
 
         /* Lower value Ace */
         int handLower[] = orderedCards(cards, 1);
-        
-        for (int i=1; i<5; i++){ 
-            //if(hand[i] == (hand[0]+i))
-            if(handLower[i] == (handLower[i-1]+1))
+
+        for (int i = 1; i < 5; i++) {
+            // if(hand[i] == (hand[0]+i))
+            if (handLower[i] == (handLower[i - 1] + 1))
                 counter++;
         }
         if (counter == 5)
@@ -70,121 +66,120 @@ public class Strategy {
         int handHigher[] = orderedCards(cards, 14);
         counter = 1;
 
-        for (int i=1; i<5; i++){ 
-            //if(hand[i] == (hand[0]+i))
-            if(handHigher[i] == (handHigher[i-1]+1))
+        for (int i = 1; i < 5; i++) {
+            // if(hand[i] == (hand[0]+i))
+            if (handHigher[i] == (handHigher[i - 1] + 1))
                 counter++;
         }
         if (counter == 5)
             return true;
 
-        return false;        
+        return false;
     }
 
-    public boolean isXofakind(Card[] cards, int X, char kind){
+    public boolean isXofakind(Card[] cards, int X, char kind) {
 
         int counter = 0;
 
-        for(int i=0; i<5; i++){
-            if(cards[i].rank == kind)
+        for (int i = 0; i < 5; i++) {
+            if (cards[i].rank == kind)
                 counter++;
         }
 
-        if(counter == X){
+        if (counter == X) {
             return true;
         }
         return false;
     }
-
 
     /* Functions that determine the name of the hand */
 
-    public boolean isRoyalFlush(Card[] cards){
+    public boolean isRoyalFlush(Card[] cards) {
 
-        int i=0, counter=0, counter_T=0, counter_J=0, counter_Q=0, counter_K=0, counter_A=0;
+        int i = 0, counter = 0, counter_T = 0, counter_J = 0, counter_Q = 0, counter_K = 0, counter_A = 0;
 
         // Check if cards are the same suit
-        if (allSameSuit(cards)){
+        if (allSameSuit(cards)) {
             for (i = 0; i < 5; i++) {
-                if(cards[i].rank == 'T' && counter_T==0)
+                if (cards[i].rank == 'T' && counter_T == 0)
                     counter_T++;
-                if(cards[i].rank == 'J' && counter_J==0)
+                if (cards[i].rank == 'J' && counter_J == 0)
                     counter_J++;
-                if(cards[i].rank == 'Q' && counter_Q==0)
+                if (cards[i].rank == 'Q' && counter_Q == 0)
                     counter_Q++;
-                if(cards[i].rank == 'K' && counter_K==0)
+                if (cards[i].rank == 'K' && counter_K == 0)
                     counter_K++;
-                if(cards[i].rank == 'A' && counter_A==0)
+                if (cards[i].rank == 'A' && counter_A == 0)
                     counter_A++;
             }
             counter = counter_T + counter_J + counter_Q + counter_K + counter_A;
-            if (counter == 5){
+            if (counter == 5) {
                 return true;
             }
         }
         return false;
     }
 
-    public boolean isStraightFlush(Card[] cards){
+    public boolean isStraightFlush(Card[] cards) {
 
         // Check if cards are the same suit
-        if (allSameSuit(cards)){
-            if(checkifConsecutive(cards))
+        if (allSameSuit(cards)) {
+            if (checkifConsecutive(cards))
                 return true;
         }
         return false;
     }
 
-    public boolean isFourAces(Card[] cards){
+    public boolean isFourAces(Card[] cards) {
 
-        if(isXofakind(cards, 4, 'A'))
-            return true;        
-        
+        if (isXofakind(cards, 4, 'A'))
+            return true;
+
         return false;
     }
 
-    public boolean isFour2_4s(Card[] cards){
+    public boolean isFour2_4s(Card[] cards) {
 
-        if(isXofakind(cards, 4,  '2'))
-            return true;  
-        if(isXofakind(cards, 4, '3'))
+        if (isXofakind(cards, 4, '2'))
             return true;
-        if(isXofakind(cards, 4, '4'))
-            return true;        
-        
+        if (isXofakind(cards, 4, '3'))
+            return true;
+        if (isXofakind(cards, 4, '4'))
+            return true;
+
         return false;
     }
 
-    public boolean isFour5_Ks(Card[] cards){
+    public boolean isFour5_Ks(Card[] cards) {
 
-        if(isXofakind(cards, 4, '5'))
-            return true;  
-        if(isXofakind(cards, 4, '6'))
+        if (isXofakind(cards, 4, '5'))
             return true;
-        if(isXofakind(cards, 4, '7'))
-            return true;        
-        if(isXofakind(cards, 4, '8'))
-            return true;  
-        if(isXofakind(cards, 4, '9'))
+        if (isXofakind(cards, 4, '6'))
             return true;
-        if(isXofakind(cards, 4, 'T'))
-            return true;        
-        if(isXofakind(cards, 4, 'J'))
-            return true;  
-        if(isXofakind(cards, 4, 'Q'))
+        if (isXofakind(cards, 4, '7'))
             return true;
-        if(isXofakind(cards, 4, 'K'))
-            return true;        
-        
+        if (isXofakind(cards, 4, '8'))
+            return true;
+        if (isXofakind(cards, 4, '9'))
+            return true;
+        if (isXofakind(cards, 4, 'T'))
+            return true;
+        if (isXofakind(cards, 4, 'J'))
+            return true;
+        if (isXofakind(cards, 4, 'Q'))
+            return true;
+        if (isXofakind(cards, 4, 'K'))
+            return true;
+
         return false;
     }
 
-    public boolean is4ofaKind(Card[] cards){
+    public boolean is4ofaKind(Card[] cards) {
 
-        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
-        for(int i = 0; i < rank.length; i++){
-            if(isXofakind(cards, 4,  rank[i]))
+        for (int i = 0; i < rank.length; i++) {
+            if (isXofakind(cards, 4, rank[i]))
                 return true;
         }
 
@@ -192,52 +187,52 @@ public class Strategy {
 
     }
 
-    public boolean isFullHouse(Card[] cards){
+    public boolean isFullHouse(Card[] cards) {
 
-        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
         int counter_3 = 0, counter_2 = 0;
 
-        for(int i = 0; i<rank.length; i++){
-            if(isXofakind(cards, 3, rank[i])){
+        for (int i = 0; i < rank.length; i++) {
+            if (isXofakind(cards, 3, rank[i])) {
                 rank[i] = '-';
-                counter_3 ++;
+                counter_3++;
             }
         }
 
-        for(int i = 0; i<rank.length; i++){
-            if(isXofakind(cards, 2, rank[i])){
-                counter_2 ++;
+        for (int i = 0; i < rank.length; i++) {
+            if (isXofakind(cards, 2, rank[i])) {
+                counter_2++;
             }
         }
 
-        if(counter_3 == 1 && counter_2 == 1)
+        if (counter_3 == 1 && counter_2 == 1)
             return true;
 
         return false;
     }
 
-    public boolean isFlush(Card[] cards){
+    public boolean isFlush(Card[] cards) {
 
         if (allSameSuit(cards))
-                return true;
+            return true;
 
         return false;
     }
 
-    public boolean isStraight(Card[] cards){
+    public boolean isStraight(Card[] cards) {
 
         if (checkifConsecutive(cards))
-                return true;
+            return true;
 
         return false;
     }
 
-    public boolean is3ofaKind(Card[] cards){
+    public boolean is3ofaKind(Card[] cards) {
 
-        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
-        for(int i = 0; i < rank.length; i++){
-            if(isXofakind(cards, 3,  rank[i]))
+        for (int i = 0; i < rank.length; i++) {
+            if (isXofakind(cards, 3, rank[i]))
                 return true;
         }
 
@@ -245,67 +240,66 @@ public class Strategy {
 
     }
 
-    public boolean is2pair(Card[] cards){
+    public boolean is2pair(Card[] cards) {
 
-        char hand[] = {cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank};
-        char seen[] = {'-', '_', '.', ':'};
+        char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
+        char seen[] = { '-', '_', '.', ':' };
         int no_pairs = 0, k = 0;
 
-        
-        for(int j = 0; j < 4; j++){
-            for(int i = 0; i < 5; i++){
-                if(i == j)
+        for (int j = 0; j < 4; j++) {
+            for (int i = 0; i < 5; i++) {
+                if (i == j)
                     continue;
-                if(hand[j] == hand[i]){
+                if (hand[j] == hand[i]) {
                     hand[j] = seen[k];
-                    hand[i] = seen[k+1];
+                    hand[i] = seen[k + 1];
                     no_pairs++;
-                    k=k+2;
+                    k = k + 2;
                 }
             }
         }
 
-        if(no_pairs == 2)
+        if (no_pairs == 2)
             return true;
 
         return false;
     }
 
-    public boolean isJacksorBetter(Card[] cards){
+    public boolean isJacksorBetter(Card[] cards) {
 
-        if(isXofakind(cards, 2, 'J'))
+        if (isXofakind(cards, 2, 'J'))
             return true;
 
-        if(isXofakind(cards, 2, 'Q'))
+        if (isXofakind(cards, 2, 'Q'))
             return true;
 
-        if(isXofakind(cards, 2, 'K'))
+        if (isXofakind(cards, 2, 'K'))
             return true;
 
-        if(isXofakind(cards, 2, 'A'))
+        if (isXofakind(cards, 2, 'A'))
             return true;
 
         return false;
     }
-
 
     /**
-	 * Gets the hand combination 
-	 * @param cards Hand of the player
-	 * @return String with the name of the hand combination 
-	 */
+     * Gets the hand combination
+     * 
+     * @param cards Hand of the player
+     * @return String with the name of the hand combination
+     */
 
-    public String nameOfHand(Card[] cards){
+    public String nameOfHand(Card[] cards) {
 
         if (isRoyalFlush(cards))
             return "Royal Flush";
 
         if (isStraightFlush(cards))
             return "Straight Flush";
-        
+
         if (isFourAces(cards))
             return "Four Aces";
-        
+
         if (isFour2_4s(cards))
             return "Four 2-4";
 
@@ -313,7 +307,7 @@ public class Strategy {
             return "Four 5-K";
 
         if (isFullHouse(cards))
-            return "Full House";     
+            return "Full House";
 
         if (isFlush(cards))
             return "Full House";
@@ -322,33 +316,31 @@ public class Strategy {
             return "Straight";
 
         if (is3ofaKind(cards))
-            return "Three of a Kind";    
+            return "Three of a Kind";
 
-        if (is2pair(cards))         
-            return "Two Pair";    
+        if (is2pair(cards))
+            return "Two Pair";
 
-        if(isJacksorBetter(cards))  
+        if (isJacksorBetter(cards))
             return "Jacks or Better";
 
         return "Other";
     }
 
+    /* Functions for strategy */
 
-
-    /* Functions for strategy  */
-
-    public int[] isXofaKind(Card[] cards, int X, char kind){
+    public int[] isXofaKind(Card[] cards, int X, char kind) {
 
         int counter = 0, pos[] = new int[X];
 
-        for(int i=0; i<5; i++){
-            if(cards[i].rank == kind){
-                pos[counter]=i;
+        for (int i = 0; i < 5; i++) {
+            if (cards[i].rank == kind) {
+                pos[counter] = i;
                 counter++;
             }
         }
 
-        if(counter == X){
+        if (counter == X) {
             return pos;
         }
 
@@ -357,143 +349,223 @@ public class Strategy {
 
     /************************************************************************************** */
 
-    private int[] is4toRoyalFlush(Card[] cards){
+    private int[] is4toRoyalFlush(Card[] cards) {
 
-        int i=0, counter=0, counter_T=0, counter_J=0, counter_Q=0, counter_K=0, counter_A=0;
-        int pos[] = {-1,-1,-1,-1,-1};
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = { -1, -1, -1, -1 };
+        int counter_rank = 0;
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
-
-        for (i = 0; i < 5; i++) {
-            if(cards[i].rank == 'T' && pos[0]==-1)
-                pos[0]=i; counter_T++;
-            if(cards[i].rank == 'J' && pos[1]==-1)
-                pos[1]=i; counter_J++;         
-            if(cards[i].rank == 'Q' && pos[2]==-1)
-                pos[2]=i; counter_Q++;     
-            if(cards[i].rank == 'K' && pos[3]==-1)
-                pos[3]=i; counter_K++;       
-            if(cards[i].rank == 'A' && pos[4]==-1)
-                pos[4]=i; counter_A++;        
-        }
-        counter = counter_T + counter_J + counter_Q + counter_K + counter_A;
-        if(counter == 4){
-            // Confusa: need help
+        for (int i = 0; i < 5; i++) {
+            // Check suits
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
         }
 
-
-
-        return new int[0];
-    }
-
-    private int[] is3ofaKind_(Card[] cards){
-
-        char rank[] = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
-        int pos[] = new int[0];
-
-        for(int i = 0; i < rank.length; i++){
-            pos = isXofaKind(cards, 3,  rank[i]);
-            if(pos != new int[0])
-                return pos;
+        // Check if at least 4 cards have same suit
+        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
+            return new int[0];
+        else {
+            for (int i = 0; i < 4; i++) {
+                if (counter[i] == 4)
+                    suit = suits[i];
+            }
         }
 
-        return new int[0];
-    }
+        for (int i = 0; i < 5; i++) {
+            // Check rank
+            if (cards[i].rank == 'T' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            }
+        }
 
-    private int[] isXYSuited(Card[] cards, char[] rank){
-
-
-
-        return new int[0];
-    }
-
-    private int[] isAce(Card[] cards){
-
-        int pos[] = new int [0];
-
-        pos = isXofaKind(cards, 1, 'A');
-        if(pos != new int[0])
+        if (counter_rank == 4)
             return pos;
 
         return new int[0];
     }
 
-    private int[] isJQorK(Card[] cards){
+        private int[] is4toStraightFlush(Card[] cards) {
 
-        char rank[] = {'K', 'Q', 'J'};
-        int pos[] = new int [0];
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = { -1, -1, -1, -1 };
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
-        for(int i = 0; i < rank.length; i++){
-            pos = isXofaKind(cards, 1,  rank[i]);
-            if(pos != new int[0])
+        for (int i = 0; i < 5; i++) {
+            // Check suits
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
+        }
+
+        // Check if at least 4 cards have same suit
+        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
+            return new int[0];
+        else {
+            for (int i = 0; i < 4; i++) {
+                if (counter[i] == 4)
+                    suit = suits[i];
+            }
+        }
+
+        /* Ace low */
+
+        int orderedcards[] = orderedCards(cards, 1);
+        int reference = orderedcards[0];
+        int counter_seq = 0, acevalue = 1;
+
+        for (int i=1; i<5; i++){
+            if(reference == orderedcards[i]-i)
+                counter_seq++; 
+        }
+        if (!(counter_seq == 3))
+            return new int[0]; 
+        
+
+        /* Ace high */
+
+        orderedcards = orderedCards(cards, 14);
+        reference = orderedcards[0];
+        counter_seq = 0; 
+
+        for (int i=1; i<5; i++){
+            if(reference == orderedcards[i]-i)
+                counter_seq++; 
+        }
+        if (!(counter_seq == 3))
+            return new int[0];     
+
+
+        char hand[] = {'-', '-', '-','-', '-'}        
+
+    
+ 
+
+
+
+
+
+
+
+        return new int[0];
+    }
+
+    private int[] is3ofaKind_(Card[] cards) {
+
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        int pos[] = new int[0];
+
+        for (int i = 0; i < rank.length; i++) {
+            pos = isXofaKind(cards, 3, rank[i]);
+            if (pos != new int[0])
                 return pos;
         }
 
         return new int[0];
     }
 
+    private int[] isXYSuited(Card[] cards, char[] rank) {
 
+        return new int[0];
+    }
 
+    private int[] isAce(Card[] cards) {
 
+        int pos[] = new int[0];
 
+        pos = isXofaKind(cards, 1, 'A');
+        if (pos != new int[0])
+            return pos;
 
+        return new int[0];
+    }
 
+    private int[] isJQorK(Card[] cards) {
 
+        char rank[] = { 'K', 'Q', 'J' };
+        int pos[] = new int[0];
 
+        for (int i = 0; i < rank.length; i++) {
+            pos = isXofaKind(cards, 1, rank[i]);
+            if (pos != new int[0])
+                return pos;
+        }
 
+        return new int[0];
+    }
 
-
-
-    public int[] advice(Card[] cards){
+    public int[] advice(Card[] cards) {
 
         int pos[] = new int[0];
 
         /* 1 - Straight flush, four of a kind, royal flush */
         if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards))
-            return  new int[] {0,1,2,3,4}; 
+            return new int[] { 0, 1, 2, 3, 4 };
 
-/* DUVIDAAAAAAAAA 2 - 4 to a Royal Flush */
-        //if (is4toRoyalFlush(cards) != new int[0])
-        
+        /* 2 - 4 to a Royal Flush */
+        pos = is4toRoyalFlush(cards);
+        if (pos != new int[0])
+            return pos;
+
         /* 3 - Three Aces */
         pos = isXofaKind(cards, 3, 'A');
-        if( pos != new int[0] )
+        if (pos != new int[0])
             return pos;
-                
+
         /* 4 - Straight flush, four of a kind, royal flush */
         if (isStraight(cards) || isFlush(cards) || isFullHouse(cards))
-            return  new int[] {0,1,2,3,4}; 
+            return new int[] { 0, 1, 2, 3, 4 };
 
         /* 5 - Three of a kind (except aces) */
         pos = is3ofaKind_(cards);
-        if( pos != new int[0] )
+        if (pos != new int[0])
             return pos;
 
-/* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
-
-
-
+        /* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
 
         /* 29 - Ace */
         pos = isAce(cards);
-        if( pos != new int[0] )
+        if (pos != new int[0])
             return pos;
 
-/* 30 - KT suited */
-        //pos = isXSuited(cards, new char[] {'K', 'T'} );
-        //if( pos != new int[0] )
-        //    return pos;
+        /* 30 - KT suited */
+        // pos = isXSuited(cards, new char[] {'K', 'T'} );
+        // if( pos != new int[0] )
+        // return pos;
 
         /* 31 - Jack, Queen or King */
         pos = isJQorK(cards);
-        if( pos != new int[0] )
+        if (pos != new int[0])
             return pos;
 
-        /* 32 - 4 to an inside straight with no high cards */  //hold 4
-       
-       
-        /* 33 - 3 to a flush with no high cards */ //hold 3
+        /* 32 - 4 to an inside straight with no high cards */ // hold 4
 
-
+        /* 33 - 3 to a flush with no high cards */
+        // hold 3
 
         /* 34 - Discard everything */
         return new int[0];
