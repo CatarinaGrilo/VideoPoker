@@ -246,21 +246,6 @@ public class Strategy {
         return false;
     }
 
-    /* 
-    public boolean is3ofaKind(Card[] cards) {
-
-        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
-
-        for (int i = 0; i < rank.length; i++) {
-            if (isXofakind(cards, 3, rank[i]))
-                return true;
-        }
-
-        return false;
-
-    }*/
-
-
     private int[] is3ofaKind(Card[] cards) {
 
         char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
@@ -380,7 +365,62 @@ public class Strategy {
         return new int[0];
     }
 
-    private int[] is4toStraightFlush(Card[] cards) {
+    private int[] is3toRoyalFlush(Card[] cards) {
+
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = { -1, -1, -1, -1 };
+        int counter_rank = 0;
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
+
+        for (int i = 0; i < 5; i++) {
+            // Check suits
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
+        }
+
+        // Check if at least 3 cards have same suit
+        if (!(counter[0] == 3 || counter[1] == 3 || counter[2] == 3 || counter[3] == 3))
+            return new int[0];
+        else {
+            for (int i = 0; i < 4; i++) {
+                if (counter[i] == 3)
+                    suit = suits[i];
+            }
+        }
+
+        for (int i = 0; i < 5; i++) {
+            // Check rank
+            if (cards[i].rank == 'T' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
+                pos[i] = i;
+                counter_rank++;
+            }
+        }
+
+        if (counter_rank == 3)
+            return pos;
+
+        return new int[0];
+    }
+
+    /*private int[] is4toStraightFlush(Card[] cards) {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
         int pos[] = { -1, -1, -1, -1 };
@@ -408,7 +448,7 @@ public class Strategy {
             }
         }
 
-        /* Ace low */
+        // Ace low 
 
         int orderedcards[] = orderedCards(cards, 1);
         int reference = orderedcards[0];
@@ -422,7 +462,7 @@ public class Strategy {
             return new int[0]; 
         
 
-        /* Ace high */
+        // Ace high 
 
         orderedcards = orderedCards(cards, 14);
         reference = orderedcards[0];
@@ -438,9 +478,218 @@ public class Strategy {
 
         return new int[0];
     }
+     */
+
+
+
+
+    private int[] isHighPair(Card[] cards){
+
+        char rank[] = { 'A', 'K', 'Q', 'J' };
+        int pos[] = { -1, -1};
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < rank.length; j++){
+                if(cards[i].rank == rank[j]){
+                    for (int k=0; k<5;k++){
+                        if(i == k)
+                            continue;
+                        if(cards[i].rank == cards[k].rank){
+                            pos[0] = i;
+                            pos[1] = k;
+                            return pos;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new int[0];
+    }
+
+    private int[] isLowPair(Card[] cards){
+
+        char rank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T'};
+        int pos[] = { -1, -1};
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < rank.length ; j++){
+                if(cards[i].rank == rank[j]){
+                    for (int k = 0; k < 5;k++){
+                        if(i == k)
+                            continue;
+                        if(cards[i].rank == cards[j].rank)
+                            pos[0] = i;
+                            pos[1] = k;
+                            return pos;
+                    }
+                }
+            } 
+        }
+
+        return new int[0];
+    }
+
+    private int[] is4toAflush(Card[] cards){
+    
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = { -1, -1, -1, -1 }, i = 0;
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
+
+        // Check suits
+        for (i = 0; i < 5; i++) {
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
+        }
+
+        // Check if at least 4 cards have same suit
+        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
+            return new int[0];
+
+        // Check what type of suit is repeated
+        for (i = 0; i < 4; i++){
+            if(counter[i] == 4){
+                suit = suits[i];
+            }
+        }
+
+        // Store positions
+        for (i = 0; i < 5; i++) {
+            if(cards[i].suit == suit)
+                pos[i] = i;
+        }
+
+        return pos;
+    }
+
+    private int[] is2SuitedHighCards(Card[] cards){
+
+        char rank[] = { 'A', 'K', 'Q', 'J' };
+        int pos[] = { -1, -1};
+
+        for (int i = 0; i < 5; i++) { // Cards
+            for (int j = 0; j < rank.length; j++){ // Rank
+                if(cards[i].rank == rank[j]){
+                    for (int k = 0; k < 5; k++){ // Cards
+                        for (int l = 0; l < rank.length; l++){ // Rank
+                            if(i == k)
+                                continue;
+                            if(cards[k].rank == rank[l] && cards[i].suit == cards[k].suit){
+                                pos[0] = i;
+                                pos[1] = k;
+                                return pos;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return new int[0];
+    }
+
+    private int[] isAKQJunsuited(Card[] cards){
+
+        int counter[] = { 0, 0, 0, 0 }, checksum;
+        int pos[] ={-1, -1, -1, -1};
+        char rank[] = {'A', 'K', 'Q', 'J'}; 
+
+
+        for (int i = 0; i < 5; i++){
+            for (int j = 0; j < 4; j++){
+                if (cards[i].rank == rank[j]){
+                    counter[j]++;
+                    pos[j] = i;
+                }
+            }
+        }
+
+        checksum = counter[0] + counter[1] + counter[2] + counter[3];
+        if(checksum < 4)
+            return new int[0];
+
+        else if(counter[0] > 0 && counter[1] > 0 && counter[2] > 0 && counter[3] > 0)
+            return pos;
+
+        return new int[0];
+    }
 
     private int[] isXYSuited(Card[] cards, char X, char Y) {
 
+        int pos[] = {-1, -1};
+
+        for(int i = 0; i < 5; i++){
+            if(cards[i].rank == X){
+                pos[0] = i;
+                for (int j = 0; j < 5; j++){
+                    if(i == j)
+                        continue;
+                    else{
+                        if(cards[j].rank == Y && cards[i].suit == cards[j].suit){
+                            pos[1] = j;
+                            return pos;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new int[0];
+    }
+
+    private int[] isXYUnsuited(Card[] cards, char X, char Y) {
+
+        int pos[] = {-1, -1};
+
+        for(int i = 0; i < 5; i++){
+            if(cards[i].rank == X){
+                pos[0] = i;
+                for (int j = 0; j < 5; j++){
+                    if(i == j)
+                        continue;
+                    else{
+                        if(cards[j].rank == Y){
+                            pos[1] = j;
+                            return pos;
+                        }
+                    }
+                }
+            }
+        }
+
+        return new int[0];
+    }
+
+    private int[] isKQJunsuited(Card[] cards) {
+
+        int pos[] = {-1, -1, -1}, counter[]={0, 0, 0}, checksum = 0;
+
+        for(int i = 0; i < 5; i++){
+            if(cards[i].rank == 'K'){
+                counter[0]++;
+                pos[0] = i;
+            }
+            if(cards[i].rank == 'Q'){
+                counter[1]++;
+                pos[1] = i;
+            }
+            if(cards[i].rank == 'J'){
+                counter[2]++;
+                pos[2] = i;
+            }
+        }
+
+        checksum = counter[0] + counter[1] + counter[2];
+        if (checksum > 2){
+            if (counter[0] > 0 && counter[1] > 0 && counter[2] > 0)
+                return pos;
+        }
 
         return new int[0];
     }
@@ -470,66 +719,7 @@ public class Strategy {
         return new int[0];
     }
 
-    private int[] isHighPair(Card[] cards){
 
-        char rank[] = { 'A', 'K', 'Q', 'J' };
-        int pos[] = { -1, -1};
-
-        for (int i = 0; i < 5; i++) {
-            for (int j=0; j<4; j++){
-                if(cards[i].rank == rank[j]){
-                    for (int k=0; k<5;k++){
-                        if(i == k)
-                            continue;
-                        if(cards[i].rank == cards[j].rank)
-                            pos[0] = i;
-                            pos[1] = k;
-                            return pos;
-                    }
-                }
-            }
-        }
-
-        return new int[0];
-    }
-
-    private int[] is4toAflush(Card[] cards){
-    
-        int counter[] = { 0, 0, 0, 0 }; // H D S C
-        int pos[] = { -1, -1, -1, -1 };
-        int counter_rank = 0, i = 0;
-        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
-
-        // Check suits
-        for (i = 0; i < 5; i++) {
-            if (cards[i].suit == 'H')
-                counter[0]++;
-            else if (cards[i].suit == 'D')
-                counter[1]++;
-            else if (cards[i].suit == 'S')
-                counter[2]++;
-            else if (cards[i].suit == 'C')
-                counter[3]++;
-        }
-
-        // Check if at least 4 cards have same suit
-        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
-            return new int[0];
-
-        // Check what suit is repeated
-        for (i = 0; i < 4; i++){
-            if(counter[i] == 4){
-                suit = suits[i];
-            }
-        }
-
-        for (i = 0; i < 5; i++) {
-            if(cards[i].suit == suit)
-                pos[i] = i;
-        }
-
-        return pos;
-    }
 
     /**
      * Gets the hand combination
@@ -625,23 +815,83 @@ public class Strategy {
         if (pos != new int[0])
             return pos;
 
+        /* 10 - 3 to a Royal Flush */
+        pos = is3toRoyalFlush(cards);
+        if (pos != new int[0])
+            return pos;
+
+        /* 11 - 4 to an outside straight */
+
+        /* 12 - Low Pair */         // Not sure if most efficient
+        pos = isLowPair(cards);  
+        if (pos != new int[0])
+            return pos;
+
+        /* 13 - AKQJ unsuited */
+        pos = isAKQJunsuited(cards);
+        if (pos != new int[0])
+            return pos;
+
+        /* 14 - 3 to a straight flush (type 1) */
+
+        /* 15 - 4 to an inside straight with 3 high cards */
+
+        /* 16 - QJ suited */
+        pos = isXYSuited(cards, 'Q', 'J');     
+        if (pos != new int[0])
+            return pos;
+
+        /* 17 - 3 to a flush with 2 high cards */
+
+        /* 18 - 2 suited high cards */
+        pos = is2SuitedHighCards(cards);
+        if( pos != new int[0] )
+            return pos;
+
+        /* 19 - 4 to an inside straight with 2 high cards */
+
+        /* 20 - 3 to a straight flush (type 2) */
+
+        /*21 - 4 to an inside straight with 1 high card */
+
+
+        /* 22 - KQJ unsuited */
+        pos = isKQJunsuited(cards);
+        if( pos != new int[0] )
+            return pos;
+
+
+        /* 23 - JT suited */
+        pos = isXYSuited(cards, 'J', 'T');
+        if( pos != new int[0] )
+            return pos;
+
+        /* 24 - QJ unsuited*/
+        pos = isXYUnsuited(cards, 'Q', 'J');
+        if( pos != new int[0] )
+            return pos;
+
+        /* 25 - 3 to a flush with 1 high card */
+
+        /* 26 - QT suited */
+        pos = isXYSuited(cards, 'Q', 'T');
+        if( pos != new int[0] )
+            return pos;
+
+
+        /* 27 - 3 to a straight flush (type 3) */
 
 
 
+        /* 28 - KQ suited */
+        pos = isXYSuited(cards, 'K', 'Q');
+        if( pos != new int[0] )
+            return pos;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+        // KJ suited
+        pos = isXYSuited(cards, 'K', 'J');
+        if( pos != new int[0] )
+            return pos;
 
         /* 29 - Ace */
         pos = isAce(cards);
@@ -649,9 +899,9 @@ public class Strategy {
             return pos;
 
         /* 30 - KT suited */
-        // pos = isXSuited(cards, new char[] {'K', 'T'} );
-        // if( pos != new int[0] )
-        // return pos;
+        pos = isXYSuited(cards, 'K', 'T');
+        if( pos != new int[0] )
+            return pos;
 
         /* 31 - Jack, Queen or King */
         pos = isJQorK(cards);
