@@ -92,6 +92,25 @@ public class Strategy {
         return false;
     }
 
+    public int[] isXofaKind(Card[] cards, int X, char kind) {
+
+        int counter = 0, pos[] = new int[X];
+
+        for (int i = 0; i < 5; i++) {
+            if (cards[i].rank == kind) {
+                pos[counter] = i;
+                counter++;
+            }
+        }
+
+        if (counter == X) {
+            return pos;
+        }
+
+        return new int[0];
+    }
+
+
     /* Functions that determine the name of the hand */
 
     public boolean isRoyalFlush(Card[] cards) {
@@ -227,6 +246,7 @@ public class Strategy {
         return false;
     }
 
+    /* 
     public boolean is3ofaKind(Card[] cards) {
 
         char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
@@ -238,13 +258,29 @@ public class Strategy {
 
         return false;
 
+    }*/
+
+
+    private int[] is3ofaKind(Card[] cards) {
+
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
+        int pos[] = new int[0];
+
+        for (int i = 0; i < rank.length; i++) {
+            pos = isXofaKind(cards, 3, rank[i]);
+            if (pos != new int[0])
+                return pos;
+        }
+
+        return new int[0];
     }
 
-    public boolean is2pair(Card[] cards) {
+    private int[] is2pair(Card[] cards) {
 
         char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
         char seen[] = { '-', '_', '.', ':' };
         int no_pairs = 0, k = 0;
+        int pos[] = { -1, -1, -1, -1 };
 
         for (int j = 0; j < 4; j++) {
             for (int i = 0; i < 5; i++) {
@@ -254,15 +290,17 @@ public class Strategy {
                     hand[j] = seen[k];
                     hand[i] = seen[k + 1];
                     no_pairs++;
+                    pos[k] = i;
+                    pos[k+1] = j;
                     k = k + 2;
                 }
             }
         }
 
         if (no_pairs == 2)
-            return true;
+            return pos;
 
-        return false;
+        return new int[0];
     }
 
     public boolean isJacksorBetter(Card[] cards) {
@@ -282,70 +320,8 @@ public class Strategy {
         return false;
     }
 
-    /**
-     * Gets the hand combination
-     * 
-     * @param cards Hand of the player
-     * @return String with the name of the hand combination
-     */
-
-    public String nameOfHand(Card[] cards) {
-
-        if (isRoyalFlush(cards))
-            return "Royal Flush";
-
-        if (isStraightFlush(cards))
-            return "Straight Flush";
-
-        if (isFourAces(cards))
-            return "Four Aces";
-
-        if (isFour2_4s(cards))
-            return "Four 2-4";
-
-        if (isFour5_Ks(cards))
-            return "Four 5-K";
-
-        if (isFullHouse(cards))
-            return "Full House";
-
-        if (isFlush(cards))
-            return "Full House";
-
-        if (isStraight(cards))
-            return "Straight";
-
-        if (is3ofaKind(cards))
-            return "Three of a Kind";
-
-        if (is2pair(cards))
-            return "Two Pair";
-
-        if (isJacksorBetter(cards))
-            return "Jacks or Better";
-
-        return "Other";
-    }
-
     /* Functions for strategy */
 
-    public int[] isXofaKind(Card[] cards, int X, char kind) {
-
-        int counter = 0, pos[] = new int[X];
-
-        for (int i = 0; i < 5; i++) {
-            if (cards[i].rank == kind) {
-                pos[counter] = i;
-                counter++;
-            }
-        }
-
-        if (counter == X) {
-            return pos;
-        }
-
-        return new int[0];
-    }
 
     /************************************************************************************** */
 
@@ -404,7 +380,7 @@ public class Strategy {
         return new int[0];
     }
 
-        private int[] is4toStraightFlush(Card[] cards) {
+    private int[] is4toStraightFlush(Card[] cards) {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
         int pos[] = { -1, -1, -1, -1 };
@@ -460,35 +436,11 @@ public class Strategy {
             return new int[0];     
 
 
-        char hand[] = {'-', '-', '-','-', '-'}        
-
-    
- 
-
-
-
-
-
-
-
         return new int[0];
     }
 
-    private int[] is3ofaKind_(Card[] cards) {
+    private int[] isXYSuited(Card[] cards, char X, char Y) {
 
-        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
-        int pos[] = new int[0];
-
-        for (int i = 0; i < rank.length; i++) {
-            pos = isXofaKind(cards, 3, rank[i]);
-            if (pos != new int[0])
-                return pos;
-        }
-
-        return new int[0];
-    }
-
-    private int[] isXYSuited(Card[] cards, char[] rank) {
 
         return new int[0];
     }
@@ -518,6 +470,117 @@ public class Strategy {
         return new int[0];
     }
 
+    private int[] isHighPair(Card[] cards){
+
+        char rank[] = { 'A', 'K', 'Q', 'J' };
+        int pos[] = { -1, -1};
+
+        for (int i = 0; i < 5; i++) {
+            for (int j=0; j<4; j++){
+                if(cards[i].rank == rank[j]){
+                    for (int k=0; k<5;k++){
+                        if(i == k)
+                            continue;
+                        if(cards[i].rank == cards[j].rank)
+                            pos[0] = i;
+                            pos[1] = k;
+                            return pos;
+                    }
+                }
+            }
+        }
+
+        return new int[0];
+    }
+
+    private int[] is4toAflush(Card[] cards){
+    
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = { -1, -1, -1, -1 };
+        int counter_rank = 0, i = 0;
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
+
+        // Check suits
+        for (i = 0; i < 5; i++) {
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
+        }
+
+        // Check if at least 4 cards have same suit
+        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
+            return new int[0];
+
+        // Check what suit is repeated
+        for (i = 0; i < 4; i++){
+            if(counter[i] == 4){
+                suit = suits[i];
+            }
+        }
+
+        for (i = 0; i < 5; i++) {
+            if(cards[i].suit == suit)
+                pos[i] = i;
+        }
+
+        return pos;
+    }
+
+    /**
+     * Gets the hand combination
+     * 
+     * @param cards Hand of the player
+     * @return String with the name of the hand combination
+     */
+
+    public String nameOfHand(Card[] cards) {
+
+        int pos[] = new int[0];
+
+        if (isRoyalFlush(cards))
+            return "Royal Flush";
+
+        if (isStraightFlush(cards))
+            return "Straight Flush";
+
+        if (isFourAces(cards))
+            return "Four Aces";
+
+        if (isFour2_4s(cards))
+            return "Four 2-4";
+
+        if (isFour5_Ks(cards))
+            return "Four 5-K";
+
+        if (isFullHouse(cards))
+            return "Full House";
+
+        if (isFlush(cards))
+            return "Full House";
+
+        if (isStraight(cards))
+            return "Straight";
+
+        pos = is3ofaKind(cards);
+        if (pos != new int[0])
+            return "Three of a Kind";
+
+        pos = is2pair(cards);
+        if (pos != new int[0])
+            return "Two Pair";
+
+        if (isJacksorBetter(cards))
+            return "Jacks or Better";
+
+        return "Other";
+    }
+
+
     public int[] advice(Card[] cards) {
 
         int pos[] = new int[0];
@@ -541,11 +604,44 @@ public class Strategy {
             return new int[] { 0, 1, 2, 3, 4 };
 
         /* 5 - Three of a kind (except aces) */
-        pos = is3ofaKind_(cards);
+        pos = is3ofaKind(cards);
         if (pos != new int[0])
             return pos;
 
         /* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
+
+        /* 7 - Two Pair */
+        pos = is2pair(cards);
+        if (pos != new int[0])
+            return pos;
+
+        /* 8 - High Pair */         // Not sure if most efficient
+        pos = isHighPair(cards);  
+        if (pos != new int[0])
+            return pos;
+
+        /* 9 - 4 to a Flush */
+        pos = is4toAflush(cards);  
+        if (pos != new int[0])
+            return pos;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /* 29 - Ace */
         pos = isAce(cards);
