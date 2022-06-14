@@ -1494,165 +1494,202 @@ public class Strategy {
 
         /* 2 - 4 to a Royal Flush */
         pos = is4toRoyalFlush(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 2);
             return pos;
-
+        }
         /* 3 - Three Aces */
         pos = isXofaKind(cards, 3, 'A');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 3);
             return pos;
-
+        }
         /* 4 - Straight flush, four of a kind, royal flush */
         if (isStraight(cards) || isFlush(cards) || isFullHouse(cards))
             return new int[] { 0, 1, 2, 3, 4 };
 
         /* 5 - Three of a kind (except aces) */
         pos = is3ofaKind(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 5);
             return pos;
-
+        }
         /* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
         pos = is4toStraightFlush(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 6);
             return pos;
-
+        }
         /* 7 - Two Pair */
         pos = is2pair(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 7);
             return pos;
-
+        }
         /* 8 - High Pair */
         pos = isHighPair(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 8);
             return pos;
-
+        }
         /* 9 - 4 to a Flush */
         pos = is4toAflush(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 9);
             return pos;
-
+        }
         /* 10 - 3 to a Royal Flush */
         pos = is3toRoyalFlush(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 10);
             return pos;
-
+        }
         /* 11 - 4 to an outside straight */
         pos = is4toOutsideStraight(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 11);
             return pos;
+        }
 
         /* 12 - Low Pair */
         pos = isLowPair(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 12);
             return pos;
+        }
 
         /* 13 - AKQJ unsuited */
         pos = isAKQJunsuited(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 13);
             return pos;
-
+        }
         /* 14 - 3 to a straight flush (type 1) */
         pos = is3toStraightFlush1(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 14);
             return pos;
+        }
         /* 15 - 4 to an inside straight with 3 high cards */
         pos = is4toanInsideStraight_withXHC(cards, 3);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 15);
             return pos;
-
+        }
         /* 16 - QJ suited */
         pos = isXYSuited(cards, 'Q', 'J');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 16);
             return pos;
-
+        }
         /* 17 - 3 to a flush with 2 high cards */
         pos = isXtoaFlush_withHC(cards, 3, 2);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 17);
             return pos;
-
+        }
         /* 18 - 2 suited high cards */
         pos = is2SuitedHighCards(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 18);
             return pos;
-
+        }
         /* 19 - 4 to an inside straight with 2 high cards */
         pos = is4toanInsideStraight_withXHC(cards, 2);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 19);
             return pos;
-
+        }
         /* 20 - 3 to a straight flush (type 2) */
         pos = is3toStraightFlush2(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 20);
             return pos;
+        }
         /* 21 - 4 to an inside straight with 1 high card */
         pos = is4toanInsideStraight_withXHC(cards, 1);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 21);
             return pos;
-
+        }
         /* 22 - KQJ unsuited */
         pos = isKQJunsuited(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 22);
             return pos;
-
+        }
         /* 23 - JT suited */
         pos = isXYSuited(cards, 'J', 'T');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 23);
             return pos;
-
+        }
         /* 24 - QJ unsuited */
         pos = isXYUnsuited(cards, 'Q', 'J');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 24);
             return pos;
-
+        }
         /* 25 - 3 to a flush with 1 high card */
         pos = isXtoaFlush_withHC(cards, 3, 1);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 25);
             return pos;
-
+        }
         /* 26 - QT suited */
         pos = isXYSuited(cards, 'Q', 'T');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 26);
             return pos;
-
+        }
         /* 27 - 3 to a straight flush (type 3) */
         pos = is3toStraightFlush3(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 27);
             return pos;
+        }
         /* 28 - KQ suited */
         pos = isXYSuited(cards, 'K', 'Q');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 28.1);
             return pos;
-
+        }
         // KJ suited
         pos = isXYSuited(cards, 'K', 'J');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 28.2);
             return pos;
-
+        }
         /* 29 - Ace */
         pos = isAce(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 29);
             return pos;
-
+        }
         /* 30 - KT suited */
         pos = isXYSuited(cards, 'K', 'T');
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 30);
             return pos;
-
+        }
         /* 31 - Jack, Queen or King */
         pos = isJQorK(cards);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 31);
             return pos;
-
+        }
         /* 32 - 4 to an inside straight with no high cards */
         pos = is4toanInsideStraight_withXHC(cards, 0);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 32);
             return pos;
-
+        }
         /* 33 - 3 to a flush with no high cards */
         pos = isXtoaFlush_withHC(cards, 3, 0);
-        if (pos.length != 0)
+        if (pos.length != 0) {
+            System.out.println("Regra: " + 33);
             return pos;
-
+        }
         /* 34 - Discard everything */
         return new int[0];
     }
