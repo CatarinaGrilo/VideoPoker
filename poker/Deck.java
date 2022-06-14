@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.*;
 
 public class Deck {
     //Attributes
@@ -23,7 +24,7 @@ public class Deck {
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
               
-              String[] tmp = data.split(" ");    //Split space
+              String[] tmp = data.split("\\W+");    //Split space
 
               for(String s: tmp)
                 cards.add(new Card(s.charAt(0), s.charAt(1)));
@@ -37,7 +38,19 @@ public class Deck {
 
     //Constructor #2: random 52 card deck
     public Deck() {
+        cards = new ArrayList<Card>();
+        discarded = new ArrayList<Card>();
+        char[] ranks = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
+        char[] suits = {'H', 'S', 'C', 'D'};
 
+        for(char s : suits){
+            for(char r : ranks){
+                cards.add(new Card(r, s));
+            }
+        }
+
+        Collections.shuffle(cards);
+        
     }
 
     //Methods
@@ -53,6 +66,21 @@ public class Deck {
         discarded.add(card);
 
         return card;
+    }
+
+    //shuffle cards in deck
+    public void shuffle(){
+        Collections.shuffle(cards);
+    }
+
+    //join discarded cards to playable deck
+    public void join(){
+        for(Card c : discarded){
+            cards.add(c);
+            discarded.remove(c);
+        }
+
+        Collections.shuffle(cards);
     }
 
     //prints deck like AH JS 3C, with \n at the end

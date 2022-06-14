@@ -3,6 +3,14 @@ package poker;
 public class Main {
 
         public static void main(String[] args) {
+                Deck randomDeck = new Deck();
+
+                System.out.println(randomDeck.toString());
+
+                randomDeck.shuffle();
+
+                System.out.println(randomDeck.toString());
+
                 Deck deck = new Deck("VideoPoker/Input/card-file.txt"); // reads from first folder in vs code
 
                 System.out.println(deck.toString());
