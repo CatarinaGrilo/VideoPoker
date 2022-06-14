@@ -24,7 +24,7 @@ public class Deck {
             while (myReader.hasNextLine()) {
               String data = myReader.nextLine();
               
-              String[] tmp = data.split(" \t\n");    //Split space
+              String[] tmp = data.split("\\W+");    //Split space
 
               for(String s: tmp)
                 cards.add(new Card(s.charAt(0), s.charAt(1)));
@@ -79,7 +79,7 @@ public class Deck {
             cards.add(c);
             discarded.remove(c);
         }
-        
+
         Collections.shuffle(cards);
     }
 
