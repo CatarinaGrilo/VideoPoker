@@ -73,6 +73,16 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    //join discarded cards to playable deck
+    public void join(){
+        for(Card c : discarded){
+            cards.add(c);
+            discarded.remove(c);
+        }
+        
+        Collections.shuffle(cards);
+    }
+
     //prints deck like AH JS 3C, with \n at the end
     @Override
     public String toString() {
