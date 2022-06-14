@@ -46,6 +46,17 @@ public class Strategy {
         return false;
     }
 
+    public boolean isHighCard(Card card){
+
+        char highcards[] = {'J','Q','K','A'};
+
+        for (int i = 0; i < highcards.length; i++ ){
+            if (card.rank == highcards[i])
+                return true;
+        }
+        return false;
+    }
+
     public boolean checkifConsecutive(Card[] cards) {
 
         int counter = 1;
@@ -98,7 +109,7 @@ public class Strategy {
 
         for (int i = 0; i < 5; i++) {
             if (cards[i].rank == kind) {
-                pos[counter] = i;
+                pos[counter] = i+1;
                 counter++;
             }
         }
@@ -275,8 +286,8 @@ public class Strategy {
                     hand[j] = seen[k];
                     hand[i] = seen[k + 1];
                     no_pairs++;
-                    pos[k] = i;
-                    pos[k+1] = j;
+                    pos[k] = i+1;
+                    pos[k+1] = j+1;
                     k = k + 2;
                 }
             }
@@ -342,19 +353,19 @@ public class Strategy {
         for (int i = 0; i < 5; i++) {
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             }
         }
@@ -397,19 +408,19 @@ public class Strategy {
         for (int i = 0; i < 5; i++) {
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[i] = i+1;
                 counter_rank++;
             }
         }
@@ -420,7 +431,55 @@ public class Strategy {
         return new int[0];
     }
 
-    /*private int[] is4toStraightFlush(Card[] cards) {
+    private char convertInttoChar(int card){
+
+        char hand = '-';
+
+        for (int i = 0; i < 5; i++) {
+            if (card < 10)
+                hand = (char) card;
+            else if (card == 10)
+                hand = 'T';
+            else if (card == 11)
+                hand = 'J';
+            else if (card == 12)
+                hand = 'Q';
+            else if (card == 13)
+                hand = 'K';
+            else if (card == 14)
+                hand = 'A';
+            else if (card == 1)
+                hand = 'A';
+        }
+
+        return hand;
+    }
+
+    private int convertChartoInt(char card, int aceValue){
+        
+        int hand = 0;
+
+        for (int i = 0; i < 5; i++) {
+            if ((int) card < 10) {
+                hand = (int) card;
+            } else if (card == 'T') {
+                hand = 10;
+            } else if (card == 'J') {
+                hand = 11;
+            } else if (card == 'Q') {
+                hand = 12;
+            } else if (card == 'K') {
+                hand = 13;
+            } else if (card == 'A') {
+                hand = aceValue;
+            }
+        }
+
+        return hand;
+    }
+
+    /*
+    private int[] is4toStraightFlush(Card[] cards) {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
         int pos[] = { -1, -1, -1, -1 };
@@ -443,6 +502,7 @@ public class Strategy {
             return new int[0];
         else {
             for (int i = 0; i < 4; i++) {
+                // Check what suit is repeated
                 if (counter[i] == 4)
                     suit = suits[i];
             }
@@ -478,10 +538,249 @@ public class Strategy {
 
         return new int[0];
     }
-     */
+
+    */
+
+    private int[] is4toanInsideStraight_withXHC_1(Card[] cards, int X){
+
+        int i = 0, counter = 0, j = 0, missing_value = 0, pos_outlier = -1, nHC=0;
+
+        /* Low Ace */
+
+        int orderedcards[] = orderedCards(cards, 1);
+        //char reference = convertInttoChar(orderedcards[0]);
+        int reference = orderedcards[0];
+        int pos[] = { -1, -1, -1, -1 };
+
+        // Check if there is a missing value
+        for(i = 1; i < 5; i++){
+            if(orderedcards[i] == orderedcards[i-1] + 1 ){
+                counter++;
+            }
+            else if(orderedcards[i] == orderedcards[i-1] + 2){
+                counter++;
+                missing_value = orderedcards[i]-1;
+            }
+            else if(missing_value!=0)
+                pos_outlier = i;
+        }
+
+        if(counter == 3)
+            orderedcards[pos_outlier] = missing_value;
+        counter = 0;
+        
+        // Double check if replacing by the missing value it is an Inside Straight
+        for(i = 1; i < 5; i++){
+            if(orderedcards[i] == orderedcards[i-1] + 1 ){
+                counter++;
+            }
+        }
+        if (counter != 4)
+            return new int[0];
+
+        // Store positions
+        for(i = 0; i < 5; i++){
+            if(cards[i].rank == convertInttoChar(reference)){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 1) == reference + 1){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 1) == reference + 2){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 1) == reference + 3){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank,1 ) == reference + 4){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+        }
+        if (j == 4 && nHC == X)
+            return pos;
+
+        /* High Ace */
+        i = 0; counter = 0; j = 0; missing_value = 0; pos_outlier = -1; nHC=0;
+        orderedcards = orderedCards(cards, 14);
+        reference = orderedcards[0];
+        pos = new int[]{-1, -1, -1, -1 };
+
+        // Check if there is a missing value
+        for(i = 1; i < 5; i++){
+            if(orderedcards[i] == orderedcards[i-1] + 1 ){
+                counter++;
+            }
+            else if(orderedcards[i] == orderedcards[i-1] + 2){
+                counter++;
+                missing_value = orderedcards[i]-1;
+            }
+            else if(missing_value!=0)
+                pos_outlier = i;
+        }
+
+        if(counter == 3)
+            orderedcards[pos_outlier] = missing_value;
+        counter = 0;
+        
+        // Double check if replacing by the missing value it is an Inside Straight
+        for(i = 1; i < 5; i++){
+            if(orderedcards[i] == orderedcards[i-1] + 1 ){
+                counter++;
+            }
+        }
+        if (counter != 4)
+            return new int[0];
+
+        // Store positions
+        for(i = 0; i < 5; i++){
+            if(cards[i].rank == convertInttoChar(reference)){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 14) == reference + 1){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 14) == reference + 2){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank, 14) == reference + 3){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+            else if(convertChartoInt(cards[i].rank,14) == reference + 4){
+                if(isHighCard(cards[i]))
+                    nHC++;
+                pos[j] = i + 1;
+                j++;
+            }
+        }
+        if (j == 4 && nHC == X)
+            return pos;    
+
+        return new int[0];
+    }
+
+    private int[] is4toanInsideStraight_withXHC(Card[] cards, int X){
+
+        int i = 0, counter = 0, j = 0, nHC = 0;
+
+        int pos[] = { -1, -1, -1, -1 };
+        char rank[] = {'J','Q','K','A'};
+
+        pos = is4toanInsideStraight_withXHC_1(cards, X);
+        if (pos != new int[0])
+            return pos;
+
+       
+        /* JQKA */
+
+        for(i = 0; i < 5; i++){
+            for (j=0; j<rank.length; j++){
+                if(cards[i].rank == rank[j]){
+                    rank[j] = '-';
+                    nHC++;
+                    pos[j] = i + 1;
+                    counter++;
+                }
+            }
+        }   
+        if( counter == 4 && nHC >= X)      
+            return pos;
+
+        /* A234 */
+        counter = 0; nHC = 0;
+        pos = new int[]{-1, -1, -1, -1 };
+        rank = new char[] {'A','2','3','4'};
+
+        for(i = 0; i < 5; i++){
+            for (j=0; j<rank.length; j++){
+                if(cards[i].rank == rank[j]){
+                    rank[j] = '-';
+                    nHC++;
+                    pos[j] = i + 1;
+                    counter++;
+                }
+            }
+        }   
+        if( counter == 4 && nHC >= X)      
+            return pos;
 
 
+        return new int[0];
+    }
 
+    private int[] isXtoaFlush_withHC(Card[] cards, int X, int nbHighCard){
+      
+        int counter[] = { 0, 0, 0, 0 }; // H D S C
+        int pos[] = new int[X], HC_counter = 0, i = 0, j=0;
+        char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
+
+        for (i = 0; i < 5; i++) {
+            // Check suits
+            if (cards[i].suit == 'H')
+                counter[0]++;
+            else if (cards[i].suit == 'D')
+                counter[1]++;
+            else if (cards[i].suit == 'S')
+                counter[2]++;
+            else if (cards[i].suit == 'C')
+                counter[3]++;
+        }
+        
+        if (!(counter[0] == X || counter[1] == X || counter[2] == X || counter[3] == X))
+            return new int[0];
+        else {
+            for (i = 0; i < 4; i++) {
+                // Check what suit is repeated
+                if (counter[i] == X)
+                    suit = suits[i];
+            }
+        }
+
+        // Search for same suit cards
+        for (i=0; i<5; i++){
+            if(cards[i].suit == suit){
+                // Store position
+                pos[j]=i+1;
+                j++;
+                //Check if is high card
+                if(isHighCard(cards[i]))
+                    HC_counter++;
+            }
+        }
+
+        if(nbHighCard == 0)
+            return pos;
+        else if(nbHighCard > 0 && HC_counter == nbHighCard){
+            return pos;
+        }
+        return new int[0];
+    }
 
     private int[] isHighPair(Card[] cards){
 
@@ -495,8 +794,8 @@ public class Strategy {
                         if(i == k)
                             continue;
                         if(cards[i].rank == cards[k].rank){
-                            pos[0] = i;
-                            pos[1] = k;
+                            pos[0] = i+1;
+                            pos[1] = k+1;
                             return pos;
                         }
                     }
@@ -519,8 +818,8 @@ public class Strategy {
                         if(i == k)
                             continue;
                         if(cards[i].rank == cards[j].rank)
-                            pos[0] = i;
-                            pos[1] = k;
+                            pos[0] = i+1;
+                            pos[1] = k+1;
                             return pos;
                     }
                 }
@@ -562,7 +861,7 @@ public class Strategy {
         // Store positions
         for (i = 0; i < 5; i++) {
             if(cards[i].suit == suit)
-                pos[i] = i;
+                pos[i] = i+1;
         }
 
         return pos;
@@ -581,8 +880,8 @@ public class Strategy {
                             if(i == k)
                                 continue;
                             if(cards[k].rank == rank[l] && cards[i].suit == cards[k].suit){
-                                pos[0] = i;
-                                pos[1] = k;
+                                pos[0] = i+1;
+                                pos[1] = k+1;
                                 return pos;
                             }
                         }
@@ -605,7 +904,7 @@ public class Strategy {
             for (int j = 0; j < 4; j++){
                 if (cards[i].rank == rank[j]){
                     counter[j]++;
-                    pos[j] = i;
+                    pos[j] = i+1;
                 }
             }
         }
@@ -626,13 +925,13 @@ public class Strategy {
 
         for(int i = 0; i < 5; i++){
             if(cards[i].rank == X){
-                pos[0] = i;
+                pos[0] = i+1;
                 for (int j = 0; j < 5; j++){
                     if(i == j)
                         continue;
                     else{
                         if(cards[j].rank == Y && cards[i].suit == cards[j].suit){
-                            pos[1] = j;
+                            pos[1] = j+1;
                             return pos;
                         }
                     }
@@ -649,13 +948,13 @@ public class Strategy {
 
         for(int i = 0; i < 5; i++){
             if(cards[i].rank == X){
-                pos[0] = i;
+                pos[0] = i+1;
                 for (int j = 0; j < 5; j++){
                     if(i == j)
                         continue;
                     else{
                         if(cards[j].rank == Y){
-                            pos[1] = j;
+                            pos[1] = j+1;
                             return pos;
                         }
                     }
@@ -673,15 +972,15 @@ public class Strategy {
         for(int i = 0; i < 5; i++){
             if(cards[i].rank == 'K'){
                 counter[0]++;
-                pos[0] = i;
+                pos[0] = i+1;
             }
             if(cards[i].rank == 'Q'){
                 counter[1]++;
-                pos[1] = i;
+                pos[1] = i+1;
             }
             if(cards[i].rank == 'J'){
                 counter[2]++;
-                pos[2] = i;
+                pos[2] = i+1;
             }
         }
 
@@ -799,13 +1098,16 @@ public class Strategy {
             return pos;
 
         /* DUVIDAAAAAAAAA 6 - 4 to a Straight Flush */
+        //pos = is4toStraightFlush(cards);
+        if (pos != new int[0])
+            return pos;
 
         /* 7 - Two Pair */
         pos = is2pair(cards);
         if (pos != new int[0])
             return pos;
 
-        /* 8 - High Pair */         // Not sure if most efficient
+        /* 8 - High Pair */        
         pos = isHighPair(cards);  
         if (pos != new int[0])
             return pos;
@@ -822,7 +1124,7 @@ public class Strategy {
 
         /* 11 - 4 to an outside straight */
 
-        /* 12 - Low Pair */         // Not sure if most efficient
+        /* 12 - Low Pair */        
         pos = isLowPair(cards);  
         if (pos != new int[0])
             return pos;
@@ -835,6 +1137,9 @@ public class Strategy {
         /* 14 - 3 to a straight flush (type 1) */
 
         /* 15 - 4 to an inside straight with 3 high cards */
+        pos = is4toanInsideStraight_withXHC(cards, 3);
+        if (pos != new int[0])
+            return pos;
 
         /* 16 - QJ suited */
         pos = isXYSuited(cards, 'Q', 'J');     
@@ -842,6 +1147,9 @@ public class Strategy {
             return pos;
 
         /* 17 - 3 to a flush with 2 high cards */
+        pos = isXtoaFlush_withHC(cards, 3, 2);
+        if (pos != new int[0])
+            return pos;
 
         /* 18 - 2 suited high cards */
         pos = is2SuitedHighCards(cards);
@@ -849,11 +1157,16 @@ public class Strategy {
             return pos;
 
         /* 19 - 4 to an inside straight with 2 high cards */
+        pos = is4toanInsideStraight_withXHC(cards, 2);
+        if (pos != new int[0])
+            return pos;
 
         /* 20 - 3 to a straight flush (type 2) */
 
-        /*21 - 4 to an inside straight with 1 high card */
-
+        /* 21 - 4 to an inside straight with 1 high card */
+        pos = is4toanInsideStraight_withXHC(cards, 1);
+        if (pos != new int[0])
+            return pos;
 
         /* 22 - KQJ unsuited */
         pos = isKQJunsuited(cards);
@@ -872,6 +1185,10 @@ public class Strategy {
             return pos;
 
         /* 25 - 3 to a flush with 1 high card */
+        pos = isXtoaFlush_withHC(cards, 3, 1);
+        if (pos != new int[0])
+            return pos;
+
 
         /* 26 - QT suited */
         pos = isXYSuited(cards, 'Q', 'T');
@@ -908,10 +1225,16 @@ public class Strategy {
         if (pos != new int[0])
             return pos;
 
-        /* 32 - 4 to an inside straight with no high cards */ // hold 4
+        /* 32 - 4 to an inside straight with no high cards */ 
+        pos = is4toanInsideStraight_withXHC(cards, 0);
+        if (pos != new int[0])
+            return pos;
 
         /* 33 - 3 to a flush with no high cards */
-        // hold 3
+        pos = isXtoaFlush_withHC(cards, 3, 0);
+        if (pos != new int[0])
+            return pos;
+
 
         /* 34 - Discard everything */
         return new int[0];
