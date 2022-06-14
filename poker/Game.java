@@ -40,7 +40,7 @@ public abstract class Game {
 
 	public abstract void pay(String name);
 
-	public abstract void advice();
+	public abstract int[] advice();
 
 	/**
 	 * Prints the statistics of the game

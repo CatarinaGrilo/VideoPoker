@@ -155,7 +155,7 @@ public class Debug extends Game {
     }
   }
 
-  public void advice() {
+  public int[] advice() {
 
     String out = "player should hold cards ";
     int[] pos = type.advice(player.hand.cards);
@@ -169,7 +169,7 @@ public class Debug extends Game {
     } else
       out = "player should not hold";
 
-    System.out.println(out);
+    System.out.println(out + "\n");
+    return pos;
   }
-
 }

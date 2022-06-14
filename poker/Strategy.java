@@ -1235,10 +1235,11 @@ public class Strategy {
                     for (int k = 0; k < 5; k++) {
                         if (i == k)
                             continue;
-                        if (cards[i].rank == cards[k].rank)
-                            pos[0] = i + 1;
-                        pos[1] = k + 1;
-                        return pos;
+                        if (cards[i].rank == cards[k].rank){
+                            pos[0] = i;
+                            pos[1] = k;
+                            return pos;
+                        }
                     }
                 }
             }

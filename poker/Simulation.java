@@ -1,5 +1,7 @@
 package poker;
 
+import java.util.Arrays;
+
 /**
  * Simulation mode, the game is played automatically following
  * the strategy implemented in order to obtain long term statistics
@@ -121,10 +123,14 @@ public class Simulation extends Game {
         sumOfGains += payoff;
     }
 
-    public void advice() {
+    public int[] advice() {
 
-        // necessito da parte da estrategia para fazer esta função!!
-        // Sorry! :( Já façoooo
+        int[] pos = type.advice(player.hand.cards);
+
+        if (pos.length != 0) {
+            Arrays.sort(pos);
+        }
+        return pos;
     }
 
 }
