@@ -68,6 +68,11 @@ public class Deck {
         return card;
     }
 
+    //shuffle cards in deck
+    public void shuffle(){
+        Collections.shuffle(cards);
+    }
+
     //prints deck like AH JS 3C, with \n at the end
     @Override
     public String toString() {
