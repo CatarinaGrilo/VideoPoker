@@ -125,7 +125,6 @@ public class Simulation extends Game {
 
         // necessito da parte da estrategia para fazer esta função!!
         // Sorry! :( Já façoooo
-
     }
 
 }

@@ -59,7 +59,7 @@ public class Main {
                                 j = 0;
                         } else if (aux.equals("a")) {
                                 System.out.println("-cmd a");
-                                System.out.println("advice not done yet\n");
+                                game.advice();
                         } else if (aux.equals("s")) {
                                 System.out.println("-cmd s");
                                 game.stats();

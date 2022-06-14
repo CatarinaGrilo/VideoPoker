@@ -1,6 +1,7 @@
 package poker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -156,9 +157,19 @@ public class Debug extends Game {
 
   public void advice() {
 
-    // necessito da parte da estrategia para fazer esta função!!
-    // Sorry! :( Já façoooo
+    String out = "player should hold cards ";
+    int[] pos = type.advice(player.hand.cards);
 
+    if (pos.length != 0) {
+      Arrays.sort(pos);
+      for (int i : pos) {
+        out += String.valueOf(i + 1) + " ";
+      }
+
+    } else
+      out = "player should not hold";
+
+    System.out.println(out);
   }
 
 }

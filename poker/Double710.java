@@ -40,8 +40,15 @@ public class Double710 implements GameType {
 
     }
 
-    public int[] advice(Card[] cards) {
-        return null;
+    /**
+     * Gets the advice for holding the hand
+     * 
+     * @param hand hand to be analized
+     * @return int[] Array with the positions to hold
+     */
+    public int[] advice(Card[] hand) {
+
+        return strategy.advice(hand);
     }
 
     /**
