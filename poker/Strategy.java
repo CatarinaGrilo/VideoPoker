@@ -1229,14 +1229,13 @@ public class Strategy {
 
         char rank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T' };
         int pos[] = { -1, -1 };
-
         for (int i = 0; i < 5; i++) {
             for (int j = 0; j < rank.length; j++) {
                 if (cards[i].rank == rank[j]) {
                     for (int k = 0; k < 5; k++) {
                         if (i == k)
                             continue;
-                        if (cards[i].rank == cards[j].rank)
+                        if (cards[i].rank == cards[k].rank)
                             pos[0] = i + 1;
                         pos[1] = k + 1;
                         return pos;
