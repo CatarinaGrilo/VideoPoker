@@ -673,7 +673,6 @@ public class Strategy {
         if (count_highCard >= counter_gap && count_highCard <= 3) {
             int pos[] = new int[3];
             for (int i = 0; i < 3; i++) {
-                System.out.println(positions.get(0));
                 pos[i] = positions.get(0);
                 positions.remove(0);
             }
