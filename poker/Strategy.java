@@ -324,7 +324,7 @@ public class Strategy {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
         int pos[] = { -1, -1, -1, -1 };
-        int counter_rank = 0, j = 0;
+        int counter_rank = 0;
         char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
         for (int i = 0; i < 5; i++) {
@@ -339,45 +339,50 @@ public class Strategy {
                 counter[3]++;
         }
 
+        //System.out.println("CheckCounters: " + counter[0] + counter[1] + counter[2] + counter[3]);
+
         // Check if at least 4 cards have same suit
-        if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
+        if (!(counter[0] >= 4 || counter[1] >= 4 || counter[2] >= 4 || counter[3] >= 4))
             return new int[0];
         else {
             for (int i = 0; i < 4; i++) {
-                if (counter[i] == 4)
+                if (counter[i] >= 4)
                     suit = suits[i];
             }
         }
 
+        //System.out.println("whatsuit is : " + suit);
+
         for (int i = 0; i < 5; i++) {
-            if (j == 4)
-                break;
+            if (counter_rank == 4){
+                //System.out.println("4 to flush is : " + pos);
+                return pos;
+            }
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[j] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
-                j++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[j] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
-                j++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[j] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
-                j++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[j] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
-                j++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[j] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
-                j++;
             }
+
+            //System.out.println("Actual value of : " + Arrays.toString(pos) + "counter is" + counter_rank);
         }
 
-        if (counter_rank == 4)
+        if (counter_rank == 4){
             return pos;
+        }
+
 
         return new int[0];
     }
@@ -385,7 +390,7 @@ public class Strategy {
     private int[] is3toRoyalFlush(Card[] cards) {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
-        int pos[] = { -1, -1, -1, -1 };
+        int pos[] = { -1, -1, -1 };
         int counter_rank = 0;
         char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
@@ -402,31 +407,34 @@ public class Strategy {
         }
 
         // Check if at least 3 cards have same suit
-        if (!(counter[0] == 3 || counter[1] == 3 || counter[2] == 3 || counter[3] == 3))
+        if (!(counter[0] >= 3 || counter[1] >= 3 || counter[2] >= 3 || counter[3] >= 3))
             return new int[0];
         else {
             for (int i = 0; i < 4; i++) {
-                if (counter[i] == 3)
+                if (counter[i] >= 3)
                     suit = suits[i];
             }
         }
 
         for (int i = 0; i < 5; i++) {
+            if (counter_rank == 3){
+                return pos;
+            }
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
                 pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i;
+                pos[counter_rank] = i;
                 counter_rank++;
             }
         }
@@ -986,7 +994,7 @@ public class Strategy {
 
         int i = 0, counter = 0, j = 0, missing_value = 0, pos_outlier = -1, nHC = 0;
 
-        /* Low Ace */
+        // Low Ace 
 
         int orderedcards[] = orderedCards(cards, 1, cards.length);
         // char reference = convertInttoChar(orderedcards[0]);
@@ -1003,6 +1011,7 @@ public class Strategy {
             } else if (missing_value != 0)
                 pos_outlier = i;
         }
+        System.out.println("Cheguei aqui : " + pos_outlier + counter);
 
         if (counter == 3)
             orderedcards[pos_outlier] = missing_value;
@@ -1049,7 +1058,7 @@ public class Strategy {
         if (j == 4 && nHC == X)
             return pos;
 
-        /* High Ace */
+        // High Ace 
         i = 0;
         counter = 0;
         j = 0;
@@ -1126,10 +1135,12 @@ public class Strategy {
         int pos[] = { -1, -1, -1, -1 };
         char rank[] = { 'J', 'Q', 'K', 'A' };
 
+        System.out.println("Entreiii : " + X);
         pos = is4toanInsideStraight_withXHC_1(cards, X);
-        if (pos.length != 0)
+        if (pos.length != 0){
+            System.out.println("Saiiiiiii");
             return pos;
-
+        }
         /* JQKA */
 
         for (i = 0; i < 5; i++) {
