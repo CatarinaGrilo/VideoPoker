@@ -13,7 +13,8 @@ public class Main {
                 int aux2;
                 int i = 0;
                 int j = 0;
-                while (game.commands.size() != 0) {
+                boolean flag = true;
+                while (game.commands.size() != 0 && flag == true) {
                         aux = game.commands.get(0);
                         game.commands.remove(0);
 
@@ -50,7 +51,9 @@ public class Main {
                                         str += aux + " ";
                                 }
                                 System.out.println(str);
-                                game.hold(aux3);
+                                flag = game.hold(aux3);
+                                if(flag == false)
+                                        System.out.println("No more cards available in the deck\nGame ended");
                                 i = 0;
                                 j = 0;
                         } else if (aux.equals("a")) {

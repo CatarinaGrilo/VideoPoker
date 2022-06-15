@@ -106,7 +106,7 @@ public class Debug extends Game {
    * 
    * @param positions Positions of the cards that are to maintain
    */
-  public void hold(int[] positions) {
+  public boolean hold(int[] positions) {
     if (positions != null) {
 
       int i = 0;
@@ -124,14 +124,18 @@ public class Debug extends Game {
       // Eliminates and replaces the discarded cards from the hand
       for (int n : ToDiscard) {
         card = deck.dealCard();
-        player.hand.cards[n].rank = card.rank;
-        player.hand.cards[n].suit = card.suit;
+        if (card.rank != '-') {
+          player.hand.cards[n].rank = card.rank;
+          player.hand.cards[n].suit = card.suit;
+        }else
+          return false;
       }
 
     }
     System.out.println(player.hand.toString());
     String name = type.nameOfHand(player.hand.cards);
     pay(name);
+    return true;
   }
 
   /**
