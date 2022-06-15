@@ -110,7 +110,7 @@ public class Strategy {
 
         for (int i = 0; i < 5; i++) {
             if (cards[i].rank == kind) {
-                pos[counter] = i + 1;
+                pos[counter] = i;
                 counter++;
             }
         }
@@ -285,8 +285,8 @@ public class Strategy {
                     hand[j] = seen[k];
                     hand[i] = seen[k + 1];
                     no_pairs++;
-                    pos[k] = i + 1;
-                    pos[k + 1] = j + 1;
+                    pos[k] = i;
+                    pos[k + 1] = j;
                     k = k + 2;
                 }
             }
@@ -351,19 +351,19 @@ public class Strategy {
         for (int i = 0; i < 5; i++) {
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             }
         }
@@ -406,19 +406,19 @@ public class Strategy {
         for (int i = 0; i < 5; i++) {
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i + 1;
+                pos[i] = i;
                 counter_rank++;
             }
         }
@@ -1008,27 +1008,27 @@ public class Strategy {
             if (cards[i].rank == convertInttoChar(reference)) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 1) == reference + 1) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 1) == reference + 2) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 1) == reference + 3) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 1) == reference + 4) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             }
         }
@@ -1075,27 +1075,27 @@ public class Strategy {
             if (cards[i].rank == convertInttoChar(reference)) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 14) == reference + 1) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 14) == reference + 2) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 14) == reference + 3) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             } else if (convertChartoInt(cards[i].rank, 14) == reference + 4) {
                 if (isHighCard(cards[i]))
                     nHC++;
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
             }
         }
@@ -1123,7 +1123,7 @@ public class Strategy {
                 if (cards[i].rank == rank[j]) {
                     rank[j] = '-';
                     nHC++;
-                    pos[j] = i + 1;
+                    pos[j] = i;
                     counter++;
                 }
             }
@@ -1142,7 +1142,7 @@ public class Strategy {
                 if (cards[i].rank == rank[j]) {
                     rank[j] = '-';
                     nHC++;
-                    pos[j] = i + 1;
+                    pos[j] = i;
                     counter++;
                 }
             }
@@ -1185,7 +1185,7 @@ public class Strategy {
         for (i = 0; i < 5; i++) {
             if (cards[i].suit == suit) {
                 // Store position
-                pos[j] = i + 1;
+                pos[j] = i;
                 j++;
                 // Check if is high card
                 if (isHighCard(cards[i]))
@@ -1213,8 +1213,8 @@ public class Strategy {
                         if (i == k)
                             continue;
                         if (cards[i].rank == cards[k].rank) {
-                            pos[0] = i + 1;
-                            pos[1] = k + 1;
+                            pos[0] = i;
+                            pos[1] = k;
                             return pos;
                         }
                     }
@@ -1280,7 +1280,7 @@ public class Strategy {
         // Store positions
         for (i = 0; i < 5; i++) {
             if (cards[i].suit == suit)
-                pos[i] = i + 1;
+                pos[i] = i;
         }
 
         return pos;
@@ -1299,8 +1299,8 @@ public class Strategy {
                             if (i == k)
                                 continue;
                             if (cards[k].rank == rank[l] && cards[i].suit == cards[k].suit) {
-                                pos[0] = i + 1;
-                                pos[1] = k + 1;
+                                pos[0] = i;
+                                pos[1] = k;
                                 return pos;
                             }
                         }
@@ -1322,7 +1322,7 @@ public class Strategy {
             for (int j = 0; j < 4; j++) {
                 if (cards[i].rank == rank[j]) {
                     counter[j]++;
-                    pos[j] = i + 1;
+                    pos[j] = i;
                 }
             }
         }
@@ -1343,13 +1343,13 @@ public class Strategy {
 
         for (int i = 0; i < 5; i++) {
             if (cards[i].rank == X) {
-                pos[0] = i + 1;
+                pos[0] = i;
                 for (int j = 0; j < 5; j++) {
                     if (i == j)
                         continue;
                     else {
                         if (cards[j].rank == Y && cards[i].suit == cards[j].suit) {
-                            pos[1] = j + 1;
+                            pos[1] = j;
                             return pos;
                         }
                     }
@@ -1366,13 +1366,13 @@ public class Strategy {
 
         for (int i = 0; i < 5; i++) {
             if (cards[i].rank == X) {
-                pos[0] = i + 1;
+                pos[0] = i;
                 for (int j = 0; j < 5; j++) {
                     if (i == j)
                         continue;
                     else {
                         if (cards[j].rank == Y) {
-                            pos[1] = j + 1;
+                            pos[1] = j;
                             return pos;
                         }
                     }
@@ -1390,15 +1390,15 @@ public class Strategy {
         for (int i = 0; i < 5; i++) {
             if (cards[i].rank == 'K') {
                 counter[0]++;
-                pos[0] = i + 1;
+                pos[0] = i;
             }
             if (cards[i].rank == 'Q') {
                 counter[1]++;
-                pos[1] = i + 1;
+                pos[1] = i;
             }
             if (cards[i].rank == 'J') {
                 counter[2]++;
-                pos[2] = i + 1;
+                pos[2] = i;
             }
         }
 
