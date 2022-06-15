@@ -3,17 +3,19 @@ package poker;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.w3c.dom.events.Event;
+
 public class Strategy {
 
     public Strategy() {
 
     }
 
-    public int[] orderedCards(Card[] cards, int aceValue) {
+    public int[] orderedCards(Card[] cards, int aceValue, int size) {
 
-        int hand[] = new int[5];
+        int hand[] = new int[size];
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < size; i++) {
             if ((int) cards[i].rank < 10) {
                 hand[i] = (int) cards[i].rank;
             } else if (cards[i].rank == 'T') {
@@ -63,7 +65,7 @@ public class Strategy {
         int counter = 1;
 
         /* Lower value Ace */
-        int handLower[] = orderedCards(cards, 1);
+        int handLower[] = orderedCards(cards, 1, cards.length);
 
         for (int i = 1; i < 5; i++) {
             // if(hand[i] == (hand[0]+i))
@@ -75,7 +77,7 @@ public class Strategy {
 
         /* Higher value of Ace */
 
-        int handHigher[] = orderedCards(cards, 14);
+        int handHigher[] = orderedCards(cards, 14, cards.length);
         counter = 1;
 
         for (int i = 1; i < 5; i++) {
@@ -323,7 +325,7 @@ public class Strategy {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
         int pos[] = { -1, -1, -1, -1 };
-        int counter_rank = 0;
+        int counter_rank = 0, j =0;
         char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
         for (int i = 0; i < 5; i++) {
@@ -349,22 +351,24 @@ public class Strategy {
         }
 
         for (int i = 0; i < 5; i++) {
+            if(j == 4)
+                break;
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[j] = i;
+                counter_rank++; j++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[j] = i;
+                counter_rank++; j++;
             } else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[j] = i;
+                counter_rank++; j++;
             } else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[j] = i;
+                counter_rank++; j++;
             } else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[j] = i;
+                counter_rank++; j++;
             }
         }
 
@@ -478,20 +482,24 @@ public class Strategy {
 
     private int[] checkConsecutiveOneMissingToFive(ArrayList<Integer> positions, ArrayList<Card> cardsSameSuit,
             int AceValue) {
-        Card[] eval = new Card[cardsSameSuit.size()];
+        
+        int size = cardsSameSuit.size();
+        Card[] eval = new Card[size];
         int counter_orde = 0;
-        for (int i = 0; i < cardsSameSuit.size(); i++) {
+        for (int i = 0; i < size; i++) {
             eval[i] = cardsSameSuit.get(0);
             cardsSameSuit.remove(0);
         }
-        int orderedcards[] = orderedCards(eval, AceValue);
-        for (int j = 0; j < cardsSameSuit.size() - 1; j++) {
+        int orderedcards[] = orderedCards(eval, AceValue, eval.length);
+        System.out.print(orderedcards.length+"\n");
+        System.out.print(positions.size()+"\n");
+        for (int j = 0; j < size - 1; j++) {
             if (orderedcards[j] == orderedcards[j + 1] - 1) {
                 counter_orde++;
             } else if (orderedcards[j] == orderedcards[j + 1] - 2) {
                 counter_orde++;
             } else
-                positions.remove(j);// Só pode acontecer uma ve por isso é okay
+                positions.remove(j);// Só pode acontecer uma vez por isso é okay
         }
         if (counter_orde == 3) {
             int pos[] = new int[4];
@@ -584,7 +592,7 @@ public class Strategy {
 
     private int[] is4toOutsideStraight(Card[] cards) {
 
-        int orderedcards[] = orderedCards(cards, 1);// value of ace does not matter
+        int orderedcards[] = orderedCards(cards, 1, cards.length);// value of ace does not matter
         int missing = 0;
         int wheremissig = -1;
         char card;
@@ -641,7 +649,7 @@ public class Strategy {
                     count_highCard--;
             }
         }
-        int orderedcards[] = orderedCards(eval, AceValue);
+        int orderedcards[] = orderedCards(eval, AceValue, eval.length);
         for (int j = 0; j < cardsSameSuit.size() - 1; j++) {
             if (orderedcards[j] == orderedcards[j + 1] - 2) { // 1 gap
                 counter_gap++;
@@ -765,7 +773,7 @@ public class Strategy {
                     count_highCard--;
             }
         }
-        int orderedcards[] = orderedCards(eval, AceValue);
+        int orderedcards[] = orderedCards(eval, AceValue, eval.length);
         for (int j = 0; j < cardsSameSuit.size() - 1; j++) {
             if (orderedcards[j] == orderedcards[j + 1] - 2) { // 1 gap
                 counter_gap++;
@@ -891,7 +899,7 @@ public class Strategy {
                     count_highCard--;
             }
         }
-        int orderedcards[] = orderedCards(eval, AceValue);
+        int orderedcards[] = orderedCards(eval, AceValue, eval.length);
         for (int j = 0; j < cardsSameSuit.size() - 1; j++) {
             if (orderedcards[j] == orderedcards[j + 1] - 2) { // 1 gap
                 counter_gap++;
@@ -974,7 +982,7 @@ public class Strategy {
 
         /* Low Ace */
 
-        int orderedcards[] = orderedCards(cards, 1);
+        int orderedcards[] = orderedCards(cards, 1, cards.length);
         // char reference = convertInttoChar(orderedcards[0]);
         int reference = orderedcards[0];
         int pos[] = { -1, -1, -1, -1 };
@@ -1042,7 +1050,7 @@ public class Strategy {
         missing_value = 0;
         pos_outlier = -1;
         nHC = 0;
-        orderedcards = orderedCards(cards, 14);
+        orderedcards = orderedCards(cards, 14, cards.length);
         reference = orderedcards[0];
         pos = new int[] { -1, -1, -1, -1 };
 
@@ -1466,7 +1474,7 @@ public class Strategy {
             return "Full House";
 
         if (isFlush(cards))
-            return "Full House";
+            return "Flush";
 
         if (isStraight(cards))
             return "Straight";
@@ -1488,11 +1496,12 @@ public class Strategy {
     public int[] advice(Card[] cards) {
 
         int pos[] = new int[0];
-
+        System.out.println("ADVICE: ");
         /* 1 - Straight flush, four of a kind, royal flush */
-        if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards))
+        if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards)){
+            System.out.println("Regra: " + 1);
             return new int[] { 0, 1, 2, 3, 4 };
-
+        }
         /* 2 - 4 to a Royal Flush */
         pos = is4toRoyalFlush(cards);
         if (pos.length != 0) {
@@ -1506,9 +1515,10 @@ public class Strategy {
             return pos;
         }
         /* 4 - Straight flush, four of a kind, royal flush */
-        if (isStraight(cards) || isFlush(cards) || isFullHouse(cards))
+        if (isStraight(cards) || isFlush(cards) || isFullHouse(cards)){
+            System.out.println("Regra: " + 4);
             return new int[] { 0, 1, 2, 3, 4 };
-
+        }
         /* 5 - Three of a kind (except aces) */
         pos = is3ofaKind(cards);
         if (pos.length != 0) {
@@ -1692,6 +1702,7 @@ public class Strategy {
             return pos;
         }
         /* 34 - Discard everything */
+        System.out.println("FIM ");
         return new int[0];
     }
 
