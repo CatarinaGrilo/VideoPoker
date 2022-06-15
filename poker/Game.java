@@ -36,7 +36,7 @@ public abstract class Game {
 
 	public abstract void deal();
 
-	public abstract void hold(int[] positions);
+	public abstract boolean hold(int[] positions);
 
 	public abstract void pay(String name);
 
