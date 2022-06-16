@@ -423,8 +423,8 @@ public class Strategy {
             }
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
-                pos[i] = i;
-                counter_rank++;
+                pos[counter_rank] = i;
+                counter_rank++; 
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
                 pos[counter_rank] = i;
                 counter_rank++;
@@ -791,9 +791,11 @@ public class Strategy {
                 counter_gap = counter_gap + 2;
             } else if (orderedcards[j] == orderedcards[j + 1] - 4) { // 3 gaps-> max of gaps that can appear
                 counter_gap = counter_gap + 3;
+            } else if (orderedcards[j] < orderedcards[j + 1] - 4) { // 3 gaps-> max of gaps that can appear
+                counter_gap = counter_gap + 4;
             }
         }
-        System.out.println(counter_gap);
+        //System.out.println(counter_gap);
         if (counter_gap == 0) {
             if (orderedcards[0] == 1 || orderedcards[0] == 2) // Low ace or 234 suited
                 flag = true;
@@ -928,6 +930,8 @@ public class Strategy {
                 counter_gap++;
             } else if (orderedcards[j] == orderedcards[j + 1] - 3) { // 2 gaps
                 counter_gap = counter_gap + 2;
+            } else if (orderedcards[j] < orderedcards[j + 1] - 3) { // 2 gaps
+                counter_gap = counter_gap + 3;
             }
         }
         if (counter_gap == 2 && count_highCard == 0) {
@@ -999,118 +1003,80 @@ public class Strategy {
         return new int[0];
     }
 
-    private boolean is4toanIS_HighCards(Card[] cards, int X) {
+    private int[] is4toanIS_AKQJ(Card[] cards) {
 
         char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
+        char seen[] = { '-', '_', '.', ':' };
+        int pos[] = { -1, -1, -1, -1 };
         int i = 0, j = 0, counter = 0;
 
         // AKQJ
         char rank[] = { 'A', 'K', 'Q', 'J' };
         for (i = 0; i < 5; i++) {
             for (j = 0; j < rank.length; j++) {
-                if (counter == X) {
-                    return true;
+                if (counter == 4) {
+                    return pos;
                 }
                 if (hand[i] == rank[j]) {
+                    hand[i] = seen[counter];
+                    pos[counter] = i;
                     counter++;
                 }
             }
         }
-        return false;
+
+        return new int[0];
     }
 
-    private int[] is4toanIS_generic(Card[] cards, int X) {
+    private int[] is4toanIS_generic(Card[] cards, int X, char[] rank) {
 
         int pos[] = { -1, -1, -1, -1 };
         int i = 0, j = 0, k = 0, l = 0, counter = 0, nHC = 0;
-        int help;
-
-        // Ace high
-        char rank[] = { 'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2' };
         int reference = -1;
 
         for (i = 0; i < rank.length; i++) {
             reference = i;
-            if (counter == 4 && nHC >= X)
+            if (counter == 4 && nHC >= X){
+                //System.out.println("Entrei aqui 2 ? ");
                 return pos;
-            for (j = 0; j < 5; j++) {
-                if (cards[j].rank == rank[reference]) {
-                    pos[counter] = j;
-                    counter = 1;
-                    if (reference < 4)
-                        nHC = 1;
-                    else
-                        nHC = 0;
-                    // System.out.println("Referencia " + rank[reference]);
-                    help = reference + 5;
-                    if(help>=rank.length)
-                        help = rank.length;
-                    for (k = reference + 1; k < help; k++) {
-                        for (l = 0; l < 5; l++) {
-                            if (j == l) { // Not sure about this
-                                // System.out.println("Sao iguais ");
-                                continue;
-                            } else if (counter == 4)
-                                return pos;
-                            else if (cards[l].rank == rank[k]) {
-                                if (reference < 4)
-                                    nHC++;
-                                // System.out.println("guardei este array " + rank[k] + " positions: "+
-                                // Arrays.toString(pos) ) ;
-                                // System.out.println("Counter "+ counter + " --l " + l);
-                                pos[counter] = l;
-                                counter++;
-                                // System.out.println("Erro ? ");
-                                break;
-                            }
-
-                        }
-                    }
-                }
             }
-        }
-
-        // Ace low
-
-        pos = new int[] { -1, -1, -1, -1 };
-        rank = new char[] { 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'A' };
-        i = 0;
-        j = 0;
-        k = 0;
-        l = 0;
-        counter = 0;
-        reference = -1;
-        nHC = 0;
-
-        for (i = 0; i < rank.length; i++) {
-            reference = i;
-            if (counter == 4 && nHC >= X)
-                return pos;
+            else if (counter == 4){
+                //System.out.println("Entrei aqui 3 ? ");
+                break;
+            }
             for (j = 0; j < 5; j++) {
                 if (cards[j].rank == rank[reference]) {
                     pos[counter] = j;
                     counter = 1;
-                    if (reference < 4)
-                        nHC = 1;
-                    else
+                    //nHC = (reference < 4) ? 1 : 0;
+                    if (cards[j].rank == 'A' || cards[j].rank == 'K' || cards[j].rank == 'Q' || cards[j].rank == 'J'){
+                        //System.out.println("Card: " + rank[k] + k);
+                        nHC=1;
+                    }else{
                         nHC = 0;
-                    // System.out.println("Referencia " + rank[reference]);
-                    help = reference + 5;
-                    if(help>=rank.length)
-                        help = rank.length;
-                    for (k = reference + 1; k < help; k++) {
+                    }
+                    for (k = reference + 1; k < reference + 5; k++) {
+                        if (k >= rank.length) {
+                            // System.out.println("Erro ? ,k: "+ k + "reference" + rank[reference]);
+                            break;
+                        }
                         for (l = 0; l < 5; l++) {
                             if (j == l) { // Not sure about this
                                 // System.out.println("Sao iguais ");
                                 continue;
-                            } else if (counter == 4)
+                            } else if (counter == 4){
+                                //System.out.println("Entrei aqui 1 ? ");
                                 return pos;
+                            }
                             else if (cards[l].rank == rank[k]) {
-                                if (reference < 4)
+                                if (cards[l].rank == 'A' || cards[l].rank == 'K' || cards[l].rank == 'Q' || cards[l].rank == 'J'){
+                                    //System.out.println("Card: " + rank[k] + k);
                                     nHC++;
+                                }
                                 // System.out.println("guardei este array " + rank[k] + " positions: "+
                                 // Arrays.toString(pos) ) ;
                                 // System.out.println("Counter "+ counter + " --l " + l);
+                                //System.out.println("High cards " + nHC + "reference " + rank[k]);
                                 pos[counter] = l;
                                 counter++;
                                 // System.out.println("Erro ? ");
@@ -1129,213 +1095,34 @@ public class Strategy {
     private int[] is4toanInsideStraight_withXHC(Card[] cards, int X) {
 
         int pos[] = { -1, -1, -1, -1 };
-        boolean flag;
 
-        flag = is4toanIS_HighCards(cards, X);
-        if (flag == false) {
-            return new int[0];
+        pos = is4toanIS_AKQJ(cards);
+        if (pos.length != 0) {
+            System.out.println("Usa: ");
+            return pos;
         }
 
-        pos = is4toanIS_generic(cards, 3);
+        // Ace High
+
+        char rank[] = { 'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2' };
+
+        pos = is4toanIS_generic(cards, X, rank);
         if (pos.length != 0) {
+            // System.out.println("Posicoes: " + Arrays.toString(pos));
+            return pos;
+        }
+
+        // Ace Low
+        rank = new char[] { 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2', 'A' };
+
+        pos = is4toanIS_generic(cards, X, rank);
+        if (pos.length != 0) {
+            // System.out.println("Posicoes: " + Arrays.toString(pos));
             return pos;
         }
 
         return new int[0];
     }
-
-    /*
-     * private int[] is4toanInsideStraight_withXHC_1(Card[] cards, int X) {
-     * 
-     * int i = 0, counter = 0, j = 0, missing_value = 0, pos_outlier = -1, nHC = 0;
-     * 
-     * // Low Ace
-     * 
-     * int orderedcards[] = orderedCards(cards, 1, cards.length);
-     * // char reference = convertInttoChar(orderedcards[0]);
-     * int reference = orderedcards[0];
-     * int pos[] = { -1, -1, -1, -1 };
-     * 
-     * // Check if there is a missing value
-     * for (i = 1; i < 5; i++) {
-     * if (orderedcards[i] == orderedcards[i - 1] + 1) {
-     * counter++;
-     * } else if (orderedcards[i] == orderedcards[i - 1] + 2) {
-     * counter++;
-     * missing_value = orderedcards[i] - 1;
-     * } else if (missing_value != 0)
-     * pos_outlier = i;
-     * }
-     * System.out.println("Cheguei aqui : " + pos_outlier + counter);
-     * 
-     * if (counter == 3)
-     * orderedcards[pos_outlier] = missing_value;
-     * counter = 0;
-     * 
-     * // Double check if replacing by the missing value it is an Inside Straight
-     * for (i = 1; i < 5; i++) {
-     * if (orderedcards[i] == orderedcards[i - 1] + 1) {
-     * counter++;
-     * }
-     * }
-     * if (counter != 4)
-     * return new int[0];
-     * 
-     * // Store positions
-     * for (i = 0; i < 5; i++) {
-     * if (cards[i].rank == convertInttoChar(reference)) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 1) == reference + 1) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 1) == reference + 2) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 1) == reference + 3) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 1) == reference + 4) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * }
-     * }
-     * if (j == 4 && nHC == X)
-     * return pos;
-     * 
-     * // High Ace
-     * i = 0;
-     * counter = 0;
-     * j = 0;
-     * missing_value = 0;
-     * pos_outlier = -1;
-     * nHC = 0;
-     * orderedcards = orderedCards(cards, 14, cards.length);
-     * reference = orderedcards[0];
-     * pos = new int[] { -1, -1, -1, -1 };
-     * 
-     * // Check if there is a missing value
-     * for (i = 1; i < 5; i++) {
-     * if (orderedcards[i] == orderedcards[i - 1] + 1) {
-     * counter++;
-     * } else if (orderedcards[i] == orderedcards[i - 1] + 2) {
-     * counter++;
-     * missing_value = orderedcards[i] - 1;
-     * } else if (missing_value != 0)
-     * pos_outlier = i;
-     * }
-     * 
-     * if (counter == 3)
-     * orderedcards[pos_outlier] = missing_value;
-     * counter = 0;
-     * 
-     * // Double check if replacing by the missing value it is an Inside Straight
-     * for (i = 1; i < 5; i++) {
-     * if (orderedcards[i] == orderedcards[i - 1] + 1) {
-     * counter++;
-     * }
-     * }
-     * if (counter != 4)
-     * return new int[0];
-     * 
-     * // Store positions
-     * for (i = 0; i < 5; i++) {
-     * if (cards[i].rank == convertInttoChar(reference)) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 14) == reference + 1) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 14) == reference + 2) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 14) == reference + 3) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * } else if (convertChartoInt(cards[i].rank, 14) == reference + 4) {
-     * if (isHighCard(cards[i]))
-     * nHC++;
-     * pos[j] = i;
-     * j++;
-     * }
-     * }
-     * if (j == 4 && nHC == X)
-     * return pos;
-     * 
-     * return new int[0];
-     * }
-     */
-
-    /*
-     * private int[] is4toanInsideStraight_withXHC(Card[] cards, int X) {
-     * 
-     * int i = 0, counter = 0, j = 0, nHC = 0;
-     * 
-     * int pos[] = { -1, -1, -1, -1 };
-     * char rank[] = { 'J', 'Q', 'K', 'A' };
-     * 
-     * System.out.println("Entreiii : " + X);
-     * pos = is4toanInsideStraight_withXHC_1(cards, X);
-     * if (pos.length != 0){
-     * System.out.println("Saiiiiiii");
-     * return pos;
-     * }
-     * 
-     * // JQKA
-     * 
-     * for (i = 0; i < 5; i++) {
-     * for (j = 0; j < rank.length; j++) {
-     * if (cards[i].rank == rank[j]) {
-     * rank[j] = '-';
-     * nHC++;
-     * pos[j] = i;
-     * counter++;
-     * }
-     * }
-     * }
-     * if (counter == 4 && nHC >= X)
-     * return pos;
-     * 
-     * // A234
-     * counter = 0;
-     * nHC = 0;
-     * pos = new int[] { -1, -1, -1, -1 };
-     * rank = new char[] { 'A', '2', '3', '4' };
-     * 
-     * for (i = 0; i < 5; i++) {
-     * for (j = 0; j < rank.length; j++) {
-     * if (cards[i].rank == rank[j]) {
-     * rank[j] = '-';
-     * nHC++;
-     * pos[j] = i;
-     * counter++;
-     * }
-     * }
-     * }
-     * if (counter == 4 && nHC >= X)
-     * return pos;
-     * 
-     * return new int[0];
-     * }
-     */
 
     private int[] isXtoaFlush_withHC(Card[] cards, int X, int nbHighCard) {
 
@@ -1672,6 +1459,7 @@ public class Strategy {
     public int[] advice(Card[] cards) {
 
         int pos[] = new int[0];
+
         /* 1 - Straight flush, four of a kind, royal flush */
         if (isRoyalFlush(cards) || isStraightFlush(cards) || is4ofaKind(cards)) {
             System.out.println("Regra: " + 1);
@@ -1834,14 +1622,14 @@ public class Strategy {
             System.out.println("Regra: " + 27);
             return pos;
         }
-        /* 28 - KQ suited */
-        pos = isXYSuited(cards, 'K', 'Q');
+        /* 28 - KQ Unsuited */
+        pos = isXYUnsuited(cards, 'K', 'Q');
         if (pos.length != 0) {
             System.out.println("Regra: " + 28.1);
             return pos;
         }
-        // KJ suited
-        pos = isXYSuited(cards, 'K', 'J');
+        // KJ Unsuited
+        pos = isXYUnsuited(cards, 'K', 'J');
         if (pos.length != 0) {
             System.out.println("Regra: " + 28.2);
             return pos;
