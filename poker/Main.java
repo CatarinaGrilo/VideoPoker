@@ -7,11 +7,11 @@ public class Main {
                 char mode = 'd'; // Stores wich mode it is to run
                 int money = 100; // Stores the inicial money of the player
 
-                if (mode == 'd') {
+                if (args[0].equals("-d")) {
 
-                        String cmds = "VideoPoker/Input/test1_cmd.txt";
-                        String deckInput = "VideoPoker/Input/test1_deck.txt";
-                        Debug game = new Debug(money, cmds, deckInput);
+                        //String cmds = "Input/test1_cmd.txt";
+                        //String deckInput = "Input/test1_deck.txt";
+                        Debug game = new Debug(Integer.parseInt(args[1]), args[2], args[3]);
 
                         // Process of accessing the commands in mode Debug
                         String aux;
@@ -71,12 +71,11 @@ public class Main {
                                         game.stats();
                                 }
                         }
-                } else if (mode == 's') {
+                } else if (args[0].equals("-s")) {
 
-                        int playerBet = 3;
                         int nbdeals = 2000;
                         int i = 0;
-                        Simulation game = new Simulation(money, playerBet, nbdeals);
+                        Simulation game = new Simulation(Integer.parseInt(args[1]), Integer.parseInt(args[2]), nbdeals = Integer.parseInt(args[3]));
 
                         while (i < nbdeals) {
                                 System.out.print("nbdeal:" + i + "\n");
@@ -88,4 +87,7 @@ public class Main {
                         game.stats();
                 }
         }
+
+        //Methods
+
 }
