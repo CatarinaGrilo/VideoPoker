@@ -424,7 +424,7 @@ public class Strategy {
             // Check rank
             if (cards[i].rank == 'T' && cards[i].suit == suit) {
                 pos[counter_rank] = i;
-                counter_rank++; 
+                counter_rank++;
             } else if (cards[i].rank == 'J' && cards[i].suit == suit) {
                 pos[counter_rank] = i;
                 counter_rank++;
@@ -451,7 +451,7 @@ public class Strategy {
         char hand = '-';
         String hand_num;
 
-        if (card < 10) {
+        if (card < 10 && card>1) {
             hand_num = Integer.toString(card);
             hand = hand_num.charAt(0);
         } else if (card == 10)
@@ -476,6 +476,7 @@ public class Strategy {
         int size = cardsSameSuit.size();
         Card[] eval = new Card[size];
         int counter_orde = 0;
+        int count_rem = 0;
         for (int i = 0; i < size; i++) {
             eval[i] = cardsSameSuit.get(0);
             cardsSameSuit.remove(0);
@@ -487,6 +488,9 @@ public class Strategy {
             } else if (orderedcards[j] == orderedcards[j + 1] - 2) {
                 counter_orde++;
             } else {
+                count_rem++;
+                if (count_rem == 2)
+                    return new int[0];
                 positions.remove(j);// Só pode acontecer uma vez por isso é okay
             }
         }
@@ -601,6 +605,7 @@ public class Strategy {
             if (missing > 1)
                 return new int[0];
         }
+
         int pos[] = new int[4];
         if (wheremissig == 0) {
 
@@ -619,7 +624,7 @@ public class Strategy {
             for (int j = 0; j < 4; j++) {
                 card = convertInttoChar(orderedcards[j]);
                 for (int i = 0; i < 5; i++) {
-                    if (card == cards[i].suit) {
+                    if (card == cards[i].rank) {
                         pos[j] = i;
                     }
                 }
@@ -795,7 +800,7 @@ public class Strategy {
                 counter_gap = counter_gap + 4;
             }
         }
-        //System.out.println(counter_gap);
+        // System.out.println(counter_gap);
         if (counter_gap == 0) {
             if (orderedcards[0] == 1 || orderedcards[0] == 2) // Low ace or 234 suited
                 flag = true;
@@ -1036,23 +1041,22 @@ public class Strategy {
 
         for (i = 0; i < rank.length; i++) {
             reference = i;
-            if (counter == 4 && nHC >= X){
-                //System.out.println("Entrei aqui 2 ? ");
+            if (counter == 4 && nHC >= X) {
+                // System.out.println("Entrei aqui 2 ? ");
                 return pos;
-            }
-            else if (counter == 4){
-                //System.out.println("Entrei aqui 3 ? ");
+            } else if (counter == 4) {
+                // System.out.println("Entrei aqui 3 ? ");
                 break;
             }
             for (j = 0; j < 5; j++) {
                 if (cards[j].rank == rank[reference]) {
                     pos[counter] = j;
                     counter = 1;
-                    //nHC = (reference < 4) ? 1 : 0;
-                    if (cards[j].rank == 'A' || cards[j].rank == 'K' || cards[j].rank == 'Q' || cards[j].rank == 'J'){
-                        //System.out.println("Card: " + rank[k] + k);
-                        nHC=1;
-                    }else{
+                    // nHC = (reference < 4) ? 1 : 0;
+                    if (cards[j].rank == 'A' || cards[j].rank == 'K' || cards[j].rank == 'Q' || cards[j].rank == 'J') {
+                        // System.out.println("Card: " + rank[k] + k);
+                        nHC = 1;
+                    } else {
                         nHC = 0;
                     }
                     for (k = reference + 1; k < reference + 5; k++) {
@@ -1064,19 +1068,19 @@ public class Strategy {
                             if (j == l) { // Not sure about this
                                 // System.out.println("Sao iguais ");
                                 continue;
-                            } else if (counter == 4){
-                                //System.out.println("Entrei aqui 1 ? ");
+                            } else if (counter == 4) {
+                                // System.out.println("Entrei aqui 1 ? ");
                                 return pos;
-                            }
-                            else if (cards[l].rank == rank[k]) {
-                                if (cards[l].rank == 'A' || cards[l].rank == 'K' || cards[l].rank == 'Q' || cards[l].rank == 'J'){
-                                    //System.out.println("Card: " + rank[k] + k);
+                            } else if (cards[l].rank == rank[k]) {
+                                if (cards[l].rank == 'A' || cards[l].rank == 'K' || cards[l].rank == 'Q'
+                                        || cards[l].rank == 'J') {
+                                    // System.out.println("Card: " + rank[k] + k);
                                     nHC++;
                                 }
                                 // System.out.println("guardei este array " + rank[k] + " positions: "+
                                 // Arrays.toString(pos) ) ;
                                 // System.out.println("Counter "+ counter + " --l " + l);
-                                //System.out.println("High cards " + nHC + "reference " + rank[k]);
+                                // System.out.println("High cards " + nHC + "reference " + rank[k]);
                                 pos[counter] = l;
                                 counter++;
                                 // System.out.println("Erro ? ");
@@ -1222,7 +1226,7 @@ public class Strategy {
     private int[] is4toAflush(Card[] cards) {
 
         int counter[] = { 0, 0, 0, 0 }; // H D S C
-        int pos[] = { -1, -1, -1, -1 }, i = 0;
+        int pos[] = { -1, -1, -1, -1 }, i = 0, j = 0;
         char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
         // Check suits
@@ -1250,8 +1254,10 @@ public class Strategy {
 
         // Store positions
         for (i = 0; i < 5; i++) {
-            if (cards[i].suit == suit)
-                pos[i] = i;
+            if (cards[i].suit == suit) {
+                pos[j] = i;
+                j++;
+            }
         }
 
         return pos;

@@ -4,65 +4,88 @@ public class Main {
 
         public static void main(String[] args) {
 
-                Debug game = new Debug(100, "VideoPoker/Input/test1_cmd.txt", "VideoPoker/Input/test1_deck.txt");
+                char mode = 'd'; // Stores wich mode it is to run
+                int money = 100; // Stores the inicial money of the player
 
-                System.out.println(game.commands.toString());
+                if (mode == 'd') {
 
-                // Process of accessing the commands in mode Debug
-                String aux;
-                int aux2;
-                int i = 0;
-                int j = 0;
-                boolean flag = true;
-                while (game.commands.size() != 0 && flag == true) {
-                        aux = game.commands.get(0);
-                        game.commands.remove(0);
+                        String cmds = "VideoPoker/Input/test1_cmd.txt";
+                        String deckInput = "VideoPoker/Input/test1_deck.txt";
+                        Debug game = new Debug(money, cmds, deckInput);
 
-                        if (aux.equals("b")) {
-                                if (game.commands.size() != 0) {
-                                        aux = game.commands.get(0);
-                                        if (Character.isDigit(aux.charAt(0))) {
-                                                game.commands.remove(0);
-                                                aux2 = Integer.parseInt(aux);
-                                                System.out.println("-cmd b" + aux2);
-                                                game.bet(aux2);
-                                        } else {
-                                                System.out.println("-cmd b");
-                                                game.bet();
+                        // Process of accessing the commands in mode Debug
+                        String aux;
+                        int aux2;
+                        int i = 0;
+                        int j = 0;
+                        boolean flag = true;
+                        while (game.commands.size() != 0 && flag == true) {
+                                aux = game.commands.get(0);
+                                game.commands.remove(0);
+
+                                if (aux.equals("b")) {
+                                        if (game.commands.size() != 0) {
+                                                aux = game.commands.get(0);
+                                                if (Character.isDigit(aux.charAt(0))) {
+                                                        game.commands.remove(0);
+                                                        aux2 = Integer.parseInt(aux);
+                                                        System.out.println("-cmd b" + aux2);
+                                                        game.bet(aux2);
+                                                } else {
+                                                        System.out.println("-cmd b");
+                                                        game.bet();
+                                                }
                                         }
+                                } else if (aux.equals("d")) {
+                                        System.out.println("-cmd d");
+                                        game.deal();
+                                } else if (aux.equals("$")) {
+                                        System.out.println("-cmd $");
+                                        game.credit();
+                                } else if (aux.equals("h")) {
+                                        String str = "-cmd h ";
+                                        while (game.commands.size() > i
+                                                        && Character.isDigit(game.commands.get(i).charAt(0))) {
+                                                i++;
+                                        }
+                                        int[] aux3 = new int[i];
+                                        while (j != i) {
+                                                aux = game.commands.get(0);
+                                                game.commands.remove(0);
+                                                aux3[j] = Integer.parseInt(aux) - 1; // -1 to be position of array from
+                                                                                     // 0 to 4
+                                                j++;
+                                                str += aux + " ";
+                                        }
+                                        System.out.println(str);
+                                        flag = game.hold(aux3);
+                                        if (flag == false)
+                                                System.out.println("No more cards available in the deck\nGame ended");
+                                        i = 0;
+                                        j = 0;
+                                } else if (aux.equals("a")) {
+                                        System.out.println("-cmd a");
+                                        game.advice();
+                                } else if (aux.equals("s")) {
+                                        System.out.println("-cmd s");
+                                        game.stats();
                                 }
-                        } else if (aux.equals("d")) {
-                                System.out.println("-cmd d");
-                                game.deal();
-                        } else if (aux.equals("$")) {
-                                System.out.println("-cmd $");
-                                game.credit();
-                        } else if (aux.equals("h")) {
-                                String str = "-cmd h ";
-                                while (game.commands.size() > i && Character.isDigit(game.commands.get(i).charAt(0))) {
-                                        i++;
-                                }
-                                int[] aux3 = new int[i];
-                                while (j != i) {
-                                        aux = game.commands.get(0);
-                                        game.commands.remove(0);
-                                        aux3[j] = Integer.parseInt(aux) - 1; // -1 to be position of array from 0 to 4
-                                        j++;
-                                        str += aux + " ";
-                                }
-                                System.out.println(str);
-                                flag = game.hold(aux3);
-                                if(flag == false)
-                                        System.out.println("No more cards available in the deck\nGame ended");
-                                i = 0;
-                                j = 0;
-                        } else if (aux.equals("a")) {
-                                System.out.println("-cmd a");
-                                game.advice();
-                        } else if (aux.equals("s")) {
-                                System.out.println("-cmd s");
-                                game.stats();
                         }
+                } else if (mode == 's') {
+
+                        int playerBet = 3;
+                        int nbdeals = 2000;
+                        int i = 0;
+                        Simulation game = new Simulation(money, playerBet, nbdeals);
+
+                        while (i < nbdeals) {
+                                System.out.print("nbdeal:" + i + "\n");
+                                game.bet();
+                                game.deal();
+                                game.hold(game.advice());
+                                i++;
+                        }
+                        game.stats();
                 }
         }
 }

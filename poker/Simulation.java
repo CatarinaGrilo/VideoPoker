@@ -101,13 +101,15 @@ public class Simulation extends Game {
                 if (card.rank != '-') {
                     player.hand.cards[n].rank = card.rank;
                     player.hand.cards[n].suit = card.suit;
-                  }else
+                } else
                     return false;
             }
+            System.out.println(player.hand.toString() + "\n");
 
         }
         String name = type.nameOfHand(player.hand.cards);
         pay(name);
+        deck.join();
         return true;
     }
 
@@ -129,11 +131,21 @@ public class Simulation extends Game {
 
     public int[] advice() {
 
+        
+        System.out.println(player.hand.toString() + "\n");
+        String out = "player should hold cards ";
         int[] pos = type.advice(player.hand.cards);
 
         if (pos.length != 0) {
             Arrays.sort(pos);
-        }
+            for (int i : pos) {
+                out += String.valueOf(i + 1) + " ";
+            }
+
+        } else
+            out = "player should not hold";
+
+        System.out.println(out + "\n");
         return pos;
     }
 

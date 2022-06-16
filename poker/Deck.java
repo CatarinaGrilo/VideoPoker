@@ -80,9 +80,10 @@ public class Deck {
 
     // join discarded cards to playable deck
     public void join() {
-        for (Card c : discarded) {
-            cards.add(c);
-            discarded.remove(c);
+        int size = discarded.size();
+        for (int i=0; i<size; i++) {
+            cards.add(discarded.get(0));
+            discarded.remove(0);
         }
 
         Collections.shuffle(cards);
