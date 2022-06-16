@@ -475,26 +475,19 @@ public class Strategy {
 
         int size = cardsSameSuit.size();
         Card[] eval = new Card[size];
-        int counter_orde = 0;
-        int count_rem = 0;
+        int counter_gap = 0;
         for (int i = 0; i < size; i++) {
             eval[i] = cardsSameSuit.get(0);
             cardsSameSuit.remove(0);
         }
         int orderedcards[] = orderedCards(eval, AceValue, eval.length);
         for (int j = 0; j < size - 1; j++) {
-            if (orderedcards[j] == orderedcards[j + 1] - 1) {
-                counter_orde++;
-            } else if (orderedcards[j] == orderedcards[j + 1] - 2) {
-                counter_orde++;
-            } else {
-                count_rem++;
-                if (count_rem == 2)
-                    return new int[0];
-                positions.remove(j);// Só pode acontecer uma vez por isso é okay
+            if (orderedcards[j] == orderedcards[j + 1] - 2) {
+                counter_gap++;
             }
         }
-        if (counter_orde == 3) {
+        System.out.println(counter_gap);
+        if (counter_gap == 0 || counter_gap == 1 ) {
             int pos[] = new int[4];
             for (int i = 0; i < 4; i++) {
                 pos[i] = positions.get(0);
@@ -552,6 +545,7 @@ public class Strategy {
             if (pos.length != 0)
                 return pos;
             else {
+                System.out.println("HERE");
                 pos = checkConsecutiveOneMissingToFive(pos_H, H2, 14);
                 if (pos.length != 0)
                     return pos;
