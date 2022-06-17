@@ -29,10 +29,12 @@ public class Debug extends Game {
       while (myReader.hasNextLine()) {
         String data = myReader.nextLine();
 
-        String[] tmp = data.split(" ");
+        String[] tmp = data.split("\\W+");
 
-        for (String s : tmp)
-          this.commands.add(s);
+        for (String s : tmp) {
+          if (!s.isEmpty())
+            this.commands.add(s);
+        }
       }
       myReader.close();
     } catch (FileNotFoundException e) {
@@ -127,7 +129,7 @@ public class Debug extends Game {
         if (card.rank != '-') {
           player.hand.cards[n].rank = card.rank;
           player.hand.cards[n].suit = card.suit;
-        }else
+        } else
           return false;
       }
 
