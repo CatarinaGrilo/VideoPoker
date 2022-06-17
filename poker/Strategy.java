@@ -258,12 +258,25 @@ public class Strategy {
         return false;
     }
 
+    private boolean is3ofaKind_bool(Card[] cards) {
+
+        char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A'};
+
+        for (int i = 0; i < rank.length; i++) {
+            if (isXofakind(cards, 3, rank[i]))
+                return true;
+        }
+
+        return false;
+    }
+
     private int[] is3ofaKind(Card[] cards) {
 
         char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K' };
         int pos[] = new int[0];
 
         for (int i = 0; i < rank.length; i++) {
+            pos = isXofaKind(cards, 3, rank[i]);
             if (pos.length != 0)
                 return pos;
         }
@@ -990,31 +1003,6 @@ public class Strategy {
         return new int[0];
     }
 
-    /*private int[] is4toanIS_AKQJ(Card[] cards) {
-
-        char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
-        char seen[] = { '-', '_', '.', ':' };
-        int pos[] = { -1, -1, -1, -1 };
-        int i = 0, j = 0, counter = 0;
-
-        // AKQJ
-        char rank[] = { 'A', 'K', 'Q', 'J' };
-        for (i = 0; i < 5; i++) {
-            for (j = 0; j < rank.length; j++) {
-                if (counter == 4) {
-                    return pos;
-                }
-                if (hand[i] == rank[j]) {
-                    hand[i] = seen[counter];
-                    pos[counter] = i;
-                    counter++;
-                }
-            }
-        }
-
-        return new int[0];
-    }*/
-
     private int[] is4toanIS_generic(Card[] cards, int X, char[] rank) {
 
         int pos[] = { -1, -1, -1, -1 };
@@ -1415,8 +1403,7 @@ public class Strategy {
         if (isStraight(cards))
             return "Straight";
 
-        pos = is3ofaKind(cards);
-        if (pos.length != 0)
+        if (is3ofaKind_bool(cards))
             return "Three of a Kind";
 
         pos = is2pair(cards);
