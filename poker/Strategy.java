@@ -442,7 +442,7 @@ public class Strategy {
         char hand = '-';
         String hand_num;
 
-        if (card < 10 && card>1) {
+        if (card < 10 && card > 1) {
             hand_num = Integer.toString(card);
             hand = hand_num.charAt(0);
         } else if (card == 10)
@@ -477,7 +477,7 @@ public class Strategy {
                 counter_gap++;
             }
         }
-        if (counter_gap == 0 || counter_gap == 1 ) {
+        if (counter_gap == 0 || counter_gap == 1) {
             int pos[] = new int[4];
             for (int i = 0; i < 4; i++) {
                 pos[i] = positions.get(0);
@@ -1024,48 +1024,33 @@ public class Strategy {
         for (i = 0; i < rank.length; i++) {
             reference = i;
             if (counter == 4 && nHC >= X) {
-                // System.out.println("Entrei aqui 2 ? ");
                 return pos;
             } else if (counter == 4) {
-                // System.out.println("Entrei aqui 3 ? ");
                 break;
             }
             for (j = 0; j < 5; j++) {
                 if (cards[j].rank == rank[reference]) {
-                    pos[counter] = j;
-                    counter = 1;
-                    // nHC = (reference < 4) ? 1 : 0;
-                    if (cards[j].rank == 'A' || cards[j].rank == 'K' || cards[j].rank == 'Q' || cards[j].rank == 'J') {
-                        // System.out.println("Card: " + rank[k] + k);
+                    counter = 0;
+                    pos[counter++] = j;
+                    if (isHighCard(cards[j])) {
                         nHC = 1;
-                    } else {
+                    } else
                         nHC = 0;
-                    }
                     for (k = reference + 1; k < reference + 5; k++) {
                         if (k >= rank.length) {
-                            // System.out.println("Erro ? ,k: "+ k + "reference" + rank[reference]);
                             break;
                         }
                         for (l = 0; l < 5; l++) {
-                            if (j == l) { // Not sure about this
-                                // System.out.println("Sao iguais ");
+                            if (j == l) {
                                 continue;
                             } else if (counter == 4) {
-                                // System.out.println("Entrei aqui 1 ? ");
                                 return pos;
                             } else if (cards[l].rank == rank[k]) {
-                                if (cards[l].rank == 'A' || cards[l].rank == 'K' || cards[l].rank == 'Q'
-                                        || cards[l].rank == 'J') {
-                                    // System.out.println("Card: " + rank[k] + k);
+                                if (isHighCard(cards[l])) {
                                     nHC++;
                                 }
-                                // System.out.println("guardei este array " + rank[k] + " positions: "+
-                                // Arrays.toString(pos) ) ;
-                                // System.out.println("Counter "+ counter + " --l " + l);
-                                // System.out.println("High cards " + nHC + "reference " + rank[k]);
                                 pos[counter] = l;
                                 counter++;
-                                // System.out.println("Erro ? ");
                                 break;
                             }
 
