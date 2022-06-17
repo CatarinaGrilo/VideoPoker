@@ -1,28 +1,47 @@
 package poker;
 
 public class Player {
-    //Attributes
-    Hand hand;
-    int money;
+	// Attributes
+	Hand hand;
+	int money;
 
-    //Constructor
-    public Player(int m) {
-        hand = new Hand();
-        money = m;
-    }
+	/**
+	 * Constructor of Player
+	 * 
+	 * @param m money of the player
+	 */
+	public Player(int m) {
+		hand = new Hand();
+		money = m;
+	}
 
-    //Methods
+	// Methods
 
-    public int credit(){ //To give the crdit of the player at the moment, its needed for the game
-        return money;
-    }
+	/**
+	 * This method give the current money of the player
+	 * 
+	 * @return int, money
+	 */
+	public int credit() {
+		return money;
+	}
 
-    public void bet(int betted){
-        money-=betted;
-    }
+	/**
+	 * This method subtracts the bet made from the players money
+	 * 
+	 * @param betted, bet made 
+	 */
+	public void bet(int betted) {
+		money -= betted;
+	}
 
-    public void prize(int payoff){
-        money+=payoff;
-    }
-    
+	/**
+	 * This method adds the prize of a hand to the players money
+	 * 
+	 * @param payoff, payoff of a hand 
+	 */
+	public void prize(int payoff) {
+		money += payoff;
+	}
+
 }

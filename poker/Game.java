@@ -6,8 +6,7 @@ import java.util.Map.Entry;
 
 /**
  * Represents a generic game of Poker. Abstract class referring the various
- * methods
- * that can be implemented by the classes that extend this one.
+ * methods that can be done during the game.
  * 
  * @author Ana Catarina Grilo, Maragrida Fernandes, Mónica Gomez
  *
@@ -21,6 +20,8 @@ public abstract class Game {
 	protected HashMap<String, Integer> stats = createstats();
 
 	/**
+	 * Constructor of Game
+	 * 
 	 * @param money money of the player
 	 */
 	public Game(int money) {
@@ -68,7 +69,7 @@ public abstract class Game {
 	/**
 	 * Creates stats board
 	 * 
-	 * @return HashMap stats that contains the stats of this variant
+	 * @return HashMap stats that contains the stats of the game
 	 */
 	private static HashMap<String, Integer> createstats() {
 		HashMap<String, Integer> stats = new HashMap<String, Integer>();
