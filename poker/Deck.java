@@ -18,6 +18,7 @@ public class Deck {
 
         cards = new ArrayList<Card>();
         discarded = new ArrayList<Card>();
+
         try {
             File myFile = new File(filename);
             Scanner myReader = new Scanner(myFile);
@@ -26,13 +27,24 @@ public class Deck {
 
                 String[] tmp = data.split("\\W+"); // Split space
 
-                for (String s : tmp)
-                    cards.add(new Card(s.charAt(0), s.charAt(1)));
+                for (String s : tmp){
+                    Card newCard = new Card(s.charAt(0), s.charAt(1));
+
+                    //if card is valid, add to deck
+                    if(newCard.checkCard()) cards.add(newCard);
+                    else System.out.println("Card " + newCard.toString() + "was removed because it was invalid.\n");
+                }
+                    
             }
             myReader.close();
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
+        }
+
+        if(cards.size() < 5){
+            System.out.println("Game will terminate due to lack of cards in deck.\n");
+            System.exit(-1);
         }
     }
 
