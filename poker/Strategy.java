@@ -9,7 +9,7 @@ public class Strategy {
 
     }
 
-    public int[] orderedCards(Card[] cards, int aceValue, int size) {
+    private int[] orderedCards(Card[] cards, int aceValue, int size) {
 
         int hand[] = new int[size];
 
@@ -35,7 +35,7 @@ public class Strategy {
         return hand;
     }
 
-    public boolean allSameSuit(Card[] cards) {
+    private boolean allSameSuit(Card[] cards) {
         int j = 1;
         for (int i = 1; i < 5; i++) {
             if (cards[0].suit == cards[i].suit) {
@@ -48,7 +48,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isHighCard(Card card) {
+    private boolean isHighCard(Card card) {
 
         char highcards[] = { 'J', 'Q', 'K', 'A' };
 
@@ -59,7 +59,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean checkifConsecutive(Card[] cards) {
+    private boolean checkifConsecutive(Card[] cards) {
 
         int counter = 1;
 
@@ -90,7 +90,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isXofakind(Card[] cards, int X, char kind) {
+    private boolean isXofakind(Card[] cards, int X, char kind) {
 
         int counter = 0;
 
@@ -105,7 +105,7 @@ public class Strategy {
         return false;
     }
 
-    public int[] isXofaKind(Card[] cards, int X, char kind) {
+    private int[] isXofaKind(Card[] cards, int X, char kind) {
 
         int counter = 0, pos[] = new int[X];
 
@@ -125,7 +125,7 @@ public class Strategy {
 
     /* Functions that determine the name of the hand */
 
-    public boolean isRoyalFlush(Card[] cards) {
+    private boolean isRoyalFlush(Card[] cards) {
 
         int i = 0, counter = 0, counter_T = 0, counter_J = 0, counter_Q = 0, counter_K = 0, counter_A = 0;
 
@@ -151,7 +151,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isStraightFlush(Card[] cards) {
+    private boolean isStraightFlush(Card[] cards) {
 
         // Check if cards are the same suit
         if (allSameSuit(cards)) {
@@ -161,7 +161,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isFourAces(Card[] cards) {
+    private boolean isFourAces(Card[] cards) {
 
         if (isXofakind(cards, 4, 'A'))
             return true;
@@ -169,7 +169,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isFour2_4s(Card[] cards) {
+    private boolean isFour2_4s(Card[] cards) {
 
         if (isXofakind(cards, 4, '2'))
             return true;
@@ -181,7 +181,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isFour5_Ks(Card[] cards) {
+    private boolean isFour5_Ks(Card[] cards) {
 
         if (isXofakind(cards, 4, '5'))
             return true;
@@ -205,7 +205,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean is4ofaKind(Card[] cards) {
+    private boolean is4ofaKind(Card[] cards) {
 
         char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
 
@@ -218,7 +218,7 @@ public class Strategy {
 
     }
 
-    public boolean isFullHouse(Card[] cards) {
+    private boolean isFullHouse(Card[] cards) {
 
         char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
         int counter_3 = 0, counter_2 = 0;
@@ -242,7 +242,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isFlush(Card[] cards) {
+    private boolean isFlush(Card[] cards) {
 
         if (allSameSuit(cards))
             return true;
@@ -250,7 +250,7 @@ public class Strategy {
         return false;
     }
 
-    public boolean isStraight(Card[] cards) {
+    private boolean isStraight(Card[] cards) {
 
         if (checkifConsecutive(cards))
             return true;
@@ -312,7 +312,7 @@ public class Strategy {
         return new int[0];
     }
 
-    public boolean isJacksorBetter(Card[] cards) {
+    private boolean isJacksorBetter(Card[] cards) {
 
         if (isXofakind(cards, 2, 'J'))
             return true;
