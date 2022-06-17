@@ -339,9 +339,6 @@ public class Strategy {
                 counter[3]++;
         }
 
-        // System.out.println("CheckCounters: " + counter[0] + counter[1] + counter[2] +
-        // counter[3]);
-
         // Check if at least 4 cards have same suit
         if (!(counter[0] >= 4 || counter[1] >= 4 || counter[2] >= 4 || counter[3] >= 4))
             return new int[0];
@@ -352,11 +349,8 @@ public class Strategy {
             }
         }
 
-        // System.out.println("whatsuit is : " + suit);
-
         for (int i = 0; i < 5; i++) {
             if (counter_rank == 4) {
-                // System.out.println("4 to flush is : " + pos);
                 return pos;
             }
             // Check rank
@@ -376,9 +370,6 @@ public class Strategy {
                 pos[counter_rank] = i;
                 counter_rank++;
             }
-
-            // System.out.println("Actual value of : " + Arrays.toString(pos) + "counter is"
-            // + counter_rank);
         }
 
         if (counter_rank == 4) {
@@ -486,7 +477,6 @@ public class Strategy {
                 counter_gap++;
             }
         }
-        System.out.println(counter_gap);
         if (counter_gap == 0 || counter_gap == 1 ) {
             int pos[] = new int[4];
             for (int i = 0; i < 4; i++) {
@@ -545,7 +535,6 @@ public class Strategy {
             if (pos.length != 0)
                 return pos;
             else {
-                System.out.println("HERE");
                 pos = checkConsecutiveOneMissingToFive(pos_H, H2, 14);
                 if (pos.length != 0)
                     return pos;
@@ -794,7 +783,6 @@ public class Strategy {
                 counter_gap = counter_gap + 4;
             }
         }
-        // System.out.println(counter_gap);
         if (counter_gap == 0) {
             if (orderedcards[0] == 1 || orderedcards[0] == 2) // Low ace or 234 suited
                 flag = true;
@@ -1096,7 +1084,6 @@ public class Strategy {
 
         pos = is4toanIS_AKQJ(cards);
         if (pos.length != 0) {
-            System.out.println("Usa: ");
             return pos;
         }
 
@@ -1106,7 +1093,6 @@ public class Strategy {
 
         pos = is4toanIS_generic(cards, X, rank);
         if (pos.length != 0) {
-            // System.out.println("Posicoes: " + Arrays.toString(pos));
             return pos;
         }
 
@@ -1115,7 +1101,6 @@ public class Strategy {
 
         pos = is4toanIS_generic(cards, X, rank);
         if (pos.length != 0) {
-            // System.out.println("Posicoes: " + Arrays.toString(pos));
             return pos;
         }
 

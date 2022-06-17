@@ -60,7 +60,7 @@ public abstract class Game {
 		out += "--------------------------\n";
 		out += "Total\t\t\t" + total + "\n";
 		out += "--------------------------\n";
-		out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)";
+		out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)\n";
 
 		System.out.println(out);
 	}

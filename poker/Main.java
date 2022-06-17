@@ -4,13 +4,13 @@ public class Main {
 
         public static void main(String[] args) {
 
-                char mode = 'd'; // Stores wich mode it is to run
-                int money = 100; // Stores the inicial money of the player
+                // char mode = 's'; // Stores wich mode it is to run
+                // int money = 10; // Stores the inicial money of the player
 
                 if (args[0].equals("-d")) {
 
-                        //String cmds = "Input/test1_cmd.txt";
-                        //String deckInput = "Input/test1_deck.txt";
+                        // String cmds = "VideoPoker/Input/test1_cmd.txt";
+                        // String deckInput = "VideoPoker/Input/test1_deck.txt";
                         Debug game = new Debug(Integer.parseInt(args[1]), args[2], args[3]);
 
                         // Process of accessing the commands in mode Debug
@@ -29,7 +29,7 @@ public class Main {
                                                 if (Character.isDigit(aux.charAt(0))) {
                                                         game.commands.remove(0);
                                                         aux2 = Integer.parseInt(aux);
-                                                        System.out.println("-cmd b" + aux2);
+                                                        System.out.println("-cmd b " + aux2);
                                                         game.bet(aux2);
                                                 } else {
                                                         System.out.println("-cmd b");
@@ -69,25 +69,30 @@ public class Main {
                                 } else if (aux.equals("s")) {
                                         System.out.println("-cmd s");
                                         game.stats();
-                                }
+                                } else
+                                        System.out.println("command -" + aux + " not recognized\n");
                         }
                 } else if (args[0].equals("-s")) {
 
-                        int nbdeals = 2000;
+                        // int playerBet = 3;
+                        int nbdeals = 10;
                         int i = 0;
-                        Simulation game = new Simulation(Integer.parseInt(args[1]), Integer.parseInt(args[2]), nbdeals = Integer.parseInt(args[3]));
+                        boolean flag = true;
+                        Simulation game = new Simulation(Integer.parseInt(args[1]), Integer.parseInt(args[2]),
+                                        nbdeals = Integer.parseInt(args[3]));
 
-                        while (i < nbdeals) {
+                        while (i < nbdeals && flag == true) {
                                 System.out.print("nbdeal:" + i + "\n");
-                                game.bet();
-                                game.deal();
-                                game.hold(game.advice());
-                                i++;
+                                flag = game.bet();
+                                if (flag == false)
+                                        System.out.println("Player does not have enough credit, game ended\n");
+                                else {
+                                        game.deal();
+                                        game.hold(game.advice());
+                                        i++;
+                                }
                         }
                         game.stats();
                 }
         }
-
-        //Methods
-
 }

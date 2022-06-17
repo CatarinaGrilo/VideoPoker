@@ -20,7 +20,6 @@ public class Simulation extends Game {
         this.bet = bet;
         this.nbdeals = nbdeals;
         this.deck = new Deck();
-        sumOfBets = bet * nbdeals;
     }
 
     /**
@@ -44,10 +43,10 @@ public class Simulation extends Game {
      */
     public boolean bet() {
         if (this.bet > player.credit()) { // The class player is the one that has the credit!
-            System.out.println("b: illegal bet, the player does not have enough credit\n" + "End of Game\n");
             return false;
         }
         player.bet(this.bet); // Calls a method from the class player to subtratct the bet from the credit
+        sumOfBets += bet;
         return true;
     }
 
@@ -98,11 +97,8 @@ public class Simulation extends Game {
             // Eliminates and replaces the discarded cards from the hand
             for (int n : ToDiscard) {
                 card = deck.dealCard();
-                if (card.rank != '-') {
-                    player.hand.cards[n].rank = card.rank;
-                    player.hand.cards[n].suit = card.suit;
-                } else
-                    return false;
+                player.hand.cards[n].rank = card.rank;
+                player.hand.cards[n].suit = card.suit;
             }
             System.out.println(player.hand.toString() + "\n");
 
@@ -131,7 +127,6 @@ public class Simulation extends Game {
 
     public int[] advice() {
 
-        
         System.out.println(player.hand.toString() + "\n");
         String out = "player should hold cards ";
         int[] pos = type.advice(player.hand.cards);

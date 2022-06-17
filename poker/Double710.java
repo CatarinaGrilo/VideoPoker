@@ -36,7 +36,7 @@ public class Double710 implements GameType {
      * @return int payoff for the given hand according to the bet made
      */
     public int valueOfHand(String hand, int bet) {
-        return payoff.get(hand)[bet - 1];
+        return payoff.get(hand)[bet - 1]; //bet-1 to be index
 
     }
 
