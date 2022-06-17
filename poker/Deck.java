@@ -28,13 +28,14 @@ public class Deck {
                 String[] tmp = data.split("\\W+"); // Split space
 
                 for (String s : tmp){
-                    Card newCard = new Card(s.charAt(0), s.charAt(1));
+                    if(!s.isEmpty()){
+                        Card newCard = new Card(s.charAt(0), s.charAt(1));
 
-                    //if card is valid, add to deck
-                    if(newCard.checkCard()) cards.add(newCard);
-                    else System.out.println("Card " + newCard.toString() + "was removed because it was invalid.\n");
-                }
-                    
+                        //if card is valid, add to deck
+                        if(newCard.checkCard()) cards.add(newCard);
+                        else System.out.println("Card " + newCard.toString() + "was removed because it was invalid.\n");
+                    }
+                }    
             }
             myReader.close();
         } catch (FileNotFoundException e) {
