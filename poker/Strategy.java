@@ -990,7 +990,7 @@ public class Strategy {
         return new int[0];
     }
 
-    private int[] is4toanIS_AKQJ(Card[] cards) {
+    /*private int[] is4toanIS_AKQJ(Card[] cards) {
 
         char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
         char seen[] = { '-', '_', '.', ':' };
@@ -1013,7 +1013,7 @@ public class Strategy {
         }
 
         return new int[0];
-    }
+    }*/
 
     private int[] is4toanIS_generic(Card[] cards, int X, char[] rank) {
 
@@ -1023,37 +1023,39 @@ public class Strategy {
 
         for (i = 0; i < rank.length; i++) {
             reference = i;
-            if (counter == 4 && nHC >= X) {
+            if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
                 return pos;
-            } else if (counter == 4) {
+            else if (counter == 4) // Is not a 4 to Inside Straight
                 break;
-            }
             for (j = 0; j < 5; j++) {
                 if (cards[j].rank == rank[reference]) {
+                    // Store reference and restart counter
                     counter = 0;
                     pos[counter++] = j;
-                    if (isHighCard(cards[j])) {
+                    // Check if it's a High Card;
+                    if (isHighCard(cards[j]))
                         nHC = 1;
-                    } else
+                    else
                         nHC = 0;
                     for (k = reference + 1; k < reference + 5; k++) {
-                        if (k >= rank.length) {
+                        if (k >= rank.length) // Check if character for checking is valid
                             break;
-                        }
                         for (l = 0; l < 5; l++) {
-                            if (j == l) {
+                            if (j == l)  // Position can't be the same as the reference
                                 continue;
-                            } else if (counter == 4) {
+                            else if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
                                 return pos;
-                            } else if (cards[l].rank == rank[k]) {
-                                if (isHighCard(cards[l])) {
+                            else if (counter == 4)
+                                break;
+                            // Check if card is part of the 4 to Inside Straight
+                            else if (cards[l].rank == rank[k]) {
+                                // Check if it's a High Card;
+                                if (isHighCard(cards[l]))
                                     nHC++;
-                                }
                                 pos[counter] = l;
                                 counter++;
                                 break;
                             }
-
                         }
                     }
                 }
@@ -1067,10 +1069,11 @@ public class Strategy {
 
         int pos[] = { -1, -1, -1, -1 };
 
+        /*
         pos = is4toanIS_AKQJ(cards);
         if (pos.length != 0) {
             return pos;
-        }
+        }*/
 
         // Ace High
 
@@ -1425,6 +1428,14 @@ public class Strategy {
 
         return "Other";
     }
+
+    /**
+     * Gets the hand combination
+     * 
+     * @param cards Hand of the player
+     * @return Array with the positions of the cards the player should hold, according to the perfect strategy
+     */
+
 
     public int[] advice(Card[] cards) {
 
