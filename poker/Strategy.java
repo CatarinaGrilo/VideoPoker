@@ -350,7 +350,7 @@ public class Strategy {
 	private int[] isXtoRoyalFlush(Card[] cards, int X) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
-		int pos[] = { -1, -1, -1 };
+		int pos[] = new int[X];
 		int counter_rank = 0;
 		char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
 
