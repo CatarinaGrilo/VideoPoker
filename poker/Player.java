@@ -1,5 +1,11 @@
 package poker;
 
+/**
+ * ..
+ * 
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
+ *
+ */
 public class Player {
 	// Attributes
 	Hand hand;
@@ -9,9 +15,10 @@ public class Player {
 	 * Constructor of Player
 	 * 
 	 * @param m money of the player
+	 * @param handSize size of the hand
 	 */
-	public Player(int m) {
-		hand = new Hand();
+	public Player(int m, int handSize) {
+		hand = new Hand(handSize);
 		money = m;
 	}
 

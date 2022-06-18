@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 /**
  * Debug mode, the game is played according to given commands from a file
  * 
- * @author Ana Catarina Grilo, Maragrida Fernandes, Mónica Gomez
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
  *
  */
 public class Debug extends Game {
@@ -36,7 +36,7 @@ public class Debug extends Game {
 			while (myReader.hasNextLine()) {
 				String data = myReader.nextLine();
 
-				String[] tmp = data.split("\\W+");
+				String[] tmp = data.split("[ \t\n]");
 
 				for (String s : tmp) {
 					if (!s.isEmpty())
@@ -100,12 +100,17 @@ public class Debug extends Game {
 	public void deal() {
 		Card[] cards = new Card[5];
 
-		for (int i = 0; i < 5; i++) {
-			cards[i] = deck.dealCard();
-			player.hand.cards[i].rank = cards[i].rank;
-			player.hand.cards[i].suit = cards[i].suit;
+		if (deck.cards.size() >= 5) {
+			for (int i = 0; i < 5; i++) {
+				cards[i] = deck.dealCard();
+				player.hand.cards[i].rank = cards[i].rank;
+				player.hand.cards[i].suit = cards[i].suit;
+			}
+			System.out.println(player.hand.toString() + "\n");
+		}else{
+			System.out.println("Game will terminate, not enough cards in deck\n");
+			System.exit(-1);
 		}
-		System.out.println(player.hand.toString() + "\n");
 	}
 
 	/**

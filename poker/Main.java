@@ -17,6 +17,7 @@ public class Main {
 			while (game.commands.size() != 0 && flag == true) {
 				aux = game.commands.get(0);
 				game.commands.remove(0);
+				System.out.println(aux);
 
 				if (aux.equals("b")) {
 					if (game.commands.size() != 0) {
@@ -76,7 +77,7 @@ public class Main {
 			while (i < game.nbdeals && flag == true) {
 				flag = game.bet();
 				if (flag == false)
-					System.out.println("Player does not have enough credit, game ended\n");
+					System.out.println("Round " + game.nbdeals +  ". Player does not have enough credit, game ended\n");
 				else {
 					game.deal();
 					game.hold(game.advice());
