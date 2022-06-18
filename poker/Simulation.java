@@ -6,7 +6,7 @@ import java.util.Arrays;
  * Simulation mode, the game is played automatically following
  * the strategy in order to obtain long term statistics
  * 
- * @author Ana Catarina Grilo, Maragrida Fernandes, Mónica Gomez
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
  *
  */
 public class Simulation extends Game {

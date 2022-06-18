@@ -1,33 +1,33 @@
 package poker;
 
+/**
+ * ..
+ * 
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
+ *
+ */
 public class Hand {
-    //Attributes
-    Card[] cards = new Card[5];
+	// Attributes
+	Card[] cards;
 
-    //Constructor
-    public Hand() {
-        
-        for (int i = 0; i < 5; i++){
-            cards[i] = new Card('-', '-');
-        }
-    }
+	// Constructor
+	public Hand(int size) {
+		
+		cards = new Card[size];
+		
+		for (int i = 0; i < size; i++) {
+			cards[i] = new Card('-', '-');
+		}
+	}
 
-    //Methods
-    public int getFirstEmpty() {
-        for (int i = 0; i < 5; i++) {
-            if(cards[i].rank == '-') return i;
-        }
-        return -1;
-    }
+	@Override
+	public String toString() {
+		String str_builder = "player's hand ";
 
-    @Override
-    public String toString() {
-        String str_builder = "player's hand ";
+		for (Card c : cards) {
+			str_builder += c.toString() + " ";
+		}
 
-        for(Card c : cards) {
-            str_builder += c.toString() + " ";
-        }
-
-        return str_builder;
-    }
+		return str_builder;
+	}
 }

@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Collections;
 
+/**
+ * ...
+ * 
+ * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
+ *
+ */
 public class Deck {
     // Attributes
     ArrayList<Card> cards;
@@ -18,6 +24,7 @@ public class Deck {
 
         cards = new ArrayList<Card>();
         discarded = new ArrayList<Card>();
+        String upperS;
 
         try {
             File myFile = new File(filename);
@@ -25,17 +32,21 @@ public class Deck {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
 
-                String[] tmp = data.split("\\W+"); // Split space
+                String[] tmp = data.split("[ \t\n]"); // Split space
 
-                for (String s : tmp){
-                    if(!s.isEmpty()){
-                        Card newCard = new Card(s.charAt(0), s.charAt(1));
+                for (String s : tmp) {
+                    if (!s.isEmpty() && s.length() < 3) {
 
-                        //if card is valid, add to deck
-                        if(newCard.checkCard()) cards.add(newCard);
-                        else System.out.println("Card " + newCard.toString() + "was removed because it was invalid.\n");
+                        upperS = s.toUpperCase();
+                        Card newCard = new Card(upperS.charAt(0), upperS.charAt(1));
+
+                        // if card is valid, add to deck
+                        if (newCard.checkCard())
+                            cards.add(newCard);
+                        else
+                            System.out.println("Card " + newCard.toString() + "was removed because it was invalid.\n");
                     }
-                }    
+                }
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -43,7 +54,7 @@ public class Deck {
             e.printStackTrace();
         }
 
-        if(cards.size() < 5){
+        if (cards.size() < 5) {
             System.out.println("Game will terminate due to lack of cards in deck.\n");
             System.exit(-1);
         }
@@ -94,7 +105,7 @@ public class Deck {
     // join discarded cards to playable deck
     public void join() {
         int size = discarded.size();
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < size; i++) {
             cards.add(discarded.get(0));
             discarded.remove(0);
         }
