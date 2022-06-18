@@ -338,79 +338,16 @@ public class Strategy {
 		return false;
 	}
 
-	/* Functions for strategy */
-
-	/************************************************************************************** */
-
-	private int[] is4toRoyalFlush(Card[] cards) {
-
-		int counter[] = { 0, 0, 0, 0 }; // H D S C
-		int pos[] = { -1, -1, -1, -1 };
-		int counter_rank = 0;
-		char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
-
-		for (int i = 0; i < 5; i++) {
-			// Check suits
-			if (cards[i].suit == 'H')
-				counter[0]++;
-			else if (cards[i].suit == 'D')
-				counter[1]++;
-			else if (cards[i].suit == 'S')
-				counter[2]++;
-			else if (cards[i].suit == 'C')
-				counter[3]++;
-		}
-
-		// Check if at least 4 cards have same suit
-		if (!(counter[0] >= 4 || counter[1] >= 4 || counter[2] >= 4 || counter[3] >= 4))
-			return new int[0];
-		else {
-			for (int i = 0; i < 4; i++) {
-				if (counter[i] >= 4)
-					suit = suits[i];
-			}
-		}
-
-		for (int i = 0; i < 5; i++) {
-			if (counter_rank == 4) {
-				return pos;
-			}
-			// Check rank
-			if (cards[i].rank == 'T' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			}
-		}
-
-		if (counter_rank == 4) {
-			return pos;
-		}
-
-		return new int[0];
-	}
-
-
 	/**
-	 * Checks if there is a 3 to a Royal Flush in the player's hand
+	 * Checks if there is a X to a Royal Flush in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @return Positions of the cards that are 3 to a Royal Flush if they exist in the hand
+	 * @param X Number of X cards to a Royal Flush
+	 * @return Positions of the cards that are X to a Royal Flush if they exist in the hand
 	 * 
 	 */
 
-	private int[] is3toRoyalFlush(Card[] cards) {
+	private int[] isXtoRoyalFlush(Card[] cards, int X) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
 		int pos[] = { -1, -1, -1 };
@@ -429,19 +366,19 @@ public class Strategy {
 				counter[3]++;
 		}
 
-		// Check if at least 3 cards have same suit
-		if (!(counter[0] >= 3 || counter[1] >= 3 || counter[2] >= 3 || counter[3] >= 3))
+		// Check if at least X cards have same suit
+		if (!(counter[0] >= X || counter[1] >= X || counter[2] >= X || counter[3] >= X))
 			return new int[0];
 		else {
-			for (int i = 0; i < 4; i++) {
+			for (int i = 0; i < 4 ; i++) {
 				// Check what suit is repeated
-				if (counter[i] >= 3)
+				if (counter[i] >= X)
 					suit = suits[i];
 			}
 		}
 
-		for (int i = 0; i < 5; i++) {
-			if (counter_rank == 3) {
+		for (int i = 0; i < 5; i++) { // Loop in cards
+			if (counter_rank == X) {
 				return pos;
 			}
 			// Check rank and check if cards are correct suit
@@ -463,8 +400,8 @@ public class Strategy {
 			}
 		}
 
-		// Check if there are 3 cards to a royal flush
-		if (counter_rank == 3)
+		// Check if there are X cards to a royal flush
+		if (counter_rank == X)
 			return pos;
 
 		return new int[0];
@@ -1529,7 +1466,7 @@ public class Strategy {
 			return new int[] { 0, 1, 2, 3, 4 };
 		}
 		/* 2 - 4 to a Royal Flush */
-		pos = is4toRoyalFlush(cards);
+		pos = isXtoRoyalFlush(cards, 4);
 		if (pos.length != 0) {
 			return pos;
 		}
@@ -1568,7 +1505,7 @@ public class Strategy {
 			return pos;
 		}
 		/* 10 - 3 to a Royal Flush */
-		pos = is3toRoyalFlush(cards);
+		pos = isXtoRoyalFlush(cards, 3);
 		if (pos.length != 0) {
 			return pos;
 		}
