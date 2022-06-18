@@ -342,8 +342,9 @@ public class Strategy {
 	 * Checks if there is a X to a Royal Flush in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X Number of X cards to a Royal Flush
-	 * @return Positions of the cards that are X to a Royal Flush if they exist in the hand
+	 * @param X     Number of X cards to a Royal Flush
+	 * @return Positions of the cards that are X to a Royal Flush if they exist in
+	 *         the hand
 	 * 
 	 */
 
@@ -370,7 +371,7 @@ public class Strategy {
 		if (!(counter[0] >= X || counter[1] >= X || counter[2] >= X || counter[3] >= X))
 			return new int[0];
 		else {
-			for (int i = 0; i < 4 ; i++) {
+			for (int i = 0; i < 4; i++) {
 				// Check what suit is repeated
 				if (counter[i] >= X)
 					suit = suits[i];
@@ -431,6 +432,16 @@ public class Strategy {
 		return hand;
 	}
 
+	/**
+	 * Checks if a given set of cards are consecutive or if it only is missing one
+	 * card to be consecutive set
+	 * 
+	 * @param positions     indexs of the give set of cards
+	 * @param cardsSameSuit set of cards to be analysed
+	 * @param AceValue      value of the Ace card, (1) Low or (14) High
+	 * @return Positions of the cards that are consecutive if they exist
+	 * 
+	 */
 	private int[] checkConsecutiveOneMissingToFive(ArrayList<Integer> positions, ArrayList<Card> cardsSameSuit,
 			int AceValue) {
 
@@ -458,6 +469,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given hand is 4 to a straight flush
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 4 to a straight flush if they exist
+	 *         in the hand
+	 * 
+	 */
 	private int[] is4toStraightFlush(Card[] cards) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
@@ -544,6 +563,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given hand is 4 to an outside straight
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 4 to an ouside straight if they exist
+	 *         in the hand
+	 * 
+	 */
 	private int[] is4toOutsideStraight(Card[] cards) {
 
 		int orderedcards[] = orderedCards(cards, 1, cards.length);// value of ace does not matter
@@ -588,6 +615,17 @@ public class Strategy {
 			return new int[0];
 	}
 
+	/**
+	 * Checks if a given set of cards are almost consecutive counting the gaps to be
+	 * and also counting the number of high cards in that given set, the number
+	 * of high cards needs to be bigger or equal to the number of gaps
+	 * 
+	 * @param positions     indexs of the give set of cards
+	 * @param cardsSameSuit set of cards to be analysed
+	 * @param AceValue      value of the Ace card, (1) Low or (14) High
+	 * @return Positions of the cards that are almost consecutive if they exist in the set
+	 * 
+	 */
 	private int[] checkGapHighCard(ArrayList<Integer> positions, ArrayList<Card> cardsSameSuit,
 			int AceValue) {
 
@@ -635,6 +673,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given hand is 3 to a straight flush (Type 1)
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 3 to a straight flush (Type 1) if
+	 *         they exist in the hand
+	 * 
+	 */
 	private int[] is3toStraightFlush1(Card[] cards) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
@@ -722,6 +768,16 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given set of cards are almost consecutive, checking if it has one
+	 * gap or two gaps and one high cards or any ace-low or 234 suited
+	 * 
+	 * @param positions     indexs of the give set of cards
+	 * @param cardsSameSuit set of cards to be analysed
+	 * @param AceValue      value of the Ace card, (1) Low or (14) High
+	 * @return Positions of the cards that are almost consecutive if they exist in the hand
+	 * 
+	 */
 	private int[] checkGap(ArrayList<Integer> positions, ArrayList<Card> cardsSameSuit,
 			int AceValue) {
 
@@ -749,7 +805,7 @@ public class Strategy {
 				counter_gap = counter_gap + 2;
 			} else if (orderedcards[j] == orderedcards[j + 1] - 4) { // 3 gaps-> max of gaps that can appear
 				counter_gap = counter_gap + 3;
-			} else if (orderedcards[j] < orderedcards[j + 1] - 4) { // 3 gaps-> max of gaps that can appear
+			} else if (orderedcards[j] < orderedcards[j + 1] - 4) { // more that 3 gaps
 				counter_gap = counter_gap + 4;
 			}
 		}
@@ -777,6 +833,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given hand is 3 to a straight flush (Type 2)
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 3 to a straight flush (Type 2) if
+	 *         they exist in the hand
+	 * 
+	 */
 	private int[] is3toStraightFlush2(Card[] cards) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
@@ -863,6 +927,16 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given set of cards are almost consecutive, checking if it has two
+	 * gaps and no high cards.
+	 * 
+	 * @param positions     indexs of the give set of cards
+	 * @param cardsSameSuit set of cards to be analysed
+	 * @param AceValue      value of the Ace card, (1) Low or (14) High
+	 * @return Positions of the cards that are almost consecutive if they exist in the hand
+	 * 
+	 */
 	private int[] check2GapNoHighCars(ArrayList<Integer> positions, ArrayList<Card> cardsSameSuit,
 			int AceValue) {
 
@@ -902,6 +976,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if a given hand is 3 to a straight flush (Type 3)
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 3 to a straight flush (Type 3) if
+	 *         they exist in the hand
+	 * 
+	 */
 	private int[] is3toStraightFlush3(Card[] cards) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
@@ -960,14 +1042,15 @@ public class Strategy {
 		return new int[0];
 	}
 
-
 	/**
-	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the
+	 * player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X Number of high cards needed in the hand
-	 * @param rank Order of rank of cards needed to check if it is a sequence
-	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * @param X     Number of high cards needed in the hand
+	 * @param rank  Order of rank of cards needed to check if it is a sequence
+	 * @return Positions of the cards that are 4 to an inside straight if they exist
+	 *         in the hand
 	 * 
 	 */
 
@@ -1022,11 +1105,13 @@ public class Strategy {
 	}
 
 	/**
-	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the
+	 * player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X Number of high cards needed in the hand
-	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * @param X     Number of high cards needed in the hand
+	 * @return Positions of the cards that are 4 to an inside straight if they exist
+	 *         in the hand
 	 * 
 	 */
 
@@ -1056,13 +1141,13 @@ public class Strategy {
 	/**
 	 * Checks if there is a X to a Flush with Y high cards in the player's hand
 	 * 
-	 * @param cards Hand of the player
-	 * @param X Number of cards that are to a flush
+	 * @param cards      Hand of the player
+	 * @param X          Number of cards that are to a flush
 	 * @param nbHighCard Number of high cards needed in the hand
-	 * @return Positions of the cards that are X to a flush if they exist in the hand
+	 * @return Positions of the cards that are X to a flush if they exist in the
+	 *         hand
 	 * 
 	 */
-	
 
 	private int[] isXtoaFlush_withHC(Card[] cards, int X, int nbHighCard) {
 
@@ -1115,7 +1200,7 @@ public class Strategy {
 		return new int[0];
 	}
 
-    /**
+	/**
 	 * Checks if there is a High Pair in the player's hand
 	 * 
 	 * @param cards Hand of the player
@@ -1130,7 +1215,7 @@ public class Strategy {
 		for (int i = 0; i < 5; i++) {
 			// Check if it a High card
 			if (isHighCard(cards[i])) {
-				for (int j= 0; j < 5; j++) {
+				for (int j = 0; j < 5; j++) {
 					if (i == j) // Discard same card search
 						continue;
 					// Check if it is a pair
@@ -1146,7 +1231,7 @@ public class Strategy {
 		return new int[0];
 	}
 
-    /**
+	/**
 	 * Checks if there is a Low Pair in the player's hand
 	 * 
 	 * @param cards Hand of the player
@@ -1177,8 +1262,7 @@ public class Strategy {
 		return new int[0];
 	}
 
-
-    /**
+	/**
 	 * Checks if there is are 2 Suited High Cards in the player's hand
 	 * 
 	 * @param cards Hand of the player
@@ -1213,7 +1297,8 @@ public class Strategy {
 	 * Checks if there is an Ace, King, Queen and Jack unsuited in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @return Positions of the cards with the Ace, King, Queen and Jack if they exist in the hand
+	 * @return Positions of the cards with the Ace, King, Queen and Jack if they
+	 *         exist in the hand
 	 * 
 	 */
 
@@ -1227,7 +1312,7 @@ public class Strategy {
 			// Search for the cards in the hand
 			for (int j = 0; j < 4; j++) {
 				if (cards[i].rank == rank[j]) {
-					//Count and store the positions
+					// Count and store the positions
 					counter[j]++;
 					pos[j] = i;
 				}
@@ -1250,9 +1335,10 @@ public class Strategy {
 	 * Checks if there is a card "X" and a card "Y" suited in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X Character of card X
-	 * @param Y Character of card Y
-	 * @return Positions of the cards with the card "X" and the card "Y" if they exist in the hand
+	 * @param X     Character of card X
+	 * @param Y     Character of card Y
+	 * @return Positions of the cards with the card "X" and the card "Y" if they
+	 *         exist in the hand
 	 * 
 	 */
 
@@ -1281,13 +1367,14 @@ public class Strategy {
 		return new int[0];
 	}
 
-    /**
+	/**
 	 * Checks if there is a card "X" and a card "Y" unsuited in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X Character of card X
-	 * @param Y Character of card Y
-	 * @return Positions of the cards with the card "X" and the card "Y" if they exist in the hand
+	 * @param X     Character of card X
+	 * @param Y     Character of card Y
+	 * @return Positions of the cards with the card "X" and the card "Y" if they
+	 *         exist in the hand
 	 * 
 	 */
 
@@ -1320,7 +1407,8 @@ public class Strategy {
 	 * Checks if there is a King, Queen and Jack unsuited in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @return Positions of the cards with the King, Queen and Jack if they exist in the hand
+	 * @return Positions of the cards with the King, Queen and Jack if they exist in
+	 *         the hand
 	 * 
 	 */
 
@@ -1357,7 +1445,6 @@ public class Strategy {
 		return new int[0];
 	}
 
-
 	/**
 	 * Checks if there is an Ace in the player's hand
 	 * 
@@ -1365,7 +1452,6 @@ public class Strategy {
 	 * @return Position of the card if there is an Ace in the hand
 	 * 
 	 */
-
 
 	private int[] isAce(Card[] cards) {
 
@@ -1378,12 +1464,12 @@ public class Strategy {
 		return new int[0];
 	}
 
-
 	/**
 	 * Checks if there is a Jack, a Queen or a King in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @return Array with the positions of the card if there is a Jack, Queen or King
+	 * @return Array with the positions of the card if there is a Jack, Queen or
+	 *         King
 	 */
 
 	private int[] isJQorK(Card[] cards) {
@@ -1391,7 +1477,7 @@ public class Strategy {
 		char rank[] = { 'K', 'Q', 'J' };
 		int pos[] = new int[0];
 
-		// Search for  the 3 characters in the hand
+		// Search for the 3 characters in the hand
 		for (int i = 0; i < rank.length; i++) {
 			pos = isXofaKind(cards, 1, rank[i]);
 			if (pos.length != 0)

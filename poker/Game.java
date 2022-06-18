@@ -8,10 +8,12 @@ import java.util.Map.Entry;
  * Represents a generic game of Poker. Abstract class referring the various
  * methods that can be done during the game.
  * 
- * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
+ * @author Ana Catarina Grilo, Maragrida Fernandes, Mónica Gomez
  *
  */
 public abstract class Game {
+
+	public static enum States {Begin, BetMade, DecideHand};
 
 	protected GameType type;
 	protected Player player;
@@ -29,6 +31,7 @@ public abstract class Game {
 		player = new Player(money, 5);
 		sumOfGains = 0;
 		sumOfBets = 0;
+	
 	}
 
 	public abstract boolean bet(int betted);
