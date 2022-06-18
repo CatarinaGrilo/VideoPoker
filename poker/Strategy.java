@@ -401,6 +401,15 @@ public class Strategy {
 		return new int[0];
 	}
 
+
+	/**
+	 * Checks if there is a 3 to a Royal Flush in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are 3 to a Royal Flush if they exist in the hand
+	 * 
+	 */
+
 	private int[] is3toRoyalFlush(Card[] cards) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
@@ -425,6 +434,7 @@ public class Strategy {
 			return new int[0];
 		else {
 			for (int i = 0; i < 4; i++) {
+				// Check what suit is repeated
 				if (counter[i] >= 3)
 					suit = suits[i];
 			}
@@ -434,7 +444,7 @@ public class Strategy {
 			if (counter_rank == 3) {
 				return pos;
 			}
-			// Check rank
+			// Check rank and check if cards are correct suit
 			if (cards[i].rank == 'T' && cards[i].suit == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
@@ -453,6 +463,7 @@ public class Strategy {
 			}
 		}
 
+		// Check if there are 3 cards to a royal flush
 		if (counter_rank == 3)
 			return pos;
 
@@ -1012,19 +1023,30 @@ public class Strategy {
 		return new int[0];
 	}
 
+
+	/**
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of high cards needed in the hand
+	 * @param rank Order of rank of cards needed to check if it is a sequence
+	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * 
+	 */
+
 	private int[] is4toanIS_generic(Card[] cards, int X, char[] rank) {
 
 		int pos[] = { -1, -1, -1, -1 };
 		int i = 0, j = 0, k = 0, l = 0, counter = 0, nHC = 0;
 		int reference = -1;
 
-		for (i = 0; i < rank.length; i++) {
+		for (i = 0; i < rank.length; i++) { // Loop in Rank
 			reference = i;
 			if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
 				return pos;
 			else if (counter == 4) // Is not a 4 to Inside Straight
 				break;
-			for (j = 0; j < 5; j++) {
+			for (j = 0; j < 5; j++) { // Loop in Cards
 				if (cards[j].rank == rank[reference]) {
 					// Store reference and restart counter
 					counter = 0;
@@ -1037,7 +1059,7 @@ public class Strategy {
 					for (k = reference + 1; k < reference + 5; k++) {
 						if (k >= rank.length) // Check if character for checking is valid
 							break;
-						for (l = 0; l < 5; l++) {
+						for (l = 0; l < 5; l++) { // Loop in Cards
 							if (j == l) // Position can't be the same as the reference
 								continue;
 							else if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
@@ -1062,6 +1084,15 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of high cards needed in the hand
+	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * 
+	 */
+
 	private int[] is4toanInsideStraight_withXHC(Card[] cards, int X) {
 
 		int pos[] = { -1, -1, -1, -1 };
@@ -1084,6 +1115,17 @@ public class Strategy {
 
 		return new int[0];
 	}
+
+	/**
+	 * Checks if there is a X to a Flush with Y high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of cards that are to a flush
+	 * @param nbHighCard Number of high cards needed in the hand
+	 * @return Positions of the cards that are X to a flush if they exist in the hand
+	 * 
+	 */
+	
 
 	private int[] isXtoaFlush_withHC(Card[] cards, int X, int nbHighCard) {
 
@@ -1125,11 +1167,14 @@ public class Strategy {
 			}
 		}
 
+		// Check if we need to pay attention to the number of High Cards
 		if (nbHighCard == 0)
 			return pos;
+		// Check if we have the necessary High Cards
 		else if (nbHighCard > 0 && HC_counter == nbHighCard) {
 			return pos;
 		}
+
 		return new int[0];
 	}
 
@@ -1195,53 +1240,6 @@ public class Strategy {
 		return new int[0];
 	}
 
-    /**
-	 * Checks if there is a 4 to a Flush in the player's hand
-	 * 
-	 * @param cards Hand of the player
-	 * @return Positions of the cards that are 4 to a flush exist in the hand
-	 * 
-	 */
-	
-	private int[] is4toAflush(Card[] cards) {
-
-		int counter[] = { 0, 0, 0, 0 }; // H D S C
-		int pos[] = { -1, -1, -1, -1 }, i = 0, j = 0;
-		char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
-
-		// Check suits
-		for (i = 0; i < 5; i++) {
-			if (cards[i].suit == 'H')
-				counter[0]++;
-			else if (cards[i].suit == 'D')
-				counter[1]++;
-			else if (cards[i].suit == 'S')
-				counter[2]++;
-			else if (cards[i].suit == 'C')
-				counter[3]++;
-		}
-
-		// Check if at least 4 cards have same suit
-		if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
-			return new int[0];
-
-		// Check what type of suit is repeated
-		for (i = 0; i < 4; i++) {
-			if (counter[i] == 4) {
-				suit = suits[i];
-			}
-		}
-
-		// Store positions
-		for (i = 0; i < 5; i++) {
-			if (cards[i].suit == suit) {
-				pos[j] = i;
-				j++;
-			}
-		}
-
-		return pos;
-	}
 
     /**
 	 * Checks if there is are 2 Suited High Cards in the player's hand
@@ -1565,7 +1563,7 @@ public class Strategy {
 			return pos;
 		}
 		/* 9 - 4 to a Flush */
-		pos = is4toAflush(cards);
+		pos = isXtoaFlush_withHC(cards, 4, 0);
 		if (pos.length != 0) {
 			return pos;
 		}
