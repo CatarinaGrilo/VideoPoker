@@ -13,6 +13,7 @@ import java.util.Arrays;
  */
 public class Strategy {
 
+	// Constructor
 	public Strategy() {
 
 	}
@@ -337,70 +338,16 @@ public class Strategy {
 		return false;
 	}
 
-	/* Functions for strategy */
+	/**
+	 * Checks if there is a X to a Royal Flush in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of X cards to a Royal Flush
+	 * @return Positions of the cards that are X to a Royal Flush if they exist in the hand
+	 * 
+	 */
 
-	/************************************************************************************** */
-
-	private int[] is4toRoyalFlush(Card[] cards) {
-
-		int counter[] = { 0, 0, 0, 0 }; // H D S C
-		int pos[] = { -1, -1, -1, -1 };
-		int counter_rank = 0;
-		char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
-
-		for (int i = 0; i < 5; i++) {
-			// Check suits
-			if (cards[i].suit == 'H')
-				counter[0]++;
-			else if (cards[i].suit == 'D')
-				counter[1]++;
-			else if (cards[i].suit == 'S')
-				counter[2]++;
-			else if (cards[i].suit == 'C')
-				counter[3]++;
-		}
-
-		// Check if at least 4 cards have same suit
-		if (!(counter[0] >= 4 || counter[1] >= 4 || counter[2] >= 4 || counter[3] >= 4))
-			return new int[0];
-		else {
-			for (int i = 0; i < 4; i++) {
-				if (counter[i] >= 4)
-					suit = suits[i];
-			}
-		}
-
-		for (int i = 0; i < 5; i++) {
-			if (counter_rank == 4) {
-				return pos;
-			}
-			// Check rank
-			if (cards[i].rank == 'T' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'J' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'K' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			} else if (cards[i].rank == 'A' && cards[i].suit == suit) {
-				pos[counter_rank] = i;
-				counter_rank++;
-			}
-		}
-
-		if (counter_rank == 4) {
-			return pos;
-		}
-
-		return new int[0];
-	}
-
-	private int[] is3toRoyalFlush(Card[] cards) {
+	private int[] isXtoRoyalFlush(Card[] cards, int X) {
 
 		int counter[] = { 0, 0, 0, 0 }; // H D S C
 		int pos[] = { -1, -1, -1 };
@@ -419,21 +366,22 @@ public class Strategy {
 				counter[3]++;
 		}
 
-		// Check if at least 3 cards have same suit
-		if (!(counter[0] >= 3 || counter[1] >= 3 || counter[2] >= 3 || counter[3] >= 3))
+		// Check if at least X cards have same suit
+		if (!(counter[0] >= X || counter[1] >= X || counter[2] >= X || counter[3] >= X))
 			return new int[0];
 		else {
-			for (int i = 0; i < 4; i++) {
-				if (counter[i] >= 3)
+			for (int i = 0; i < 4 ; i++) {
+				// Check what suit is repeated
+				if (counter[i] >= X)
 					suit = suits[i];
 			}
 		}
 
-		for (int i = 0; i < 5; i++) {
-			if (counter_rank == 3) {
+		for (int i = 0; i < 5; i++) { // Loop in cards
+			if (counter_rank == X) {
 				return pos;
 			}
-			// Check rank
+			// Check rank and check if cards are correct suit
 			if (cards[i].rank == 'T' && cards[i].suit == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
@@ -452,7 +400,8 @@ public class Strategy {
 			}
 		}
 
-		if (counter_rank == 3)
+		// Check if there are X cards to a royal flush
+		if (counter_rank == X)
 			return pos;
 
 		return new int[0];
@@ -1011,19 +960,30 @@ public class Strategy {
 		return new int[0];
 	}
 
+
+	/**
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of high cards needed in the hand
+	 * @param rank Order of rank of cards needed to check if it is a sequence
+	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * 
+	 */
+
 	private int[] is4toanIS_generic(Card[] cards, int X, char[] rank) {
 
 		int pos[] = { -1, -1, -1, -1 };
 		int i = 0, j = 0, k = 0, l = 0, counter = 0, nHC = 0;
 		int reference = -1;
 
-		for (i = 0; i < rank.length; i++) {
+		for (i = 0; i < rank.length; i++) { // Loop in Rank
 			reference = i;
 			if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
 				return pos;
 			else if (counter == 4) // Is not a 4 to Inside Straight
 				break;
-			for (j = 0; j < 5; j++) {
+			for (j = 0; j < 5; j++) { // Loop in Cards
 				if (cards[j].rank == rank[reference]) {
 					// Store reference and restart counter
 					counter = 0;
@@ -1036,7 +996,7 @@ public class Strategy {
 					for (k = reference + 1; k < reference + 5; k++) {
 						if (k >= rank.length) // Check if character for checking is valid
 							break;
-						for (l = 0; l < 5; l++) {
+						for (l = 0; l < 5; l++) { // Loop in Cards
 							if (j == l) // Position can't be the same as the reference
 								continue;
 							else if (counter == 4 && nHC >= X) // Check if we have the wanted sequence
@@ -1061,19 +1021,20 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if there is a 4 to an Inside Straight with X high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of high cards needed in the hand
+	 * @return Positions of the cards that are 4 to an inside straight if they exist in the hand
+	 * 
+	 */
+
 	private int[] is4toanInsideStraight_withXHC(Card[] cards, int X) {
 
 		int pos[] = { -1, -1, -1, -1 };
 
-		/*
-		 * pos = is4toanIS_AKQJ(cards);
-		 * if (pos.length != 0) {
-		 * return pos;
-		 * }
-		 */
-
 		// Ace High
-
 		char rank[] = { 'A', 'K', 'Q', 'J', 'T', '9', '8', '7', '6', '5', '4', '3', '2' };
 
 		pos = is4toanIS_generic(cards, X, rank);
@@ -1091,6 +1052,17 @@ public class Strategy {
 
 		return new int[0];
 	}
+
+	/**
+	 * Checks if there is a X to a Flush with Y high cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of cards that are to a flush
+	 * @param nbHighCard Number of high cards needed in the hand
+	 * @return Positions of the cards that are X to a flush if they exist in the hand
+	 * 
+	 */
+	
 
 	private int[] isXtoaFlush_withHC(Card[] cards, int X, int nbHighCard) {
 
@@ -1132,30 +1104,40 @@ public class Strategy {
 			}
 		}
 
+		// Check if we need to pay attention to the number of High Cards
 		if (nbHighCard == 0)
 			return pos;
+		// Check if we have the necessary High Cards
 		else if (nbHighCard > 0 && HC_counter == nbHighCard) {
 			return pos;
 		}
+
 		return new int[0];
 	}
+
+    /**
+	 * Checks if there is a High Pair in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are a high pair if it exists in the hand
+	 * 
+	 */
 
 	private int[] isHighPair(Card[] cards) {
 
-		char rank[] = { 'A', 'K', 'Q', 'J' };
 		int pos[] = { -1, -1 };
 
 		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < rank.length; j++) {
-				if (cards[i].rank == rank[j]) {
-					for (int k = 0; k < 5; k++) {
-						if (i == k)
-							continue;
-						if (cards[i].rank == cards[k].rank) {
-							pos[0] = i;
-							pos[1] = k;
-							return pos;
-						}
+			// Check if it a High card
+			if (isHighCard(cards[i])) {
+				for (int j= 0; j < 5; j++) {
+					if (i == j) // Discard same card search
+						continue;
+					// Check if it is a pair
+					if (cards[i].rank == cards[j].rank) {
+						pos[0] = i;
+						pos[1] = j;
+						return pos;
 					}
 				}
 			}
@@ -1163,22 +1145,30 @@ public class Strategy {
 
 		return new int[0];
 	}
+
+    /**
+	 * Checks if there is a Low Pair in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards that are a low pair if it exists in the hand
+	 * 
+	 */
 
 	private int[] isLowPair(Card[] cards) {
 
-		char rank[] = { '2', '3', '4', '5', '6', '7', '8', '9', 'T' };
 		int pos[] = { -1, -1 };
+
 		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < rank.length; j++) {
-				if (cards[i].rank == rank[j]) {
-					for (int k = 0; k < 5; k++) {
-						if (i == k)
-							continue;
-						if (cards[i].rank == cards[k].rank) {
-							pos[0] = i;
-							pos[1] = k;
-							return pos;
-						}
+			// Check if it a low card
+			if (!isHighCard(cards[i])) {
+				for (int j = 0; j < 5; j++) {
+					if (i == j) // Discard same card search
+						continue;
+					// Check if it is a pair
+					if (cards[i].rank == cards[j].rank) {
+						pos[0] = i;
+						pos[1] = j;
+						return pos;
 					}
 				}
 			}
@@ -1187,64 +1177,30 @@ public class Strategy {
 		return new int[0];
 	}
 
-	private int[] is4toAflush(Card[] cards) {
 
-		int counter[] = { 0, 0, 0, 0 }; // H D S C
-		int pos[] = { -1, -1, -1, -1 }, i = 0, j = 0;
-		char suit = '-', suits[] = { 'H', 'D', 'S', 'C' };
-
-		// Check suits
-		for (i = 0; i < 5; i++) {
-			if (cards[i].suit == 'H')
-				counter[0]++;
-			else if (cards[i].suit == 'D')
-				counter[1]++;
-			else if (cards[i].suit == 'S')
-				counter[2]++;
-			else if (cards[i].suit == 'C')
-				counter[3]++;
-		}
-
-		// Check if at least 4 cards have same suit
-		if (!(counter[0] == 4 || counter[1] == 4 || counter[2] == 4 || counter[3] == 4))
-			return new int[0];
-
-		// Check what type of suit is repeated
-		for (i = 0; i < 4; i++) {
-			if (counter[i] == 4) {
-				suit = suits[i];
-			}
-		}
-
-		// Store positions
-		for (i = 0; i < 5; i++) {
-			if (cards[i].suit == suit) {
-				pos[j] = i;
-				j++;
-			}
-		}
-
-		return pos;
-	}
+    /**
+	 * Checks if there is are 2 Suited High Cards in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the 2 Suited High Cards if they exist in the hand
+	 * 
+	 */
 
 	private int[] is2SuitedHighCards(Card[] cards) {
 
-		char rank[] = { 'A', 'K', 'Q', 'J' };
 		int pos[] = { -1, -1 };
 
-		for (int i = 0; i < 5; i++) { // Cards
-			for (int j = 0; j < rank.length; j++) { // Rank
-				if (cards[i].rank == rank[j]) {
-					for (int k = 0; k < 5; k++) { // Cards
-						for (int l = 0; l < rank.length; l++) { // Rank
-							if (i == k)
-								continue;
-							if (cards[k].rank == rank[l] && cards[i].suit == cards[k].suit) {
-								pos[0] = i;
-								pos[1] = k;
-								return pos;
-							}
-						}
+		for (int i = 0; i < 5; i++) { // Loop in cards
+			if (isHighCard(cards[i])) {
+				for (int k = 0; k < 5; k++) { // Loop in Cards
+					if (i == k) // Discard search for same position
+						continue;
+					// Check if 2nd card is an high card and if they are suited
+					if (isHighCard(cards[k]) && cards[i].suit == cards[k].suit) {
+						// Store positions
+						pos[0] = i;
+						pos[1] = k;
+						return pos;
 					}
 				}
 			}
@@ -1252,6 +1208,14 @@ public class Strategy {
 
 		return new int[0];
 	}
+
+	/**
+	 * Checks if there is an Ace, King, Queen and Jack unsuited in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards with the Ace, King, Queen and Jack if they exist in the hand
+	 * 
+	 */
 
 	private int[] isAKQJunsuited(Card[] cards) {
 
@@ -1260,23 +1224,37 @@ public class Strategy {
 		char rank[] = { 'A', 'K', 'Q', 'J' };
 
 		for (int i = 0; i < 5; i++) {
+			// Search for the cards in the hand
 			for (int j = 0; j < 4; j++) {
 				if (cards[i].rank == rank[j]) {
+					//Count and store the positions
 					counter[j]++;
 					pos[j] = i;
 				}
 			}
 		}
 
+		// Check if there are at least 4 A, K, Q, J cards
 		checksum = counter[0] + counter[1] + counter[2] + counter[3];
 		if (checksum < 4)
 			return new int[0];
 
+		// Check if there is at least 1 Ace, 1 K, 1 Q and 1 J
 		else if (counter[0] > 0 && counter[1] > 0 && counter[2] > 0 && counter[3] > 0)
 			return pos;
 
 		return new int[0];
 	}
+
+	/**
+	 * Checks if there is a card "X" and a card "Y" suited in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Character of card X
+	 * @param Y Character of card Y
+	 * @return Positions of the cards with the card "X" and the card "Y" if they exist in the hand
+	 * 
+	 */
 
 	private int[] isXYSuited(Card[] cards, char X, char Y) {
 
@@ -1284,11 +1262,13 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			if (cards[i].rank == X) {
+				// Store position of card X
 				pos[0] = i;
 				for (int j = 0; j < 5; j++) {
-					if (i == j)
+					if (i == j) // Discard search for same position
 						continue;
 					else {
+						// Store position of card Y if it's same suit as card X
 						if (cards[j].rank == Y && cards[i].suit == cards[j].suit) {
 							pos[1] = j;
 							return pos;
@@ -1301,18 +1281,30 @@ public class Strategy {
 		return new int[0];
 	}
 
+    /**
+	 * Checks if there is a card "X" and a card "Y" unsuited in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Character of card X
+	 * @param Y Character of card Y
+	 * @return Positions of the cards with the card "X" and the card "Y" if they exist in the hand
+	 * 
+	 */
+
 	private int[] isXYUnsuited(Card[] cards, char X, char Y) {
 
 		int pos[] = { -1, -1 };
 
 		for (int i = 0; i < 5; i++) {
 			if (cards[i].rank == X) {
+				// Store position of card X
 				pos[0] = i;
 				for (int j = 0; j < 5; j++) {
-					if (i == j)
+					if (i == j) // Discard search for same position
 						continue;
 					else {
 						if (cards[j].rank == Y) {
+							// Store position of card Y
 							pos[1] = j;
 							return pos;
 						}
@@ -1324,19 +1316,30 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if there is a King, Queen and Jack unsuited in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Positions of the cards with the King, Queen and Jack if they exist in the hand
+	 * 
+	 */
+
 	private int[] isKQJunsuited(Card[] cards) {
 
 		int pos[] = { -1, -1, -1 }, counter[] = { 0, 0, 0 }, checksum = 0;
 
 		for (int i = 0; i < 5; i++) {
+			// Check if it's a King
 			if (cards[i].rank == 'K') {
 				counter[0]++;
 				pos[0] = i;
 			}
+			// Check if it's a Queen
 			if (cards[i].rank == 'Q') {
 				counter[1]++;
 				pos[1] = i;
 			}
+			// Check if it's a Jack
 			if (cards[i].rank == 'J') {
 				counter[2]++;
 				pos[2] = i;
@@ -1344,13 +1347,25 @@ public class Strategy {
 		}
 
 		checksum = counter[0] + counter[1] + counter[2];
+		// Check if there are at least 3 K, Q, J cards
 		if (checksum > 2) {
+			// Check if there is at least 1 K, 1 Q and 1 J
 			if (counter[0] > 0 && counter[1] > 0 && counter[2] > 0)
 				return pos;
 		}
 
 		return new int[0];
 	}
+
+
+	/**
+	 * Checks if there is an Ace in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Position of the card if there is an Ace in the hand
+	 * 
+	 */
+
 
 	private int[] isAce(Card[] cards) {
 
@@ -1363,11 +1378,20 @@ public class Strategy {
 		return new int[0];
 	}
 
+
+	/**
+	 * Checks if there is a Jack, a Queen or a King in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @return Array with the positions of the card if there is a Jack, Queen or King
+	 */
+
 	private int[] isJQorK(Card[] cards) {
 
 		char rank[] = { 'K', 'Q', 'J' };
 		int pos[] = new int[0];
 
+		// Search for  the 3 characters in the hand
 		for (int i = 0; i < rank.length; i++) {
 			pos = isXofaKind(cards, 1, rank[i]);
 			if (pos.length != 0)
@@ -1426,7 +1450,7 @@ public class Strategy {
 	}
 
 	/**
-	 * Gets the hand combination
+	 * Gets advice for next move
 	 * 
 	 * @param cards Hand of the player
 	 * @return Array with the positions of the cards the player should hold,
@@ -1442,7 +1466,7 @@ public class Strategy {
 			return new int[] { 0, 1, 2, 3, 4 };
 		}
 		/* 2 - 4 to a Royal Flush */
-		pos = is4toRoyalFlush(cards);
+		pos = isXtoRoyalFlush(cards, 4);
 		if (pos.length != 0) {
 			return pos;
 		}
@@ -1476,12 +1500,12 @@ public class Strategy {
 			return pos;
 		}
 		/* 9 - 4 to a Flush */
-		pos = is4toAflush(cards);
+		pos = isXtoaFlush_withHC(cards, 4, 0);
 		if (pos.length != 0) {
 			return pos;
 		}
 		/* 10 - 3 to a Royal Flush */
-		pos = is3toRoyalFlush(cards);
+		pos = isXtoRoyalFlush(cards, 3);
 		if (pos.length != 0) {
 			return pos;
 		}
