@@ -1,4 +1,4 @@
-package poker;
+package game_elements;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +32,7 @@ public class Deck {
             while (myReader.hasNextLine()) {
                 String data = myReader.nextLine();
 
-                String[] tmp = data.split("[ \t\n]"); // Split space
+                String[] tmp = data.split("[ \t\n]"); // Split space, tab or enter
 
                 for (String s : tmp) {
                     if (!s.isEmpty() && s.length() < 3) {
@@ -111,6 +111,10 @@ public class Deck {
         }
 
         Collections.shuffle(cards);
+    }
+
+    public int getSize(){
+        return cards.size();
     }
 
     // prints deck like AH JS 3C, with \n at the end

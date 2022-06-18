@@ -1,8 +1,11 @@
-package poker;
+package game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
+
+import game_elements.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -100,13 +103,12 @@ public class Debug extends Game {
 	public void deal() {
 		Card[] cards = new Card[5];
 
-		if (deck.cards.size() >= 5) {
+		if (deck.getSize() >= 5) {
 			for (int i = 0; i < 5; i++) {
 				cards[i] = deck.dealCard();
-				player.hand.cards[i].rank = cards[i].rank;
-				player.hand.cards[i].suit = cards[i].suit;
+				player.setCard(i, cards[i].getRank(), cards[i].getSuit());
 			}
-			System.out.println(player.hand.toString() + "\n");
+			System.out.println(player.printHand() + "\n");
 		}else{
 			System.out.println("Game will terminate, not enough cards in deck\n");
 			System.exit(-1);
@@ -138,16 +140,15 @@ public class Debug extends Game {
 			// Eliminates and replaces the discarded cards from the hand
 			for (int n : ToDiscard) {
 				card = deck.dealCard();
-				if (card.rank != '-') {
-					player.hand.cards[n].rank = card.rank;
-					player.hand.cards[n].suit = card.suit;
+				if (card.getRank() != '-') {
+					player.setCard(n, card.getRank(), card.getSuit());
 				} else
 					return false;
 			}
 
 		}
-		System.out.println(player.hand.toString());
-		String name = type.nameOfHand(player.hand.cards);
+		System.out.println(player.printHand());
+		String name = type.nameOfHand(player.getHand());
 		pay(name);
 		return true;
 	}
@@ -182,7 +183,7 @@ public class Debug extends Game {
 	public int[] advice() {
 
 		String out = "player should hold cards ";
-		int[] pos = type.advice(player.hand.cards);
+		int[] pos = type.advice(player.getHand());
 
 		if (pos.length != 0) {
 			Arrays.sort(pos);

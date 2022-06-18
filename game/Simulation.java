@@ -1,6 +1,9 @@
-package poker;
+package game;
 
 import java.util.Arrays;
+
+import game_elements.Card;
+import game_elements.Deck;
 
 /**
  * Simulation mode, the game is played automatically following
@@ -71,8 +74,7 @@ public class Simulation extends Game {
 
 		for (int i = 0; i < 5; i++) {
 			cards[i] = deck.dealCard();
-			player.hand.cards[i].rank = cards[i].rank;
-			player.hand.cards[i].suit = cards[i].suit;
+			player.setCard(i, cards[i].getRank(), cards[i].getSuit());
 		}
 	}
 
@@ -100,12 +102,11 @@ public class Simulation extends Game {
 			// Eliminates and replaces the discarded cards from the hand
 			for (int n : ToDiscard) {
 				card = deck.dealCard();
-				player.hand.cards[n].rank = card.rank;
-				player.hand.cards[n].suit = card.suit;
+				player.setCard(n, card.getRank(), card.getSuit());
 			}
 
 		}
-		String name = type.nameOfHand(player.hand.cards);
+		String name = type.nameOfHand(player.getHand());
 		pay(name);
 		deck.join();
 		return true;
@@ -135,7 +136,7 @@ public class Simulation extends Game {
 	 */
 	public int[] advice() {
 
-		int[] pos = type.advice(player.hand.cards);
+		int[] pos = type.advice(player.getHand());
 
 		if (pos.length != 0)
 			Arrays.sort(pos);

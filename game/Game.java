@@ -1,8 +1,10 @@
-package poker;
+package game;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
+
+import game_elements.Player;
 
 /**
  * Represents a generic game of Poker. Abstract class referring the various

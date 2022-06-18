@@ -1,4 +1,6 @@
-package poker;
+package game;
+
+import game_elements.Card;
 
 /**
  * Represents a generic variant of Poker. The specifications for which variant

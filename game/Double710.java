@@ -1,6 +1,8 @@
-package poker;
+package game;
 
 import java.util.HashMap;
+
+import game_elements.Card;
 
 /**
  * Class that implements the Double Bonus 7/10 variant with the

@@ -1,4 +1,4 @@
-package poker;
+package game_elements;
 
 /**
  * ..
@@ -49,6 +49,18 @@ public class Player {
 	 */
 	public void prize(int payoff) {
 		money += payoff;
+	}
+
+	public void setCard(int i, char rank, char suit){
+		hand.setCard(i, rank, suit);
+	}
+
+	public Card[] getHand(){
+		return hand.cards;
+	}
+
+	public String printHand(){
+		return hand.toString();
 	}
 
 }

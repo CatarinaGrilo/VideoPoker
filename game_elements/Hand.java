@@ -1,4 +1,4 @@
-package poker;
+package game_elements;
 
 /**
  * ..
@@ -18,6 +18,10 @@ public class Hand {
 		for (int i = 0; i < size; i++) {
 			cards[i] = new Card('-', '-');
 		}
+	}
+
+	public void setCard(int i, char rank, char suit){
+		cards[i].setCard(rank, suit);
 	}
 
 	@Override

@@ -1,7 +1,9 @@
-package poker;
+package game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import game_elements.Card;
 
 /**
  * Class that implements the Strategy for the game,
@@ -23,18 +25,18 @@ public class Strategy {
 		int hand[] = new int[size];
 
 		for (int i = 0; i < size; i++) {
-			if (Character.isDigit(cards[i].rank)) {
-				hand[i] = Integer.parseInt(Character.toString(cards[i].rank));
+			if (Character.isDigit(cards[i].getRank())) {
+				hand[i] = Integer.parseInt(Character.toString(cards[i].getRank()));
 				;
-			} else if (cards[i].rank == 'T') {
+			} else if (cards[i].getRank() == 'T') {
 				hand[i] = 10;
-			} else if (cards[i].rank == 'J') {
+			} else if (cards[i].getRank() == 'J') {
 				hand[i] = 11;
-			} else if (cards[i].rank == 'Q') {
+			} else if (cards[i].getRank() == 'Q') {
 				hand[i] = 12;
-			} else if (cards[i].rank == 'K') {
+			} else if (cards[i].getRank() == 'K') {
 				hand[i] = 13;
-			} else if (cards[i].rank == 'A') {
+			} else if (cards[i].getRank() == 'A') {
 				hand[i] = aceValue;
 			}
 		}
@@ -47,7 +49,7 @@ public class Strategy {
 	private boolean allSameSuit(Card[] cards) {
 		int j = 1;
 		for (int i = 1; i < 5; i++) {
-			if (cards[0].suit == cards[i].suit) {
+			if (cards[0].getSuit() == cards[i].getSuit()) {
 				j++;
 			}
 		}
@@ -62,7 +64,7 @@ public class Strategy {
 		char highcards[] = { 'J', 'Q', 'K', 'A' };
 
 		for (int i = 0; i < highcards.length; i++) {
-			if (card.rank == highcards[i])
+			if (card.getRank() == highcards[i])
 				return true;
 		}
 		return false;
@@ -104,7 +106,7 @@ public class Strategy {
 		int counter = 0;
 
 		for (int i = 0; i < 5; i++) {
-			if (cards[i].rank == kind)
+			if (cards[i].getRank() == kind)
 				counter++;
 		}
 
@@ -119,7 +121,7 @@ public class Strategy {
 		int counter = 0, pos[] = new int[X];
 
 		for (int i = 0; i < 5; i++) {
-			if (cards[i].rank == kind) {
+			if (cards[i].getRank() == kind) {
 				pos[counter] = i;
 				counter++;
 			}
@@ -141,15 +143,15 @@ public class Strategy {
 		// Check if cards are the same suit
 		if (allSameSuit(cards)) {
 			for (i = 0; i < 5; i++) {
-				if (cards[i].rank == 'T' && counter_T == 0)
+				if (cards[i].getRank() == 'T' && counter_T == 0)
 					counter_T++;
-				if (cards[i].rank == 'J' && counter_J == 0)
+				if (cards[i].getRank() == 'J' && counter_J == 0)
 					counter_J++;
-				if (cards[i].rank == 'Q' && counter_Q == 0)
+				if (cards[i].getRank() == 'Q' && counter_Q == 0)
 					counter_Q++;
-				if (cards[i].rank == 'K' && counter_K == 0)
+				if (cards[i].getRank() == 'K' && counter_K == 0)
 					counter_K++;
-				if (cards[i].rank == 'A' && counter_A == 0)
+				if (cards[i].getRank() == 'A' && counter_A == 0)
 					counter_A++;
 			}
 			counter = counter_T + counter_J + counter_Q + counter_K + counter_A;
@@ -295,7 +297,7 @@ public class Strategy {
 
 	private int[] is2pair(Card[] cards) {
 
-		char hand[] = { cards[0].rank, cards[1].rank, cards[2].rank, cards[3].rank, cards[4].rank };
+		char hand[] = { cards[0].getRank(), cards[1].getRank(), cards[2].getRank(), cards[3].getRank(), cards[4].getRank() };
 		char seen[] = { '-', '_', '.', ':' };
 		int no_pairs = 0, k = 0;
 		int pos[] = { -1, -1, -1, -1 };
@@ -357,13 +359,13 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H')
+			if (cards[i].getSuit() == 'H')
 				counter[0]++;
-			else if (cards[i].suit == 'D')
+			else if (cards[i].getSuit() == 'D')
 				counter[1]++;
-			else if (cards[i].suit == 'S')
+			else if (cards[i].getSuit() == 'S')
 				counter[2]++;
-			else if (cards[i].suit == 'C')
+			else if (cards[i].getSuit() == 'C')
 				counter[3]++;
 		}
 
@@ -383,19 +385,19 @@ public class Strategy {
 				return pos;
 			}
 			// Check rank and check if cards are correct suit
-			if (cards[i].rank == 'T' && cards[i].suit == suit) {
+			if (cards[i].getRank() == 'T' && cards[i].getSuit() == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
-			} else if (cards[i].rank == 'J' && cards[i].suit == suit) {
+			} else if (cards[i].getRank() == 'J' && cards[i].getSuit() == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
-			} else if (cards[i].rank == 'Q' && cards[i].suit == suit) {
+			} else if (cards[i].getRank() == 'Q' && cards[i].getSuit() == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
-			} else if (cards[i].rank == 'K' && cards[i].suit == suit) {
+			} else if (cards[i].getRank() == 'K' && cards[i].getSuit() == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
-			} else if (cards[i].rank == 'A' && cards[i].suit == suit) {
+			} else if (cards[i].getRank() == 'A' && cards[i].getSuit() == suit) {
 				pos[counter_rank] = i;
 				counter_rank++;
 			}
@@ -495,22 +497,22 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H') {
+			if (cards[i].getSuit() == 'H') {
 				counter[0]++;
 				H1.add(cards[i]);
 				H2.add(cards[i]);
 				pos_H.add(i);
-			} else if (cards[i].suit == 'D') {
+			} else if (cards[i].getSuit() == 'D') {
 				counter[1]++;
 				D1.add(cards[i]);
 				D2.add(cards[i]);
 				pos_D.add(i);
-			} else if (cards[i].suit == 'S') {
+			} else if (cards[i].getSuit() == 'S') {
 				counter[2]++;
 				S1.add(cards[i]);
 				S2.add(cards[i]);
 				pos_S.add(i);
-			} else if (cards[i].suit == 'C') {
+			} else if (cards[i].getSuit() == 'C') {
 				counter[3]++;
 				C1.add(cards[i]);
 				C2.add(cards[i]);
@@ -592,7 +594,7 @@ public class Strategy {
 			for (int j = 1; j < 5; j++) {
 				card = convertInttoChar(orderedcards[j]);
 				for (int i = 0; i < 5; i++) {
-					if (card == cards[i].rank) {
+					if (card == cards[i].getRank()) {
 						pos[j - 1] = i;
 					}
 				}
@@ -604,7 +606,7 @@ public class Strategy {
 			for (int j = 0; j < 4; j++) {
 				card = convertInttoChar(orderedcards[j]);
 				for (int i = 0; i < 5; i++) {
-					if (card == cards[i].rank) {
+					if (card == cards[i].getRank()) {
 						pos[j] = i;
 					}
 				}
@@ -639,7 +641,7 @@ public class Strategy {
 			cardsSameSuit.remove(0);
 			if (isHighCard(eval[i])) {
 				count_highCard++;
-				if (AceValue == 1 && eval[i].rank == ace)
+				if (AceValue == 1 && eval[i].getRank() == ace)
 					count_highCard--;
 			}
 		}
@@ -699,22 +701,22 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H') {
+			if (cards[i].getSuit() == 'H') {
 				counter[0]++;
 				H1.add(cards[i]);
 				H2.add(cards[i]);
 				pos_H.add(i);
-			} else if (cards[i].suit == 'D') {
+			} else if (cards[i].getSuit() == 'D') {
 				counter[1]++;
 				D1.add(cards[i]);
 				D2.add(cards[i]);
 				pos_D.add(i);
-			} else if (cards[i].suit == 'S') {
+			} else if (cards[i].getSuit() == 'S') {
 				counter[2]++;
 				S1.add(cards[i]);
 				S2.add(cards[i]);
 				pos_S.add(i);
-			} else if (cards[i].suit == 'C') {
+			} else if (cards[i].getSuit() == 'C') {
 				counter[3]++;
 				C1.add(cards[i]);
 				C2.add(cards[i]);
@@ -793,7 +795,7 @@ public class Strategy {
 			cardsSameSuit.remove(0);
 			if (isHighCard(eval[i])) {
 				count_highCard++;
-				if (AceValue == 1 && eval[i].rank == ace)
+				if (AceValue == 1 && eval[i].getRank() == ace)
 					count_highCard--;
 			}
 		}
@@ -859,22 +861,22 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H') {
+			if (cards[i].getSuit() == 'H') {
 				counter[0]++;
 				H1.add(cards[i]);
 				H2.add(cards[i]);
 				pos_H.add(i);
-			} else if (cards[i].suit == 'D') {
+			} else if (cards[i].getSuit() == 'D') {
 				counter[1]++;
 				D1.add(cards[i]);
 				D2.add(cards[i]);
 				pos_D.add(i);
-			} else if (cards[i].suit == 'S') {
+			} else if (cards[i].getSuit() == 'S') {
 				counter[2]++;
 				S1.add(cards[i]);
 				S2.add(cards[i]);
 				pos_S.add(i);
-			} else if (cards[i].suit == 'C') {
+			} else if (cards[i].getSuit() == 'C') {
 				counter[3]++;
 				C1.add(cards[i]);
 				C2.add(cards[i]);
@@ -951,7 +953,7 @@ public class Strategy {
 			cardsSameSuit.remove(0);
 			if (isHighCard(eval[i])) {
 				count_highCard++;
-				if (AceValue == 1 && eval[i].rank == ace)
+				if (AceValue == 1 && eval[i].getRank() == ace)
 					count_highCard--;
 			}
 		}
@@ -998,19 +1000,19 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H') {
+			if (cards[i].getSuit() == 'H') {
 				counter[0]++;
 				H.add(cards[i]);
 				pos_H.add(i);
-			} else if (cards[i].suit == 'D') {
+			} else if (cards[i].getSuit() == 'D') {
 				counter[1]++;
 				D.add(cards[i]);
 				pos_D.add(i);
-			} else if (cards[i].suit == 'S') {
+			} else if (cards[i].getSuit() == 'S') {
 				counter[2]++;
 				S.add(cards[i]);
 				pos_S.add(i);
-			} else if (cards[i].suit == 'C') {
+			} else if (cards[i].getSuit() == 'C') {
 				counter[3]++;
 				C.add(cards[i]);
 				pos_C.add(i);
@@ -1067,7 +1069,7 @@ public class Strategy {
 			else if (counter == 4) // Is not a 4 to Inside Straight
 				break;
 			for (j = 0; j < 5; j++) { // Loop in Cards
-				if (cards[j].rank == rank[reference]) {
+				if (cards[j].getRank() == rank[reference]) {
 					// Store reference and restart counter
 					counter = 0;
 					pos[counter++] = j;
@@ -1087,7 +1089,7 @@ public class Strategy {
 							else if (counter == 4)
 								break;
 							// Check if card is part of the 4 to Inside Straight
-							else if (cards[l].rank == rank[k]) {
+							else if (cards[l].getRank() == rank[k]) {
 								// Check if it's a High Card;
 								if (isHighCard(cards[l]))
 									nHC++;
@@ -1157,13 +1159,13 @@ public class Strategy {
 
 		for (i = 0; i < 5; i++) {
 			// Check suits
-			if (cards[i].suit == 'H')
+			if (cards[i].getSuit() == 'H')
 				counter[0]++;
-			else if (cards[i].suit == 'D')
+			else if (cards[i].getSuit() == 'D')
 				counter[1]++;
-			else if (cards[i].suit == 'S')
+			else if (cards[i].getSuit() == 'S')
 				counter[2]++;
-			else if (cards[i].suit == 'C')
+			else if (cards[i].getSuit() == 'C')
 				counter[3]++;
 		}
 
@@ -1179,7 +1181,7 @@ public class Strategy {
 
 		// Search for same suit cards
 		for (i = 0; i < 5; i++) {
-			if (cards[i].suit == suit) {
+			if (cards[i].getSuit() == suit) {
 				// Store position
 				pos[j] = i;
 				j++;
@@ -1219,7 +1221,7 @@ public class Strategy {
 					if (i == j) // Discard same card search
 						continue;
 					// Check if it is a pair
-					if (cards[i].rank == cards[j].rank) {
+					if (cards[i].getRank() == cards[j].getRank()) {
 						pos[0] = i;
 						pos[1] = j;
 						return pos;
@@ -1250,7 +1252,7 @@ public class Strategy {
 					if (i == j) // Discard same card search
 						continue;
 					// Check if it is a pair
-					if (cards[i].rank == cards[j].rank) {
+					if (cards[i].getRank() == cards[j].getRank()) {
 						pos[0] = i;
 						pos[1] = j;
 						return pos;
@@ -1280,7 +1282,7 @@ public class Strategy {
 					if (i == k) // Discard search for same position
 						continue;
 					// Check if 2nd card is an high card and if they are suited
-					if (isHighCard(cards[k]) && cards[i].suit == cards[k].suit) {
+					if (isHighCard(cards[k]) && cards[i].getSuit() == cards[k].getSuit()) {
 						// Store positions
 						pos[0] = i;
 						pos[1] = k;
@@ -1311,7 +1313,7 @@ public class Strategy {
 		for (int i = 0; i < 5; i++) {
 			// Search for the cards in the hand
 			for (int j = 0; j < 4; j++) {
-				if (cards[i].rank == rank[j]) {
+				if (cards[i].getRank() == rank[j]) {
 					// Count and store the positions
 					counter[j]++;
 					pos[j] = i;
@@ -1347,7 +1349,7 @@ public class Strategy {
 		int pos[] = { -1, -1 };
 
 		for (int i = 0; i < 5; i++) {
-			if (cards[i].rank == X) {
+			if (cards[i].getRank() == X) {
 				// Store position of card X
 				pos[0] = i;
 				for (int j = 0; j < 5; j++) {
@@ -1355,7 +1357,7 @@ public class Strategy {
 						continue;
 					else {
 						// Store position of card Y if it's same suit as card X
-						if (cards[j].rank == Y && cards[i].suit == cards[j].suit) {
+						if (cards[j].getRank() == Y && cards[i].getSuit() == cards[j].getSuit()) {
 							pos[1] = j;
 							return pos;
 						}
@@ -1383,14 +1385,14 @@ public class Strategy {
 		int pos[] = { -1, -1 };
 
 		for (int i = 0; i < 5; i++) {
-			if (cards[i].rank == X) {
+			if (cards[i].getRank() == X) {
 				// Store position of card X
 				pos[0] = i;
 				for (int j = 0; j < 5; j++) {
 					if (i == j) // Discard search for same position
 						continue;
 					else {
-						if (cards[j].rank == Y) {
+						if (cards[j].getRank() == Y) {
 							// Store position of card Y
 							pos[1] = j;
 							return pos;
@@ -1418,17 +1420,17 @@ public class Strategy {
 
 		for (int i = 0; i < 5; i++) {
 			// Check if it's a King
-			if (cards[i].rank == 'K') {
+			if (cards[i].getRank() == 'K') {
 				counter[0]++;
 				pos[0] = i;
 			}
 			// Check if it's a Queen
-			if (cards[i].rank == 'Q') {
+			if (cards[i].getRank() == 'Q') {
 				counter[1]++;
 				pos[1] = i;
 			}
 			// Check if it's a Jack
-			if (cards[i].rank == 'J') {
+			if (cards[i].getRank() == 'J') {
 				counter[2]++;
 				pos[2] = i;
 			}

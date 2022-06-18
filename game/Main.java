@@ -1,6 +1,6 @@
-package poker;
+package game;
 
-import poker.Game.States;
+import game.Game.States;
 
 public class Main {
 
@@ -10,6 +10,11 @@ public class Main {
 			instructions();
 
 		if (args[0].equals("-d")) {
+
+			if(Integer.parseInt(args[1]) <= 0){
+				System.out.println("Invalid player credit. Please try again.");
+				System.exit(-1);
+			}
 
 			Debug game = new Debug(Integer.parseInt(args[1]), args[2], args[3]);
 			States state = States.Begin;

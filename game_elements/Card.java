@@ -1,4 +1,4 @@
-package poker;
+package game_elements;
 
 /**
  * ....
@@ -41,6 +41,19 @@ public class Card {
 			return false;
 
 		return true;
+	}
+
+	public void setCard(char r, char s){
+		rank = r;
+		suit = s;
+	}
+
+	public char getRank(){
+		return rank;
+	}
+
+	public char getSuit(){
+		return suit;
 	}
 
 	@Override
