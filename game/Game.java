@@ -15,7 +15,9 @@ import game_elements.Player;
  */
 public abstract class Game {
 
-	public static enum States {Begin, BetMade, DecideHand};
+	public static enum States {
+		Begin, BetMade, DecideHand
+	};
 
 	protected GameType type;
 	protected Player player;
@@ -33,7 +35,7 @@ public abstract class Game {
 		player = new Player(money, 5);
 		sumOfGains = 0;
 		sumOfBets = 0;
-	
+
 	}
 
 	public abstract boolean bet(int betted);
@@ -66,8 +68,13 @@ public abstract class Game {
 		out += "--------------------------\n";
 		out += "Total\t\t\t" + total + "\n";
 		out += "--------------------------\n";
-		out += "Credit\t\t   " + player.credit() + " (" + (sumOfGains * 100 / sumOfBets) + "%)\n";
 
+		float result = (float) sumOfGains * 100 / sumOfBets;
+
+		out += "Credit\t\t   " + player.credit() + " (" + result + "%)\n";
+
+		System.out.println(sumOfGains);
+		System.out.println(sumOfBets);
 		System.out.println(out);
 	}
 
@@ -100,7 +107,7 @@ public abstract class Game {
 
 		if (args[0].equals("-d")) {
 
-			if(Integer.parseInt(args[1]) <= 0){
+			if (Integer.parseInt(args[1]) <= 0) {
 				System.out.println("Invalid player credit. Please try again.");
 				System.exit(-1);
 			}
