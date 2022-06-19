@@ -50,6 +50,7 @@ public class Debug extends Game {
 		} catch (FileNotFoundException e) {
 			System.out.println("An error occurred.");
 			e.printStackTrace();
+			System.exit(-1);
 		}
 	}
 

@@ -59,6 +59,7 @@ public class Deck {
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
+            System.exit(-1);
         }
 
         //if deck is not enough to start game
