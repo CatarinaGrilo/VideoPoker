@@ -109,6 +109,7 @@ public abstract class Game {
 
 			if (Integer.parseInt(args[1]) <= 0) {
 				System.out.println("Invalid player credit. Please try again.");
+				instructions();
 				System.exit(-1);
 			}
 
@@ -190,6 +191,17 @@ public abstract class Game {
 			}
 		} else if (args[0].equals("-s")) {
 
+			if (Integer.parseInt(args[2]) <= 0 || Integer.parseInt(args[2]) > 5 ) {
+				System.out.println("Invalid bet. Please try again.");
+				instructions();
+				System.exit(-1);
+			}
+			if (Integer.parseInt(args[3]) <= 0) {
+				System.out.println("Invalid number of deals. Please try again.");
+				instructions();
+				System.exit(-1);
+			}
+
 			int i = 0;
 			boolean flag = true;
 			Simulation game = new Simulation(Integer.parseInt(args[1]), Integer.parseInt(args[2]),
@@ -220,7 +232,7 @@ public abstract class Game {
 				+ "\tc is the inicial credit and c > 0;\n"
 				+ "\tcmd-file is the name of the file containing the commands to debug\n"
 				+ "\tcard-file is the name of the file containing the cards to debug\n"
-				+ "\tb the amount of each bet in simulation mode\n"
+				+ "\tb the amount of each bet in simulation mode, between 1 and 5.\n"
 				+ "\tn the number of deals in simulation mode\n");
 		System.exit(-1);
 	}

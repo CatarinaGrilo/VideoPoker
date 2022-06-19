@@ -62,7 +62,7 @@ public class Debug extends Game {
 	 * @return boolean true in success or false otherwise
 	 */
 	public boolean bet(int betted) {
-		if (betted < 1 || betted > 5 || betted > player.credit()) {
+		if (betted < 1 || betted > 5) {
 			System.out.println("b: illegal betted\n");
 			return false;
 		}
