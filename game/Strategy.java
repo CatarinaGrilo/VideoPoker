@@ -20,6 +20,16 @@ public class Strategy {
 
 	}
 
+	/**
+	 * Order player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param value of the Ace card, (1) Low or (14) High
+	 * @param size Size of the player's hand
+	 * @return Array of integers with the player's hand ordered in crescent order
+	 * 
+	 */
+
 	private int[] orderedCards(Card[] cards, int aceValue, int size) {
 
 		int hand[] = new int[size];
@@ -46,6 +56,14 @@ public class Strategy {
 		return hand;
 	}
 
+	/**
+	 * Checks if cards are all of the same suit
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if cards are all the same suit, false otherwise
+	 * 
+	 */
+
 	private boolean allSameSuit(Card[] cards) {
 		int j = 1;
 		for (int i = 1; i < 5; i++) {
@@ -53,11 +71,19 @@ public class Strategy {
 				j++;
 			}
 		}
-		if (j == 5) {
+		if (j == 5)
 			return true;
-		}
+
 		return false;
 	}
+
+	/**
+	 * Checks if card is a High Card
+	 * 
+	 * @param card Card to be evualuated
+	 * @return true if card is a high card, false otherwise
+	 * 
+	 */
 
 	private boolean isHighCard(Card card) {
 
@@ -70,6 +96,14 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if all cards are in consecutive order
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if cards are in consecutive order, false otherwise
+	 * 
+	 */
+
 	private boolean checkifConsecutive(Card[] cards) {
 
 		int counter = 1;
@@ -78,7 +112,6 @@ public class Strategy {
 		int handLower[] = orderedCards(cards, 1, cards.length);
 
 		for (int i = 1; i < 5; i++) {
-			// if(hand[i] == (hand[0]+i))
 			if (handLower[i] == (handLower[i - 1] + 1))
 				counter++;
 		}
@@ -91,7 +124,6 @@ public class Strategy {
 		counter = 1;
 
 		for (int i = 1; i < 5; i++) {
-			// if(hand[i] == (hand[0]+i))
 			if (handHigher[i] == (handHigher[i - 1] + 1))
 				counter++;
 		}
@@ -100,6 +132,16 @@ public class Strategy {
 
 		return false;
 	}
+
+	/**
+	 * Checks if there are X cards of a specific rank in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of cards of same rank
+	 * @param kind Character with the rank to be evaluated
+	 * @return true if cards are all the same suit, false otherwise.
+	 * 
+	 */
 
 	private boolean isXofakind(Card[] cards, int X, char kind) {
 
@@ -115,6 +157,16 @@ public class Strategy {
 		}
 		return false;
 	}
+
+	/**
+	 * Checks if there are X cards of a specific rank in the player's hand
+	 * 
+	 * @param cards Hand of the player
+	 * @param X Number of cards of same rank
+	 * @param kind Character with the rank to be evaluated
+	 * @return positions of the cards if there are X cards of specific rank, null otherwise.
+	 * 
+	 */
 
 	private int[] isXofaKind(Card[] cards, int X, char kind) {
 
@@ -134,7 +186,13 @@ public class Strategy {
 		return new int[0];
 	}
 
-	/* Functions that determine the name of the hand */
+	/**
+	 * Checks if the player's hand is a Royal Flush (A, K, Q, T, J - all same suit)
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if hand is a Royal Flush, false otherwise.
+	 * 
+	 */
 
 	private boolean isRoyalFlush(Card[] cards) {
 
@@ -162,6 +220,14 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if the player's hand is a Straight Flush (Consecutive cards of same suir)
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if hand is a Straight Flush, false otherwise.
+	 * 
+	 */
+
 	private boolean isStraightFlush(Card[] cards) {
 
 		// Check if cards are the same suit
@@ -172,6 +238,14 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if there are 4 Aces in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there are 4 Aces, false otherwise.
+	 * 
+	 */
+
 	private boolean isFourAces(Card[] cards) {
 
 		if (isXofakind(cards, 4, 'A'))
@@ -179,6 +253,14 @@ public class Strategy {
 
 		return false;
 	}
+
+	/**
+	 * Checks if there are 4 cards of rank 2, 3 or 4 in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there are  4 cards of rank 2, 3 or 4 in the hand, false otherwise.
+	 * 
+	 */
 
 	private boolean isFour2_4s(Card[] cards) {
 
@@ -191,6 +273,14 @@ public class Strategy {
 
 		return false;
 	}
+
+	/**
+	 * Checks if there are 4 cards of rank 5, 6, ..., K in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there are  4 cards of rank 5, 6, ..., K in the hand, false otherwise.
+	 * 
+	 */
 
 	private boolean isFour5_Ks(Card[] cards) {
 
@@ -216,6 +306,15 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if there are 4 cards of any rank in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there are  4 cards of any rank in the hand, false otherwise.
+	 * 
+	 */
+
+
 	private boolean is4ofaKind(Card[] cards) {
 
 		char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
@@ -229,6 +328,14 @@ public class Strategy {
 
 	}
 
+	/**
+	 * Checks if the player's hand is a Full House: 3 cards of same rank and 2 cards of another rank
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if hand is a Full House, false otherwise.
+	 * 
+	 */
+	
 	private boolean isFullHouse(Card[] cards) {
 
 		char rank[] = { '1', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
@@ -253,6 +360,14 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if the player's hand is a Flush: all cards are of the same suit
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if hand is a Flush, false otherwise.
+	 * 
+	 */
+
 	private boolean isFlush(Card[] cards) {
 
 		if (allSameSuit(cards))
@@ -261,6 +376,14 @@ public class Strategy {
 		return false;
 	}
 
+	/**
+	 * Checks if the player's hand is a Straight: Cards are consecutive
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if hand is a Straight, false otherwise.
+	 * 
+	 */
+
 	private boolean isStraight(Card[] cards) {
 
 		if (checkifConsecutive(cards))
@@ -268,6 +391,14 @@ public class Strategy {
 
 		return false;
 	}
+
+	/**
+	 * Checks if there are 3 cards of any rank in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there are  3 cards of any rank in the hand, false otherwise.
+	 * 
+	 */
 
 	private boolean is3ofaKind_bool(Card[] cards) {
 
@@ -280,6 +411,14 @@ public class Strategy {
 
 		return false;
 	}
+
+	/**
+	 * Checks if there are 3 cards of any rank in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return positions of the cards if there are 3 cards of specific rank, null otherwise.
+	 * 
+	 */
 
 	private int[] is3ofaKind(Card[] cards) {
 
@@ -295,16 +434,25 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Checks if there are 2 pairs in the player's hand 
+	 * 
+	 * @param cards Hand of the player
+	 * @return positions of the cards that are the 2 pairs, null otherwise.
+	 * 
+	 */
+
 	private int[] is2pair(Card[] cards) {
 
-		char hand[] = { cards[0].getRank(), cards[1].getRank(), cards[2].getRank(), cards[3].getRank(), cards[4].getRank() };
+		char hand[] = { cards[0].getRank(), cards[1].getRank(), cards[2].getRank(), 
+						cards[3].getRank(), cards[4].getRank() };
 		char seen[] = { '-', '_', '.', ':' };
 		int no_pairs = 0, k = 0;
 		int pos[] = { -1, -1, -1, -1 };
 
 		for (int j = 0; j < 4; j++) {
-			for (int i = 0; i < 5; i++) {
-				if (i == j)
+			for (int i = 0; i < 5; i++) { 
+				if (i == j) // Discard same card search
 					continue;
 				if (hand[j] == hand[i]) {
 					hand[j] = seen[k];
@@ -322,6 +470,14 @@ public class Strategy {
 
 		return new int[0];
 	}
+
+	/**
+	 * Checks if there is a pair of Jacks, Queens, Kings or Aces
+	 * 
+	 * @param cards Hand of the player
+	 * @return true if there is a pair of High Cards, false otherwise.
+	 * 
+	 */
 
 	private boolean isJacksorBetter(Card[] cards) {
 
@@ -344,7 +500,7 @@ public class Strategy {
 	 * Checks if there is a X to a Royal Flush in the player's hand
 	 * 
 	 * @param cards Hand of the player
-	 * @param X     Number of X cards to a Royal Flush
+	 * @param X Number of X cards to a Royal Flush
 	 * @return Positions of the cards that are X to a Royal Flush if they exist in
 	 *         the hand
 	 * 
@@ -410,6 +566,14 @@ public class Strategy {
 		return new int[0];
 	}
 
+	/**
+	 * Converts an int value to a card rank
+	 * 
+	 * @param card Integer from 1 to 14 that represents the card rank
+	 * @return Character with the card rank
+	 * 
+	 */
+	
 	private char convertInttoChar(int card) {
 
 		char hand = '-';
@@ -426,9 +590,9 @@ public class Strategy {
 			hand = 'Q';
 		else if (card == 13)
 			hand = 'K';
-		else if (card == 14)
+		else if (card == 14) // High Ace
 			hand = 'A';
-		else if (card == 1)
+		else if (card == 1) // Low Ace
 			hand = 'A';
 
 		return hand;
