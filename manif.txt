@@ -1,1 +1,1 @@
-Main-Class: game.Main
+Main-Class: game.Game

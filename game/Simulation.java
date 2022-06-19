@@ -47,9 +47,6 @@ public class Simulation extends Game {
 	 * @return boolean true in success or false otherwise
 	 */
 	public boolean bet() {
-		if (this.bet > player.credit()) {
-			return false;
-		}
 		player.bet(this.bet);
 		sumOfBets += bet;
 		return true;
