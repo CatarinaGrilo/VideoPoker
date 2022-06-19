@@ -15,7 +15,7 @@ import game_elements.Player;
  */
 public abstract class Game {
 
-	public static enum States {Begin, BetMade, DecideHand, InGame};
+	public static enum States {Begin, BetMade, DecideHand};
 
 	protected GameType type;
 	protected Player player;

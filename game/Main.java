@@ -11,7 +11,7 @@ public class Main {
 
 		if (args[0].equals("-d")) {
 
-			if (Integer.parseInt(args[1]) <= 0) {
+			if(Integer.parseInt(args[1]) <= 0){
 				System.out.println("Invalid player credit. Please try again.");
 				System.exit(-1);
 			}
@@ -30,7 +30,7 @@ public class Main {
 				aux = game.commands.get(0);
 				game.commands.remove(0);
 
-				if (aux.equals("b") && (state == States.Begin || state == States.InGame)) {
+				if (aux.equals("b") && state == States.Begin) {
 					if (game.commands.size() != 0) {
 						aux = game.commands.get(0);
 						if (Character.isDigit(aux.charAt(0))) {
@@ -46,13 +46,13 @@ public class Main {
 							state = States.BetMade;
 						}
 					}
-				} else if (aux.equals("b") && (state != States.Begin || state != States.InGame)) {
+				} else if (aux.equals("b") && state != States.Begin) {
 					System.out.println("b: illegal command\n");
-				} else if (aux.equals("d") && (state == States.BetMade || state == States.InGame)) {
+				} else if (aux.equals("d") && state == States.BetMade) {
 					System.out.println("-cmd d");
 					game.deal();
 					state = States.DecideHand;
-				} else if (aux.equals("d") && (state != States.BetMade || state != States.InGame)) {
+				} else if (aux.equals("d") && state != States.BetMade) {
 					System.out.println("d: illegal command\n");
 				} else if (aux.equals("$")) {
 					System.out.println("-cmd $");
@@ -75,7 +75,7 @@ public class Main {
 					flag = game.hold(aux3);
 					if (flag == false)
 						System.out.println("No more cards available in the deck\nGame ended");
-					state = States.InGame;
+					state = States.Begin;
 					i = 0;
 					j = 0;
 				} else if (aux.equals("h") && state != States.DecideHand) {
