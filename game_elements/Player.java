@@ -1,7 +1,7 @@
 package game_elements;
 
 /**
- * ..
+ * Player element, which holds a playing Hand and money to play
  * 
  * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
  *
@@ -22,10 +22,8 @@ public class Player {
 		money = m;
 	}
 
-	// Methods
-
 	/**
-	 * This method give the current money of the player
+	 * This method gives the current money of the player
 	 * 
 	 * @return int, money
 	 */
@@ -51,14 +49,32 @@ public class Player {
 		money += payoff;
 	}
 
+	/**
+	 * Card setter
+	 * Sets card in index i of Hand
+	 * 
+	 * @param i		index of the Hand to set
+	 * @param r		rank to set
+	 * @param s		suit to set
+	 */
 	public void setCard(int i, char rank, char suit){
 		hand.setCard(i, rank, suit);
 	}
 
+	/**
+	 * Hand getter
+	 * 
+	 * @return array of Cards in Hand
+	 */
 	public Card[] getHand(){
 		return hand.cards;
 	}
 
+	/**
+	 * Hand printer
+	 * 
+	 * @return String in the format 'Card'' ''Card'' '(...)
+	 */
 	public String printHand(){
 		return hand.toString();
 	}

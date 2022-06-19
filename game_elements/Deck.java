@@ -7,7 +7,8 @@ import java.util.Scanner;
 import java.util.Collections;
 
 /**
- * ...
+ * Deck element, where there is a list of playable cards and another
+ * with already played cards
  * 
  * @author Ana Catarina Grilo, Margarida Fernandes, Mónica Gomez
  *
@@ -17,9 +18,12 @@ public class Deck {
     ArrayList<Card> cards;
     ArrayList<Card> discarded;
 
-    // Constructors
-
-    // Constructor #1: from file
+    /**
+	 * Constructor #1 of Deck.
+     * gets Deck from a file of cards
+	 * 
+	 * @param filename  name of file to read
+	 */
     public Deck(String filename) {
 
         cards = new ArrayList<Card>();
@@ -34,13 +38,16 @@ public class Deck {
 
                 String[] tmp = data.split("[ \t\n]"); // Split space, tab or enter
 
+                //for all Strings in the line read
                 for (String s : tmp) {
+
+                    //Check if empty and valid length
                     if (!s.isEmpty() && s.length() < 3) {
 
                         upperS = s.toUpperCase();
                         Card newCard = new Card(upperS.charAt(0), upperS.charAt(1));
 
-                        // if card is valid, add to deck
+                        // if card rank and suit are valid, add to deck
                         if (newCard.checkCard())
                             cards.add(newCard);
                         else
@@ -54,13 +61,17 @@ public class Deck {
             e.printStackTrace();
         }
 
+        //if deck is not enough to start game
         if (cards.size() < 5) {
             System.out.println("Game will terminate due to lack of cards in deck.\n");
             System.exit(-1);
         }
     }
 
-    // Constructor #2: random 52 card deck
+    /**
+	 * Constructor #2 of Deck.
+     * creates regular shuffled 52 card Deck
+	 */
     public Deck() {
         cards = new ArrayList<Card>();
         discarded = new ArrayList<Card>();
@@ -77,9 +88,12 @@ public class Deck {
 
     }
 
-    // Methods
-
-    // deal card to player
+    /**
+	 * Deals a Card from top of the Deck
+     * If no cards on Deck, will return empty Card
+	 * 
+	 * @return dealt Card
+	 */
     public Card dealCard() {
 
         if (cards.size() != 0) {
@@ -97,12 +111,17 @@ public class Deck {
         return noCard;
     }
 
-    // shuffle cards in deck
+    /**
+	 * Shuffles cards on Deck
+	 */
     public void shuffle() {
         Collections.shuffle(cards);
     }
 
-    // join discarded cards to playable deck
+    /**
+	 * Joins played cards to playable Deck cards
+     * Results in shuffled full Deck to play
+	 */
     public void join() {
         int size = discarded.size();
         for (int i = 0; i < size; i++) {
@@ -113,19 +132,27 @@ public class Deck {
         Collections.shuffle(cards);
     }
 
+    /**
+	 * Deck size getter
+     * 
+     * @return Deck size int
+	 */
     public int getSize(){
         return cards.size();
     }
 
-    // prints deck like AH JS 3C, with \n at the end
+    /**
+	 * Override of the toString method
+	 * 
+	 * @return String in the format 'Card'' ''Card'' '(...)
+	 */
     @Override
     public String toString() {
         String str_builder = "";
 
         for (Card c : cards) {
-            str_builder += c.toString() + " ";
+            str_builder += c.toString();
         }
-        str_builder += "\n";
         return str_builder;
     }
 }
